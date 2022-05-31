@@ -1,4 +1,4 @@
-package co.vzap.Branch.Model;
+package co.vzap.User.Model;
 
 import co.vzap.Sale.Model.IEntity;
 

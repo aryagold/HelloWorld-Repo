@@ -3,13 +3,13 @@ package co.vzap.Inventory.Model;
 import co.vzap.Sale.Model.IEntity;
 
 public class Product implements IEntity {
-        public String productId;
+    public String productId;
     private String name;
-    private long barcode;
+    private String barcode;
     private String size;
-    private long price;
+    private double price;
 
-    public Product(String name, long barcode, String size, long price) {
+    public Product(String name, String barcode, String size, double price) {
         this.name = name;
         this.barcode = barcode;
         this.size = size;
@@ -27,11 +27,11 @@ public class Product implements IEntity {
         this.name = name;
     }
 
-    public long getBarcode() {
+    public String getBarcode() {
         return barcode;
     }
 
-    public void setBarcode(long barcode) {
+    public void setBarcode(String barcode) {
         this.barcode = barcode;
     }
 
@@ -43,11 +43,11 @@ public class Product implements IEntity {
         this.size = size;
     }
 
-    public long getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(long price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 }

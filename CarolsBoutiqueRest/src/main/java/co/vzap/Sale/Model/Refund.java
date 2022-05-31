@@ -30,4 +30,8 @@ public class Refund implements IEntity {
     public void setDate(Timestamp date) {
         this.date = date;
     } 
+    
+    public String formattedDate() {
+        return this.date.toString();
+    }
 }

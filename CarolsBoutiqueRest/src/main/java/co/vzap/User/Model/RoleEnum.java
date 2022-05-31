@@ -1,4 +1,4 @@
-package co.vzap.Branch.Model;
+package co.vzap.User.Model;
 
 public enum RoleEnum {
     GENERAL_EMPLOYEE(0),
@@ -14,5 +14,9 @@ public enum RoleEnum {
 
     public int getValue() {
         return this.value;
+    }
+    
+    public static RoleEnum ofStatusCode(int value) {
+        return RoleEnum.ofStatusCode(value);
     }
 }

@@ -3,7 +3,7 @@ package co.vzap.Sale.Model;
 import java.sql.Timestamp;
 
 public class Sale implements IEntity {
-    private String saleId;
+    public String saleId;
     private String userId;
     private int customerId;
     private Timestamp date;
@@ -11,8 +11,7 @@ public class Sale implements IEntity {
     private String branchId;
     private SaleStatusEnum status;
 
-    public Sale(String saleId, String userId, int customerId, Timestamp date, int paymentId, String branchId, SaleStatusEnum status) {
-        this.saleId = saleId;
+    public Sale(String userId, int customerId, Timestamp date, int paymentId, String branchId, SaleStatusEnum status) {
         this.userId = userId;
         this.customerId = customerId;
         this.date = date;

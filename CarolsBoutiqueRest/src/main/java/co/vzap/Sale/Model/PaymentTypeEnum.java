@@ -14,4 +14,8 @@ public enum PaymentTypeEnum {
         return this.value;
     }
     
+    public static PaymentTypeEnum ofStatusCode(int value) {
+        return PaymentTypeEnum.ofStatusCode(value);
+    }
+    
 }

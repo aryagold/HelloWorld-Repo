@@ -14,4 +14,8 @@ public enum SaleStatusEnum {
     public int getValue() {
         return this.value;
     }
+    
+    public static SaleStatusEnum ofStatusCode(int value) {
+        return SaleStatusEnum.ofStatusCode(value);
+    }
 }

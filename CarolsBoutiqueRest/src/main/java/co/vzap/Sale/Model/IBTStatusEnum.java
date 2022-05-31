@@ -15,4 +15,8 @@ public enum IBTStatusEnum {
     public int getValue() {
         return this.value;
     }
+    
+    public static IBTStatusEnum ofStatusCode(int value) {
+        return IBTStatusEnum.ofStatusCode(value);
+    }
 }

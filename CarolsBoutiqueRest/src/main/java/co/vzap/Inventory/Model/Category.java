@@ -1,4 +1,3 @@
-
 package co.vzap.Inventory.Model;
 
 import co.vzap.Sale.Model.IEntity;
