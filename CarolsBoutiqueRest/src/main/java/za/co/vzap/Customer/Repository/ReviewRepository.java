@@ -1,4 +1,4 @@
-package za.co.vzap.Repositories;
+package za.co.vzap.Customer.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
