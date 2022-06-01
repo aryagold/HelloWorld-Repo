@@ -1,39 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package za.co.vzap.Repositories;
 
-/**
- *
- * @author macpe
- */
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import za.co.vzap.Customer.Model.Review;
+import za.co.vzap.Sale.Repository.RepositoryBase;
+
 public class ReviewRepository extends RepositoryBase<Review> {
     private static String tableName = "review";
-    private PreparedStatement ps;
-    private Connection con;
-    private ResultSet rs;
-    private int rowsAffected;
 
     public ReviewRepository() {
-        super(tableName);
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        String url = "jdbc:mysql://localhost:3306/carolsboutique";
-        try {
-            con = DriverManager.getConnection(url,"root","root");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        super(tableName, null);
     }
 
     @Override
     public boolean add(Review review) {
         try {
-            ps = con.prepareStatement("INSERT INTO "+tableName+" (comment,rating,saleId) VALUES (?,?,?)",Statement.RETURN_GENERATED_KEYS);
+            ps = con.prepareStatement("INSERT INTO " + tableName + "(comment, rating, saleId) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1,review.getComment());
             ps.setInt(2,review.getRating());
             ps.setString(3,review.getSaleId());
@@ -45,17 +30,19 @@ public class ReviewRepository extends RepositoryBase<Review> {
             if(keys.next()){
                 review.Id = keys.getInt(1);
             }
+            
         } catch (SQLException e) {
             System.out.println("SQLException thrown in the Review Repository class in the add(Review review) method.");
             throw new RuntimeException(e);
         }
+        
         return rowsAffected == 1;
     }
 
     @Override
     public boolean update(Review review) {
         try {
-            ps = con.prepareStatement("INSERT INTO "+tableName+"(comment,rating,saleId) VALUES (?,?,?) WHERE id = ?",Statement.RETURN_GENERATED_KEYS);
+            ps = con.prepareStatement("Update " + tableName + " set comment = ?, rating = ?, saleId = ? WHERE id = ?");
             ps.setString(1,review.getComment());
             ps.setInt(2,review.getRating());
             ps.setString(3,review.getSaleId());
@@ -63,23 +50,20 @@ public class ReviewRepository extends RepositoryBase<Review> {
 
             rowsAffected = ps.executeUpdate();
 
-            ResultSet keys = ps.getGeneratedKeys();
-
-            if(keys.next()){
-                review.Id = keys.getInt(1);
-            }
         } catch (SQLException e) {
             System.out.println("SQLException thrown in the Review Repository class at the update(Review review) method.");
             throw new RuntimeException(e);
         }
+        
         return rowsAffected == 1;
     }
 
     @Override
     public Review getById(int Id) {
         Review review= null;
+        
         try {
-            ps = con.prepareStatement("SELECT * FROM "+tableName+" WHERE = ?");
+            ps = con.prepareStatement("SELECT * FROM " + tableName + " WHERE id = ?");
             ps.setInt(1,Id);
             rs = ps.executeQuery();
 
@@ -89,7 +73,10 @@ public class ReviewRepository extends RepositoryBase<Review> {
                         rs.getInt("rating"),
                         rs.getString("saleId")
                 );
+                
+                review.Id = rs.getInt("id");
             }
+            
         } catch (SQLException e) {
             System.out.println("SQLException thrown in the Review Repository class at the getById(int Id) method");
             throw new RuntimeException(e);
@@ -114,11 +101,15 @@ public class ReviewRepository extends RepositoryBase<Review> {
                 rs = ps.executeQuery();
 
                 while(rs.next()) {
+                    int id = rs.getInt("id");
+                    
                     Review review = new Review(
                             rs.getString("comment"),
                             rs.getInt("rating"),
                             rs.getString("saleId")
                     );
+                    
+                    review.Id = id;
                     reviews.add(review);
                 }
 

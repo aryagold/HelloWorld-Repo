@@ -1,78 +1,51 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package za.co.vzap.Repositories;
 
-/**
- *
- * @author macpe
- */
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import za.co.vzap.Inventory.Model.Product;
+import za.co.vzap.Sale.Repository.RepositoryBase;
+
 public class ProductRepository  extends RepositoryBase<Product> {
     private static String tableName = "Product";
-    private PreparedStatement ps;
-    private Connection con;
-    private ResultSet rs;
-    private int rowsAffected;
 
     public ProductRepository() {
-        super(tableName);
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        String url = "jdbc:mysql://localhost:3306/carolsboutique";
-        try {
-            con = DriverManager.getConnection(url,"root","root");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        super(tableName, null);
     }
 
     @Override
     public boolean add(Product product) {
         try {
-            ps = con.prepareStatement("INSERT INTO "+tableName+"(name,barcode,size,price) VALUES (?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1,product.getName());
-            ps.setString(2,product.getBarcode());
-            ps.setString(3, product.getSize());
-            ps.setDouble(4,product.getPrice());
-
+            ps = con.prepareStatement("INSERT INTO " + tableName + "(id, name, price) VALUES (?,?,?)");
+            ps.setString(1, product.productId);
+            ps.setString(2, product.getName());
+            ps.setDouble(3, product.getPrice());
+            
             rowsAffected = ps.executeUpdate();
 
-            ResultSet keys = ps.getGeneratedKeys();
-
-            if(keys.next()){
-                product.productId = keys.getString(1);
-            }
         } catch (SQLException e) {
             System.out.println("SQLException error thrown in the Product Repository class at the add(Product product) method.");
             throw new RuntimeException(e);
         }
+        
         return rowsAffected == 1;
     }
 
     @Override
     public boolean update(Product product) {
         try {
-            ps = con.prepareStatement("INSERT INTO product(name,barcode,size,price) VALUES (?,?,?,?) WHERE id = ? ", Statement.RETURN_GENERATED_KEYS);
+            ps = con.prepareStatement("Update " + tableName + " set name = ?, price = ? WHERE id = ?");
             ps.setString(1,product.getName());
-            ps.setString(2,product.getBarcode());
-            ps.setString(3, product.getSize());
-            ps.setLong(4,product.getPrice());
-
+            ps.setDouble(2,product.getPrice());
+            ps.setString(3, product.productId);
+            
             rowsAffected = ps.executeUpdate();
 
-            ResultSet keys = ps.getGeneratedKeys();
-
-            if(keys.next()){
-                product.productId = keys.getString(1);
-            }
         } catch (SQLException e) {
             System.out.println("SQLException thrown in the Product Repository class at the update(Product product) method.");
             throw new RuntimeException(e);
         }
+        
         return rowsAffected == 1;
     }
 
@@ -85,17 +58,18 @@ public class ProductRepository  extends RepositoryBase<Product> {
     public Product getById(String Id) {
         Product product = null;
         try {
-            ps = con.prepareStatement("SELECT * FROM product WHERE id = "+Id);
+            ps = con.prepareStatement("SELECT * FROM product WHERE id = " + Id);
             rs = ps.executeQuery();
 
             if(rs.next()){
                 product = new Product(
                         rs.getString("name"),
-                        rs.getLong("barcode"),
-                        rs.getString("size"),
-                        rs.getLong("price"));
+                        rs.getLong("price")
+                );
+                
                 product.productId = rs.getString("id");
             }
+            
         } catch (SQLException e) {
             System.out.println("SQLException thrown in the Product Repository class at the getById(int Id) method");
             throw new RuntimeException(e);
@@ -115,14 +89,15 @@ public class ProductRepository  extends RepositoryBase<Product> {
                 rs = ps.executeQuery();
 
                 while(rs.next()) {
+                    String id = rs.getString("id");
+                    
                     Product product = new Product(
                             rs.getString("id"),
                             rs.getString("name"),
-                            rs.getString("barcode"),
-                            rs.getString("size"),
                             rs.getDouble("price")
                     );
-
+                    
+                    product.productId = id;
                     products.add(product);
                 }
 

@@ -10,14 +10,16 @@ public class InventoryControl implements IEntity {
     private String productId;
     private Timestamp date;
     private int quantityBefore;
+    private int incomingQuantity;
     private int newStockQuantity;
     private boolean posted;
 
-    public InventoryControl(String employeeId, String productId, Timestamp date, int quantityBefore, int newStockQuantity, boolean posted) {
+    public InventoryControl(String employeeId, String productId, Timestamp date, int quantityBefore, int incomingQuantity, int newStockQuantity, boolean posted) {
         this.employeeId = employeeId;
         this.productId = productId;
         this.date = date;
         this.quantityBefore = quantityBefore;
+        this.incomingQuantity = incomingQuantity;
         this.newStockQuantity = newStockQuantity;
         this.posted = posted;
     }
@@ -55,6 +57,14 @@ public class InventoryControl implements IEntity {
 
     public void setQuantityBefore(int quantityBefore) {
         this.quantityBefore = quantityBefore;
+    }
+
+    public int getIncomingQuantity() {
+        return incomingQuantity;
+    }
+
+    public void setIncomingQuantity(int incomingQuantity) {
+        this.incomingQuantity = incomingQuantity;
     }
 
     public int getNewStockQuantity() {

@@ -12,7 +12,7 @@ public class IBTRepository extends RepositoryBase<IBT> {
     private static String tableName = "ibt";
     
     public IBTRepository() {
-        super(tableName);
+        super(tableName, null);
     }
 
     @Override
@@ -28,6 +28,12 @@ public class IBTRepository extends RepositoryBase<IBT> {
                 ps.setInt(6, ibt.getStatus().getValue());
                
                 rowsAffected = ps.executeUpdate();
+                
+                ResultSet keys = ps.getGeneratedKeys();
+
+                if(keys.next()) {
+                    ibt.Id = keys.getInt(1);
+                }
 
             } catch(SQLException e) {
                 e.printStackTrace();
@@ -50,23 +56,20 @@ public class IBTRepository extends RepositoryBase<IBT> {
     public boolean update(IBT ibt) {
         if(con != null) {
             try {
-                ps = con.prepareStatement("Update " + tableName + " set branchIdFrom = ?, branchIdTo = ?, productId = ?, quantity = ?, email = ?, status = ? where id = ?", Statement.RETURN_GENERATED_KEYS);
+                ps = con.prepareStatement("Update " + tableName + " set branchIdFrom = ?, branchIdTo = ?, productId = ?, quantity = ?, email = ?, status = ? where id = ?");
                 ps.setString(1, ibt.getBranchIdFrom());
                 ps.setString(2, ibt.getBranchIdTo());
                 ps.setString(3, ibt.getProductId());
                 ps.setInt(4, ibt.getQuantity());
                 ps.setString(5, ibt.getEmail());
                 ps.setInt(6, ibt.getStatus().getValue());
-               
-                rowsAffected = ps.executeUpdate();
+                ps.setInt(7, ibt.Id);
                 
-                ResultSet keys = ps.getGeneratedKeys();
-
-                if(keys.next()) {
-                    ibt.Id = keys.getInt(1);
-                }
+                rowsAffected = ps.executeUpdate();
 
             } catch(SQLException e) {
+                System.out.println("Exception in update in ibtrepository");
+                     
                 e.printStackTrace();
             }
             finally {

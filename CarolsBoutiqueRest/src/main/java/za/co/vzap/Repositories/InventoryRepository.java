@@ -1,42 +1,28 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package za.co.vzap.Repositories;
 
-/**
- *
- * @author macpe
- */
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import za.co.vzap.Inventory.Model.Inventory;
+import za.co.vzap.Sale.Repository.RepositoryBase;
+
 public class InventoryRepository extends RepositoryBase<Inventory> {
     private static String tableName = "Inventory";
-    private PreparedStatement ps;
-    private Connection con;
-    private ResultSet rs;
-    private int rowsAffected;
 
     public InventoryRepository() {
-        super(tableName);
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        String url = "jdbc:mysql://localhost:3306/carolsboutique";
-        try {
-            con = DriverManager.getConnection(url,"root","root");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        super(tableName, null);
     }
 
     @Override
     public boolean add(Inventory inventory) {
         try {
-            ps = con.prepareStatement("INSERT INTO "+tableName+"(branchID,productID,quantity) VALUES (?,?,?)",Statement.RETURN_GENERATED_KEYS);
+            ps = con.prepareStatement("INSERT INTO " + tableName+ "(branchId, sizeId, productId, quantity) VALUES (?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS);
             ps.setString(1,inventory.getBranchId());
-            ps.setString(2,inventory.getProductId());
-            ps.setInt(3,inventory.getQuantity());
+            ps.setInt(2, inventory.getSizeId());
+            ps.setString(3,inventory.getProductId());
+            ps.setInt(4,inventory.getQuantity());
 
             rowsAffected = ps.executeUpdate();
 
@@ -45,55 +31,62 @@ public class InventoryRepository extends RepositoryBase<Inventory> {
             if(keys.next()){
                 inventory.Id = keys.getInt(1);
             }
+            
         } catch (SQLException e) {
             System.out.println("SQLException error thrown in the Inventory Repository class at the add(Inventory inventory) method.");
             throw new RuntimeException(e);
         }
+        
         return rowsAffected == 1;
     }
 
     @Override
     public boolean update(Inventory inventory) {
         try {
-            ps = con.prepareStatement("INSERT INTO "+tableName+"(branchID,productID,quantity) VALUES (?,?,?) WHERE Id = ?", Statement.RETURN_GENERATED_KEYS);
+            ps = con.prepareStatement("update " + tableName + " set branchID = ?, sizeId = ?, productID = ?, quantity = ? where id = ?", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1,inventory.getBranchId());
-            ps.setString(2,inventory.getProductId());
-            ps.setInt(3,inventory.getQuantity());
-            ps.setInt(4,inventory.Id);
-
+            ps.setInt(2, inventory.getSizeId());
+            ps.setString(3,inventory.getProductId());
+            ps.setInt(4,inventory.getQuantity());
+            ps.setInt(5, inventory.Id);
+            
             rowsAffected = ps.executeUpdate();
-
-            ResultSet keys = ps.getGeneratedKeys();
-
-            if (keys.next()){
-                inventory.Id = keys.getInt(1);
-            }
 
         } catch (SQLException e) {
             System.out.println("SQLException error thrown in the Inventory Repository class at the update(Inventory inventory) method.");
             throw new RuntimeException(e);
         }
+        
         return rowsAffected == 1;
     }
 
     @Override
     public Inventory getById(int Id) {
         Inventory inventory = null;
+        
         try {
-            ps = con.prepareStatement("SELECT * FROM "+tableName+" WHERE Id = ?");// table name is missing and check the column names in the table.
+            ps = con.prepareStatement("SELECT * FROM " + tableName + " WHERE id = ?");// table name is missing and check the column names in the table.
+            
+            ps.setInt(1, Id);
+            
             rs = ps.executeQuery();
 
             if (rs.next()){
                 inventory = new Inventory(
                         rs.getString("branchID"),
+                        rs.getInt("sizeId"),
                         rs.getString("productID"),
                         rs.getInt("quantity")
                 );
+                
+                inventory.Id = rs.getInt("id");
             }
+            
         } catch (SQLException e) {
             System.out.println("SQLException error thrown in the Inventory Repository class at the getById(int Id) method.");
             throw new RuntimeException(e);
         }
+        
         return inventory;
     }
 
@@ -113,12 +106,16 @@ public class InventoryRepository extends RepositoryBase<Inventory> {
                 rs = ps.executeQuery();
 
                 while(rs.next()) {
+                    int id = rs.getInt("id");
+                    
                     Inventory inventory = new Inventory(
                             rs.getString("branchID"),
+                            rs.getInt("sizeId"),
                             rs.getString("productID"),
                             rs.getInt("quantity")
                     );
 
+                    inventory.Id = id;
                     inventories.add(inventory);
                 }//product sale branch category user, has string ID and this needs to be included in rs.getString().
 

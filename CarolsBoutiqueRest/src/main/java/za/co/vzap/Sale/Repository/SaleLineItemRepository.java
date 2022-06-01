@@ -12,7 +12,7 @@ public class SaleLineItemRepository extends RepositoryBase<SaleLineItem> {
     private static String tableName = "salelineitem";
     
     public SaleLineItemRepository() {
-        super(tableName);
+        super(tableName, null);
     }
 
     @Override
@@ -23,7 +23,6 @@ public class SaleLineItemRepository extends RepositoryBase<SaleLineItem> {
                 ps.setString(1, saleLineItem.getProductId());
                 ps.setInt(2, saleLineItem.getQuantity());
                
-
                 rowsAffected = ps.executeUpdate();
 
                 ResultSet keys = ps.getGeneratedKeys();
@@ -53,18 +52,12 @@ public class SaleLineItemRepository extends RepositoryBase<SaleLineItem> {
     public boolean update(SaleLineItem saleLineItem) {
         if(con != null) {
             try {
-                ps = con.prepareStatement("Update " + tableName + " set productId = ?, quantity = ? where id = ?", Statement.RETURN_GENERATED_KEYS);
+                ps = con.prepareStatement("Update " + tableName + " set productId = ?, quantity = ? where id = ?");
                 ps.setString(1, saleLineItem.getProductId());
                 ps.setInt(2, saleLineItem.getQuantity());
-               
+                ps.setInt(3, saleLineItem.Id);
 
                 rowsAffected = ps.executeUpdate();
-
-                ResultSet keys = ps.getGeneratedKeys();
-
-                if(keys.next()) {
-                    saleLineItem.Id = keys.getInt(1);
-                }
 
             } catch(SQLException e) {
                 e.printStackTrace();

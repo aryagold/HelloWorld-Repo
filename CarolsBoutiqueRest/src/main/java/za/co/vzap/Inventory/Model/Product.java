@@ -5,22 +5,19 @@ import za.co.vzap.Sale.Model.IEntity;
 public class Product implements IEntity {
     public String productId;
     private String name;
-    private String barcode;
     private double price;
 
-    public Product(String name, String barcode, double price) {
+    public Product(String name, double price) {
         this.name = name;
-        this.barcode = barcode;
         this.price = price;
     }
 
     public Product() {
     }
 
-    public Product(String productId, String name, String barcode, double price) {
+    public Product(String productId, String name, double price) {
         this.productId = productId;
         this.name = name;
-        this.barcode = barcode;
         this.price = price;
     }
 
@@ -39,14 +36,6 @@ public class Product implements IEntity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getBarcode() {
-        return barcode;
-    }
-
-    public void setBarcode(String barcode) {
-        this.barcode = barcode;
     }
 
     public double getPrice() {

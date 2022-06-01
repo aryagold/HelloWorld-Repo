@@ -12,7 +12,7 @@ public class RefundRepository extends RepositoryBase<Refund> {
     private static String tableName = "refund";
     
     public RefundRepository() {
-        super(tableName);
+        super(tableName, null);
     }
 
     @Override
@@ -22,8 +22,7 @@ public class RefundRepository extends RepositoryBase<Refund> {
                 ps = con.prepareStatement("Insert Into " + tableName + "(saleId, date) values(?, ?)", Statement.RETURN_GENERATED_KEYS);
                 ps.setString(1, refund.getSaleId());
                 ps.setTimestamp(2, refund.getDate());
-               
-
+                
                 rowsAffected = ps.executeUpdate();
 
                 ResultSet keys = ps.getGeneratedKeys();
@@ -53,18 +52,12 @@ public class RefundRepository extends RepositoryBase<Refund> {
     public boolean update(Refund refund) {
         if(con != null) {
             try {
-                ps = con.prepareStatement("Update " + tableName + " set saleId = ?, date = ? where id = ?", Statement.RETURN_GENERATED_KEYS);
+                ps = con.prepareStatement("Update " + tableName + " set saleId = ?, date = ? where id = ?");
                 ps.setString(1, refund.getSaleId());
                 ps.setTimestamp(2, refund.getDate());
-               
+                ps.setInt(3, refund.Id);
 
                 rowsAffected = ps.executeUpdate();
-
-                ResultSet keys = ps.getGeneratedKeys();
-
-                if(keys.next()) {
-                    refund.Id = keys.getInt(1);
-                }
 
             } catch(SQLException e) {
                 e.printStackTrace();

@@ -11,7 +11,7 @@ public class RefundItemRepository extends RepositoryBase<RefundItem> {
     private static String tableName = "refund";
     
     public RefundItemRepository() {
-        super(tableName);
+        super(tableName, null);
     }
 
     @Override
@@ -22,7 +22,6 @@ public class RefundItemRepository extends RepositoryBase<RefundItem> {
                 ps.setString(1, refundItem.getProductId());
                 ps.setInt(2, refundItem.getQuantity());
                
-
                 rowsAffected = ps.executeUpdate();
 
                 ResultSet keys = ps.getGeneratedKeys();
@@ -55,15 +54,9 @@ public class RefundItemRepository extends RepositoryBase<RefundItem> {
                 ps = con.prepareStatement("Update " + tableName + " set productId = ?, quantity = ? where id = ?", Statement.RETURN_GENERATED_KEYS);
                 ps.setString(1, refundItem.getProductId());
                 ps.setInt(2, refundItem.getQuantity());
-               
+                ps.setInt(3, refundItem.Id);
 
                 rowsAffected = ps.executeUpdate();
-
-                ResultSet keys = ps.getGeneratedKeys();
-
-                if(keys.next()) {
-                    refundItem.Id = keys.getInt(1);
-                }
 
             } catch(SQLException e) {
                 e.printStackTrace();

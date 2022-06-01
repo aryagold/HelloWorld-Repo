@@ -12,14 +12,14 @@ public class UserRepository extends RepositoryBase<User> {
     private static final String idPrefix = "US";
     
     public UserRepository() {
-        super(tableName);
+        super(tableName, idPrefix);
     }
 
     @Override
     public boolean add(User user) {
          if(con != null) {
             try {
-                ps = con.prepareStatement("Insert Into " + tableName + "(userId, name, email, role, branchId, password) values(?, ?, ?, ?, ?, ?)");
+                ps = con.prepareStatement("Insert Into " + tableName + "(id, name, email, role, branchId, password) values(?, ?, ?, ?, ?, ?)");
                 ps.setString(1, getNextCode());
                 ps.setString(2, user.getName());
                 ps.setString(3, user.getEmail());
@@ -50,13 +50,13 @@ public class UserRepository extends RepositoryBase<User> {
     public boolean update(User user) {
        if(con != null) {
             try {
-                ps = con.prepareStatement("Update " + tableName + " set id = ?, name = ?, email = ?, branchId = ?, password = ?, role = ?");
-                ps.setString(1, user.getUserId());
-                ps.setString(2, user.getName());
-                ps.setString(3, user.getEmail());
-                ps.setString(4, user.getBranchId());
-                ps.setString(5, user.getPassword());
-                ps.setInt(6, user.getRole().getValue());
+                ps = con.prepareStatement("Update " + tableName + " set name = ?, email = ?, branchId = ?, password = ?, role = ? where id = ?");
+                ps.setString(1, user.getName());
+                ps.setString(2, user.getEmail());
+                ps.setString(3, user.getBranchId());
+                ps.setString(4, user.getPassword());
+                ps.setInt(5, user.getRole().getValue());
+                ps.setString(6, user.userId);
                
                 rowsAffected = ps.executeUpdate();
 
@@ -134,6 +134,7 @@ public class UserRepository extends RepositoryBase<User> {
                 rs = ps.executeQuery();
 
                 while(rs.next()) {
+                    
                     User user = new User(
                             rs.getString("id"),
                             rs.getString("name"),

@@ -12,8 +12,9 @@ public abstract class RepositoryBase<IEntity> implements IRepository<IEntity> {
     protected String tableName;
     protected String idPrefix;
 
-    public RepositoryBase(String tableName) {
+    public RepositoryBase(String tableName, String idPrefix) {
         this.tableName = tableName;
+        this.idPrefix = idPrefix;
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -33,7 +34,7 @@ public abstract class RepositoryBase<IEntity> implements IRepository<IEntity> {
     public boolean deleteById(int id) {
         if (con != null){
             try {
-                ps = con.prepareStatement("DELETE FROM" + tableName + " WHERE id = " + id);
+                ps = con.prepareStatement("DELETE FROM " + tableName + " WHERE id = " + id);
                 rowsAffected = ps.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -48,7 +49,7 @@ public abstract class RepositoryBase<IEntity> implements IRepository<IEntity> {
     public boolean deleteById(String id) {
         if (con != null){
             try {
-                ps = con.prepareStatement("DELETE FROM" + tableName + " WHERE id = " + id);
+                ps = con.prepareStatement("DELETE FROM " + tableName + " WHERE id = " + id);
                 rowsAffected = ps.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -62,7 +63,7 @@ public abstract class RepositoryBase<IEntity> implements IRepository<IEntity> {
     @Override
     public List<IEntity> getWhere(String field, String value) {
         
-        String statement = "SELECT * from" + tableName + " WHERE "+ field + " = " + value;
+        String statement = "SELECT * from " + tableName + " WHERE "+ field + " = " + value;
         
         return executeQuery(statement);
     }
@@ -70,7 +71,7 @@ public abstract class RepositoryBase<IEntity> implements IRepository<IEntity> {
     @Override
     public List<IEntity> getWhere(String field, int value) {
         
-        String statement = "SELECT * from" + tableName + " WHERE "+ field + " = " + value;
+        String statement = "SELECT * from " + tableName + " WHERE "+ field + " = " + value;
         
         return executeQuery(statement);
     }

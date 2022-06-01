@@ -13,14 +13,14 @@ public class SaleRepository extends RepositoryBase<Sale> {
     private static final String idPrefix = "SL";
     
     public SaleRepository() {
-        super(tableName);
+        super(tableName, idPrefix);
     }
     
     @Override
     public boolean add(Sale sale) {
         if(con != null) {
             try {
-                ps = con.prepareStatement("Insert Into " + tableName + "(saleId, userId, email, date, paymentId, status, branchId) values(?, ?, ?, ?, ?, ?, ?)");
+                ps = con.prepareStatement("Insert Into " + tableName + "(id, userId, email, date, paymentId, status, branchId) values(?, ?, ?, ?, ?, ?, ?)");
                 ps.setString(1, getNextCode());
                 ps.setString(2, sale.getUserId());
                 ps.setString(3, sale.getEmail());
@@ -52,14 +52,14 @@ public class SaleRepository extends RepositoryBase<Sale> {
     public boolean update(Sale sale) {
         if(con != null) {
             try {
-                ps = con.prepareStatement("Update " + tableName + " set id = ?, userId = ?, email = ?, date = ?, paymentId = ?, status = ?, branchId = ?");
-                ps.setString(1, sale.getSaleId());
-                ps.setString(2, sale.getUserId());
-                ps.setString(3, sale.getEmail());
-                ps.setTimestamp(4, sale.getDate());
-                ps.setInt(5, sale.getPaymentId());
-                ps.setInt(6, sale.getStatus().getValue());
-                ps.setString(7, sale.getBranchId());
+                ps = con.prepareStatement("Update " + tableName + " set userId = ?, email = ?, date = ?, paymentId = ?, status = ?, branchId = ? where id = ?");
+                ps.setString(1, sale.getUserId());
+                ps.setString(2, sale.getEmail());
+                ps.setTimestamp(3, sale.getDate());
+                ps.setInt(4, sale.getPaymentId());
+                ps.setInt(5, sale.getStatus().getValue());
+                ps.setString(6, sale.getBranchId());
+                ps.setString(7, sale.saleId);
                
                 rowsAffected = ps.executeUpdate();
 

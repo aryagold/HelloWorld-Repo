@@ -11,14 +11,14 @@ public class BranchRepository extends RepositoryBase<Branch> {
     private static final String idPrefix = "BR";
     
     public BranchRepository() {
-        super(tableName);
+        super(tableName, idPrefix);
     }
 
     @Override
     public boolean add(Branch branch) {
         if(con != null) {
             try {
-                ps = con.prepareStatement("Insert Into " + tableName + "(id, name, monthlyTarget, dailyTarget) values(?, ?, ?, ?, ?, ?)");
+                ps = con.prepareStatement("Insert Into " + tableName + "(id, name, monthlyTarget, dailyTarget) values(?, ?, ?, ?)");
                 ps.setString(1, getNextCode());
                 ps.setString(2, branch.getName());
                 ps.setDouble(3, branch.getMonthlyTarget());
@@ -47,11 +47,12 @@ public class BranchRepository extends RepositoryBase<Branch> {
     public boolean update(Branch branch) {
         if(con != null) {
             try {
-                ps = con.prepareStatement("Update " + tableName + " set id = ?, name = ?, monthlyTarget = ?, dailyTarget = ?");
-                ps.setString(1, branch.getBranchId());
-                ps.setString(2, branch.getName());
-                ps.setDouble(3, branch.getMonthlyTarget());
-                ps.setDouble(4, branch.getDailyTarget());
+                ps = con.prepareStatement("Update " + tableName + " set name = ?, monthlyTarget = ?, dailyTarget = ? where id = ?");
+                
+                ps.setString(1, branch.getName());
+                ps.setDouble(2, branch.getMonthlyTarget());
+                ps.setDouble(3, branch.getDailyTarget());
+                ps.setString(4, branch.branchId);
                
                 rowsAffected = ps.executeUpdate();
 
