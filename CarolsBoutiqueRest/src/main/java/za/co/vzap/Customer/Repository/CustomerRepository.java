@@ -1,23 +1,21 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package co.vzap.Customer.Repository;
+package za.co.vzap.Customer.Repository;
 
-import co.vzap.Customer.Model.Customer;
-import co.vzap.Sale.Repository.RepositoryBase;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import za.co.vzap.Customer.Model.Customer;
+import za.co.vzap.Sale.Repository.RepositoryBase;
 
 public class CustomerRepository extends RepositoryBase<Customer> {
 
     private static String tableName = "customer";
 
     public CustomerRepository() {
-        super(tableName);
+        super(tableName, null);
     }
 
     @Override
@@ -25,16 +23,17 @@ public class CustomerRepository extends RepositoryBase<Customer> {
         List<Customer> customers = new ArrayList<>();
         if (con != null) {
             try {
-                ps = con.prepareStatement("SELECT * FROM " + tableName);
+                ps = con.prepareStatement(statement);
                 rs = ps.executeQuery();
 
                 while (rs.next()) {
                     int id = rs.getInt("id");
+                    
                     Customer customer = new Customer(
-                            rs.getString("name"),
                             rs.getString("email"),
                             rs.getString("phoneNumber")
                     );
+                    
                     customer.Id = id;
                     customers.add(customer);
                 }
@@ -49,14 +48,21 @@ public class CustomerRepository extends RepositoryBase<Customer> {
     }
 
     @Override
-    public boolean add(Customer entity) {
+    public boolean add(Customer customer) {
         if (con != null) {
             try {
-                ps = con.prepareStatement("INSERT INTO " + tableName + " (id, name, email, phoneNumber) values(null, ?, ?, ?)");
-                ps.setString(1, entity.getName());
-                ps.setString(2, entity.getEmail());
-                ps.setString(3, entity.getPhoneNumber());
+                ps = con.prepareStatement("INSERT INTO " + tableName + "(email, phoneNumber) values(?, ?)", Statement.RETURN_GENERATED_KEYS);
+                ps.setString(1, customer.getEmail());
+                ps.setString(2, customer.getPhoneNumber());
+                
                 rowsAffected = ps.executeUpdate();
+                
+                ResultSet keys = ps.getGeneratedKeys();
+
+                if(keys.next()) {
+                    customer.Id = keys.getInt(1);
+                }
+                
             } catch (SQLException ex) {
                 Logger.getLogger(CustomerRepository.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
@@ -71,11 +77,11 @@ public class CustomerRepository extends RepositoryBase<Customer> {
     public boolean update(Customer entity) {
         if (con != null) {
             try {
-                ps = con.prepareStatement("UPDATE " + tableName + "SET name = ?, email = ?, phoneNumber = ? where id = ?");
-                ps.setString(1, entity.getName());
-                ps.setString(2, entity.getEmail());
-                ps.setString(3, entity.getPhoneNumber());
-                ps.setInt(4, entity.Id);
+                ps = con.prepareStatement("UPDATE " + tableName + " SET email = ?, phoneNumber = ? where id = ?");
+                ps.setString(1, entity.getEmail());
+                ps.setString(2, entity.getPhoneNumber());
+                ps.setInt(3, entity.Id);
+                
                 rowsAffected = ps.executeUpdate();
 
             } catch (SQLException ex) {
@@ -84,6 +90,7 @@ public class CustomerRepository extends RepositoryBase<Customer> {
                 closeStreams(rs, ps);
             }
         }
+        
         return rowsAffected == 1;
     }
 
@@ -94,45 +101,31 @@ public class CustomerRepository extends RepositoryBase<Customer> {
             try {
                 ps = con.prepareStatement("SELECT * FROM " + tableName + " WHERE id = ?");
                 ps.setInt(1, Id);
+                
                 rs = ps.executeQuery();
+                
                 if (rs.next()) {
                     customer = new Customer(
-                            rs.getString("name"),
                             rs.getString("email"),
                             rs.getString("phoneNumber")
                     );
+                    
+                    customer.Id = rs.getInt("id");
                 }
+                
             } catch (SQLException ex) {
                 Logger.getLogger(CustomerRepository.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
                 closeStreams(rs, ps);
             }
         }
+        
         return customer;
     }
 
     @Override
     public Customer getById(String id) {
-        Customer customer = null;
-        if (con != null) {
-            try {
-                ps = con.prepareStatement("SELECT * FROM " + tableName + " WHERE id = ?");
-                ps.setString(1, id);
-                rs = ps.executeQuery();
-                if (rs.next()) {
-                    customer = new Customer(
-                            rs.getString("name"),
-                            rs.getString("email"),
-                            rs.getString("phoneNumber")
-                    );
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(CustomerRepository.class.getName()).log(Level.SEVERE, null, ex);
-            } finally {
-                closeStreams(rs, ps);
-            }
-        }
-        return customer;
+        return null;
     }
 
 }

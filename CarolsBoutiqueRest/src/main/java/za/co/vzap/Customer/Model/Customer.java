@@ -14,6 +14,8 @@ public class Customer implements IEntity {
 
     public Customer() {
     }
+    
+    
 
     public String getEmail() {
         return email;
