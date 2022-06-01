@@ -120,6 +120,23 @@ public abstract class RepositoryBase<IEntity> implements IRepository<IEntity> {
         
         return nextCode;
     }
+    
+    public void closeStreams(ResultSet rs, PreparedStatement ps) {
+        if (ps != null) {
+            try {
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     protected abstract List<IEntity> executeQuery(String statement);
 }
