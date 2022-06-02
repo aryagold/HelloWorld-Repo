@@ -3,6 +3,7 @@ package za.co.vzap.Inventory.Service;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import za.co.vzap.Branch.Model.Branch;
 import za.co.vzap.Interface.Repository.IRepository;
 import za.co.vzap.Interface.Service.ServiceBase;
 import za.co.vzap.Inventory.Model.Inventory;
@@ -18,6 +19,7 @@ import za.co.vzap.Inventory.Repository.ProductCodeRepository;
 import za.co.vzap.Inventory.Repository.ProductRepository;
 import za.co.vzap.Inventory.Repository.SizeRepository;
 import za.co.vzap.Sale.Model.IEntity;
+import za.co.vzap.User.Model.User;
 
 public class InventoryService extends ServiceBase {
     private IRepository productRepository = null;
@@ -133,43 +135,43 @@ public class InventoryService extends ServiceBase {
     }
 
     @Override
-    public void updateToTeller(String userId) {
-        
+    public boolean updateToTeller(String userId) {
+        return false;
     }
 
     @Override
-    public void addBranch(IEntity iEntity) {
-        
+    public boolean addBranch(Branch branch) {
+        return false;
     }
 
     @Override
-    public IEntity login(String userId, String password) {
+    public User login(String userId, String password) {
         return null;
     }
 
     @Override
-    public void addToSale(IEntity iEntity) {
-        
+    public boolean addToSale(IEntity iEntity) {
+        return false;
     }
 
     @Override
-    public void addRefund(IEntity iEntity) {
-        
+    public boolean addRefund(IEntity iEntity) {
+        return false;
     }
 
     @Override
-    public void confirmSale(IEntity iEntity) {
-      
+    public boolean confirmSale(IEntity iEntity) {
+      return false;
     }
 
     @Override
-    public void deleteSaleLineItem(IEntity iEntity) {
-        
+    public boolean deleteSaleLineItem(IEntity iEntity) {
+        return false;
     }
 
     @Override
-    public void updateToReserved(IEntity iEntity) {
-        
+    public boolean updateToReserved(IEntity iEntity) {
+        return false;
     }
 
     @Override

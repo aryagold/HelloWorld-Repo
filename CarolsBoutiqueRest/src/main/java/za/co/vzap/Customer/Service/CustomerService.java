@@ -1,6 +1,7 @@
 package za.co.vzap.Customer.Service;
 
 import java.util.List;
+import za.co.vzap.Branch.Model.Branch;
 import za.co.vzap.Customer.Model.Customer;
 import za.co.vzap.Customer.Model.Review;
 import za.co.vzap.Customer.Repository.CustomerRepository;
@@ -10,6 +11,7 @@ import za.co.vzap.Interface.Service.ServiceBase;
 import za.co.vzap.Inventory.Model.Inventory;
 import za.co.vzap.Inventory.Model.InventoryControl;
 import za.co.vzap.Sale.Model.IEntity;
+import za.co.vzap.User.Model.User;
 
 public class CustomerService extends ServiceBase {
     private IRepository reviewRepository = null;
@@ -54,17 +56,17 @@ public class CustomerService extends ServiceBase {
     // not related to Customer Service
     
     @Override
-    public void updateToTeller(String userId) {
-        
+    public boolean updateToTeller(String userId) {
+        return false;
     }
 
     @Override
-    public void addBranch(IEntity iEntity) {
-        
+    public boolean addBranch(Branch branch) {
+        return false;
     }
 
     @Override
-    public IEntity login(String userId, String password) {
+    public User login(String userId, String password) {
         return null;
     }
 
@@ -74,18 +76,18 @@ public class CustomerService extends ServiceBase {
     }
 
     @Override
-    public void addToSale(IEntity iEntity) {
-        
+    public boolean addToSale(IEntity iEntity) {
+        return false;
     }
 
     @Override
-    public void addRefund(IEntity iEntity) {
-       
+    public boolean addRefund(IEntity iEntity) {
+       return false;
     }
 
     @Override
-    public void confirmSale(IEntity iEntity) {
-        
+    public boolean confirmSale(IEntity iEntity) {
+        return false;
     }
 
     @Override
@@ -94,13 +96,13 @@ public class CustomerService extends ServiceBase {
     }
 
     @Override
-    public void deleteSaleLineItem(IEntity iEntity) {
-        
+    public boolean deleteSaleLineItem(IEntity iEntity) {
+        return false;
     }
 
     @Override
-    public void updateToReserved(IEntity iEntity) {
-        
+    public boolean updateToReserved(IEntity iEntity) {
+        return false;
     }
 
     @Override

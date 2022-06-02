@@ -4,9 +4,9 @@ import java.util.List;
 import za.co.vzap.Branch.Model.Branch;
 import za.co.vzap.Branch.Repository.BranchRepository;
 import za.co.vzap.Interface.Repository.IRepository;
+import za.co.vzap.Interface.Service.ServiceBase;
 import za.co.vzap.Inventory.Model.Inventory;
-import za.co.vzap.Inventory.Repository.InventoryRepository;
-import za.co.vzap.POS.Service.ServiceBase;
+import za.co.vzap.Inventory.Model.InventoryControl;
 import za.co.vzap.Sale.Model.IEntity;
 import za.co.vzap.User.Model.RoleEnum;
 import za.co.vzap.User.Model.User;
@@ -25,8 +25,8 @@ public class UserService extends ServiceBase {
 
     //needs implementation
     @Override
-    public boolean updateToTeller(String userId) {
-        User user = repository.getById(userId);
+    public boolean updateToTeller(String userId) { // this method reads in a user and resets their role but does not update their role in the
+        User user = repository.getById(userId);    // database. please use update method for user repository
         user.setRole(RoleEnum.ofStatusCode(1));
         if (user.getRole().getValue() == 1) {
             return true;
@@ -54,42 +54,42 @@ public class UserService extends ServiceBase {
 
     //not related to UserService
     @Override 
-    public boolean addInventory(int quantity, int previousQuantity) {
+    public boolean addInventoryControl(InventoryControl inventoryControl, String barcode, String branchId, String size, int quantity) {
         return false;
     }
     
     @Override
-    public void addCustomer(String name, String email, String phoneNumber) {
-
-    }
-
-    @Override
-    public void addReview(String comment, int Rating) {
-
-    }
-
-    @Override
-    public boolean addToSale(IEntity IEntity) {
+    public boolean addCustomer(String email, String phoneNumber) {
         return false;
     }
 
     @Override
-    public boolean addRefund(IEntity IEntity) {
+    public boolean addReview(String comment, int Rating, String branchId) {
+         return false;
+    }
+
+    @Override
+    public boolean addToSale(IEntity entity) {
         return false;
     }
 
     @Override
-    public boolean confirmSale(IEntity IEntity) {
+    public boolean addRefund(IEntity entity) {
         return false;
     }
 
     @Override
-    public List<IEntity> findProduct(String productId) {
+    public boolean confirmSale(IEntity entity) {
+        return false;
+    }
+
+    @Override
+    public List<Inventory> findProduct(String productId) {
         return null;
     }
 
     @Override
-    public boolean deleteSaleLineItem(IEntity IEntity) {
+    public boolean deleteSaleLineItem(IEntity entity) {
         return false;
     }
 
@@ -150,5 +150,10 @@ public class UserService extends ServiceBase {
     @Override
     public void downloadCurrentReport() {
 
+    }
+
+    @Override
+    public boolean addProduct(String arg0, String arg1, String arg2, double arg3) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
