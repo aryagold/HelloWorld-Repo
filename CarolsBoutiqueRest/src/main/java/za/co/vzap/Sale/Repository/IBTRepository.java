@@ -1,5 +1,6 @@
 package za.co.vzap.Sale.Repository;
 
+import za.co.vzap.Interface.Repository.RepositoryBase;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -19,12 +20,12 @@ public class IBTRepository extends RepositoryBase<IBT> {
     public boolean add(IBT ibt) {
         if(con != null) {
             try {
-                ps = con.prepareStatement("Insert Into " + tableName + "(branchIdFrom, branchIdTo, productId, quantity, email, status) values(?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                ps = con.prepareStatement("Insert Into " + tableName + "(branchIdFrom, branchIdTo, productId, quantity, phoneNumber, status) values(?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
                 ps.setString(1, ibt.getBranchIdFrom());
                 ps.setString(2, ibt.getBranchIdTo());
                 ps.setString(3, ibt.getProductId());
                 ps.setInt(4, ibt.getQuantity());
-                ps.setString(5, ibt.getEmail());
+                ps.setString(5, ibt.getPhoneNumber());
                 ps.setInt(6, ibt.getStatus().getValue());
                
                 rowsAffected = ps.executeUpdate();
@@ -56,12 +57,12 @@ public class IBTRepository extends RepositoryBase<IBT> {
     public boolean update(IBT ibt) {
         if(con != null) {
             try {
-                ps = con.prepareStatement("Update " + tableName + " set branchIdFrom = ?, branchIdTo = ?, productId = ?, quantity = ?, email = ?, status = ? where id = ?");
+                ps = con.prepareStatement("Update " + tableName + " set branchIdFrom = ?, branchIdTo = ?, productId = ?, quantity = ?, phoneNumber = ?, status = ? where id = ?");
                 ps.setString(1, ibt.getBranchIdFrom());
                 ps.setString(2, ibt.getBranchIdTo());
                 ps.setString(3, ibt.getProductId());
                 ps.setInt(4, ibt.getQuantity());
-                ps.setString(5, ibt.getEmail());
+                ps.setString(5, ibt.getPhoneNumber());
                 ps.setInt(6, ibt.getStatus().getValue());
                 ps.setInt(7, ibt.Id);
                 
@@ -102,7 +103,7 @@ public class IBTRepository extends RepositoryBase<IBT> {
                             rs.getString("branchIdTo"),
                             rs.getString("productId"),
                             rs.getInt("quantity"),
-                            rs.getString("email"),
+                            rs.getString("phoneNumber"),
                             IBTStatusEnum.ofStatusCode(rs.getInt("status"))
                     );
 
@@ -149,7 +150,7 @@ public class IBTRepository extends RepositoryBase<IBT> {
                             rs.getString("branchIdTo"),
                             rs.getString("productId"),
                             rs.getInt("quantity"),
-                            rs.getString("email"),
+                            rs.getString("phoneNumber"),
                             IBTStatusEnum.ofStatusCode(rs.getInt("status"))
                     );
 

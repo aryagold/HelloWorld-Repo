@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import za.co.vzap.Inventory.Model.Product;
-import za.co.vzap.Sale.Repository.RepositoryBase;
+import za.co.vzap.Interface.Repository.RepositoryBase;
 
 public class ProductRepository  extends RepositoryBase<Product> {
     private static String tableName = "Product";
@@ -15,17 +15,27 @@ public class ProductRepository  extends RepositoryBase<Product> {
 
     @Override
     public boolean add(Product product) {
-        try {
-            ps = con.prepareStatement("INSERT INTO " + tableName + "(id, name, price) VALUES (?,?,?)");
-            ps.setString(1, product.productId);
-            ps.setString(2, product.getName());
-            ps.setDouble(3, product.getPrice());
+        if(con != null) {
+            try {
+                ps = con.prepareStatement("INSERT INTO " + tableName + "(id, name, price) VALUES (?,?,?)");
+                ps.setString(1, product.productId);
+                ps.setString(2, product.getName());
+                ps.setDouble(3, product.getPrice());
             
-            rowsAffected = ps.executeUpdate();
+                rowsAffected = ps.executeUpdate();
 
-        } catch (SQLException e) {
-            System.out.println("SQLException error thrown in the Product Repository class at the add(Product product) method.");
-            throw new RuntimeException(e);
+            } catch(SQLException e) {
+                e.printStackTrace();
+            }
+            finally {
+                if(ps != null) {
+                    try {
+                        ps.close();
+                    } catch(SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
         
         return rowsAffected == 1;
@@ -33,17 +43,27 @@ public class ProductRepository  extends RepositoryBase<Product> {
 
     @Override
     public boolean update(Product product) {
-        try {
-            ps = con.prepareStatement("Update " + tableName + " set name = ?, price = ? WHERE id = ?");
-            ps.setString(1,product.getName());
-            ps.setDouble(2,product.getPrice());
-            ps.setString(3, product.productId);
+        if(con != null) {
+            try {
+                ps = con.prepareStatement("Update " + tableName + " set name = ?, price = ? WHERE id = ?");
+                ps.setString(1,product.getName());
+                ps.setDouble(2,product.getPrice());
+                ps.setString(3, product.productId);
             
-            rowsAffected = ps.executeUpdate();
+                rowsAffected = ps.executeUpdate();
 
-        } catch (SQLException e) {
-            System.out.println("SQLException thrown in the Product Repository class at the update(Product product) method.");
-            throw new RuntimeException(e);
+            } catch(SQLException e) {
+                e.printStackTrace();
+            }
+            finally {
+                if(ps != null) {
+                    try {
+                        ps.close();
+                    } catch(SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
         
         return rowsAffected == 1;
@@ -57,24 +77,35 @@ public class ProductRepository  extends RepositoryBase<Product> {
     @Override
     public Product getById(String Id) {
         Product product = null;
-        try {
-            ps = con.prepareStatement("SELECT * FROM product WHERE id = " + Id);
-            rs = ps.executeQuery();
+        
+        if(con != null) {
+            try {
+                ps = con.prepareStatement("SELECT * FROM product WHERE id = " + Id);
+                rs = ps.executeQuery();
 
-            if(rs.next()){
-                product = new Product(
+                if(rs.next()){
+                    product = new Product(
                         rs.getString("name"),
                         rs.getLong("price")
-                );
+                    );
                 
-                product.productId = rs.getString("id");
-            }
+                    product.productId = rs.getString("id");
+                }
             
-        } catch (SQLException e) {
-            System.out.println("SQLException thrown in the Product Repository class at the getById(int Id) method");
-            throw new RuntimeException(e);
+            } catch(SQLException e) {
+                e.printStackTrace();
+            }
+            finally {
+                if(ps != null) {
+                    try {
+                        ps.close();
+                    } catch(SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
-
+            
         return product;
     }
 

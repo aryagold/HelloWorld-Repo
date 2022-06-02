@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 
 public class InventoryControl implements IEntity {
     public int Id;
-    private String employeeId;
+    private String userId;
     private String productId;
     private Timestamp date;
     private int quantityBefore;
@@ -14,8 +14,8 @@ public class InventoryControl implements IEntity {
     private int newStockQuantity;
     private boolean posted;
 
-    public InventoryControl(String employeeId, String productId, Timestamp date, int quantityBefore, int incomingQuantity, int newStockQuantity, boolean posted) {
-        this.employeeId = employeeId;
+    public InventoryControl(String userId, String productId, Timestamp date, int quantityBefore, int incomingQuantity, int newStockQuantity, boolean posted) {
+        this.userId = userId;
         this.productId = productId;
         this.date = date;
         this.quantityBefore = quantityBefore;
@@ -27,12 +27,12 @@ public class InventoryControl implements IEntity {
     public InventoryControl() {
     }
 
-    public String getEmployeeId() {
-        return employeeId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setEmployeeId(String employeeId) {
-        this.employeeId = employeeId;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getProductId() {

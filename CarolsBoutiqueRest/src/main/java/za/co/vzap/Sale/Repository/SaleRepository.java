@@ -1,5 +1,6 @@
 package za.co.vzap.Sale.Repository;
 
+import za.co.vzap.Interface.Repository.RepositoryBase;
 import za.co.vzap.Sale.Model.Sale;
 import za.co.vzap.Sale.Model.SaleStatusEnum;
 import java.sql.ResultSet;

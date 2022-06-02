@@ -1,35 +1,32 @@
-package za.co.vzap.Sale.Repository;
+package za.co.vzap.Inventory.Repository;
 
-import za.co.vzap.Interface.Repository.RepositoryBase;
-import za.co.vzap.Sale.Model.Refund;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+import za.co.vzap.Interface.Repository.RepositoryBase;
+import za.co.vzap.Inventory.Model.Size;
 
-public class RefundRepository extends RepositoryBase<Refund> {
-    private static String tableName = "refund";
-    
-    public RefundRepository() {
+public class SizeRepository extends RepositoryBase<Size> {
+    private static String tableName = "size";
+
+    public SizeRepository( ) {
         super(tableName, null);
     }
-
+    
     @Override
-    public boolean add(Refund refund) {
+    public boolean add(Size size) {
         if(con != null) {
             try {
-                ps = con.prepareStatement("Insert Into " + tableName + "(saleId, date) values(?, ?)", Statement.RETURN_GENERATED_KEYS);
-                ps.setString(1, refund.getSaleId());
-                ps.setTimestamp(2, refund.getDate());
+                ps = con.prepareStatement("INSERT INTO " + tableName + "(size) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
+                ps.setString(1, size.getSize());
                 
                 rowsAffected = ps.executeUpdate();
-
                 ResultSet keys = ps.getGeneratedKeys();
 
-                if(keys.next()) {
-                    refund.Id = keys.getInt(1);
+                if(keys.next()){
+                    size.Id = keys.getInt(1);
                 }
 
             } catch(SQLException e) {
@@ -45,18 +42,17 @@ public class RefundRepository extends RepositoryBase<Refund> {
                 }
             }
         }
-
+        
         return rowsAffected == 1;
     }
 
     @Override
-    public boolean update(Refund refund) {
+    public boolean update(Size size) {
         if(con != null) {
             try {
-                ps = con.prepareStatement("Update " + tableName + " set saleId = ?, date = ? where id = ?");
-                ps.setString(1, refund.getSaleId());
-                ps.setTimestamp(2, refund.getDate());
-                ps.setInt(3, refund.Id);
+                ps = con.prepareStatement("Update " + tableName + " set size = ? WHERE id = ?");
+                ps.setString(1, size.getSize());
+                ps.setInt(2, size.Id);
 
                 rowsAffected = ps.executeUpdate();
 
@@ -73,54 +69,54 @@ public class RefundRepository extends RepositoryBase<Refund> {
                 }
             }
         }
-
+        
         return rowsAffected == 1;
     }
 
     @Override
-    public Refund getById(int Id) {
-        Refund refund = null;
+    public Size getById(int Id) {
+         Size size = null;
+            if(con != null) {
+                try {
+                    ps = con.prepareStatement("SELECT * FROM " + tableName + " WHERE id = ?");
+                    ps.setInt(1,Id);
+                    rs = ps.executeQuery();
 
-        if(con != null) {
-            try {
-                ps = con.prepareStatement("select * from " + tableName + " where id = " + Id);
-
-                rs = ps.executeQuery();
-
-                if(rs.next()) {
-                    refund = new Refund(
-                            rs.getString("saleId"),
-                            rs.getTimestamp("date")
-                    );
-
-                    refund.Id = rs.getInt("id");
-                }
-
-            } catch(SQLException e) {
-                e.printStackTrace();
-            }
-            finally {
-                if(ps != null) {
-                    try {
-                        ps.close();
-                    } catch(SQLException e) {
+                    if(rs.next()){
+                        size = new Size(
+                            rs.getString("size")
+                        );
+                
+                        size.Id = rs.getInt("id");
+                    }
+            
+                } catch(SQLException e) {
                         e.printStackTrace();
+                }
+                finally {
+                    if(ps != null) {
+                        try {
+                            ps.close();
+                        } catch(SQLException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
-        }
-
-        return refund;
+    
+            return size;
     }
+    
+   
 
     @Override
-    public Refund getById(String arg0) {
+    public Size getById(String arg0) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     @Override
-    protected List<Refund> executeQuery(String statement) {
-         List<Refund> refunds = new ArrayList<>();
+    protected List<Size> executeQuery(String statement) {
+        List<Size> sizes = new ArrayList<>();
 
         if(con != null) {
             try {
@@ -130,19 +126,19 @@ public class RefundRepository extends RepositoryBase<Refund> {
 
                 while(rs.next()) {
                     int id = rs.getInt("id");
-
-                    Refund refund = new Refund(
-                            rs.getString("saleId"),
-                            rs.getTimestamp("date")
+                    
+                    Size size = new Size(
+                            rs.getString("size")
                     );
 
-                    refund.Id = id;
-                    refunds.add(refund);
+                    size.Id = id;
+                    sizes.add(size);
                 }
 
             } catch(SQLException e) {
                 e.printStackTrace();
             }
+            
             finally {
                 if(ps != null) {
                     try {
@@ -154,7 +150,6 @@ public class RefundRepository extends RepositoryBase<Refund> {
             }
         }
 
-        return refunds;
+        return sizes;
     }
-    
 }

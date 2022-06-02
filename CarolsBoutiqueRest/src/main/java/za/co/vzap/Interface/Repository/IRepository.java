@@ -1,4 +1,4 @@
-package za.co.vzap.Sale.Repository;
+package za.co.vzap.Interface.Repository;
 
 import java.util.List;
 
