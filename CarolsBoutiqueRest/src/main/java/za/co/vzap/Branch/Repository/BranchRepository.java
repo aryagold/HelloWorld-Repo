@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import za.co.vzap.Branch.Model.Branch;
-import za.co.vzap.Sale.Repository.RepositoryBase;
+import za.co.vzap.Interface.Repository.RepositoryBase;
 
 public class BranchRepository extends RepositoryBase<Branch> {
     private static String tableName = "branch";

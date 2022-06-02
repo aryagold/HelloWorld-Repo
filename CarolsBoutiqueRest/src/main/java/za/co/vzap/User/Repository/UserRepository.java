@@ -1,6 +1,6 @@
 package za.co.vzap.User.Repository;
 
-import za.co.vzap.Sale.Repository.RepositoryBase;
+import za.co.vzap.Interface.Repository.RepositoryBase;
 import za.co.vzap.User.Model.User;
 import java.sql.SQLException;
 import java.util.ArrayList;

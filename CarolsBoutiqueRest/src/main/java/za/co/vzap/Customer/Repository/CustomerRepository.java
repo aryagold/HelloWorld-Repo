@@ -8,10 +8,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import za.co.vzap.Customer.Model.Customer;
-import za.co.vzap.Sale.Repository.RepositoryBase;
+import za.co.vzap.Interface.Repository.RepositoryBase;
 
 public class CustomerRepository extends RepositoryBase<Customer> {
-
     private static String tableName = "customer";
 
     public CustomerRepository() {

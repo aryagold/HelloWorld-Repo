@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package za.co.vzap.Inventory.Repository;
 
 import java.sql.ResultSet;
@@ -13,10 +9,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import za.co.vzap.Inventory.Model.InventoryControl;
-import za.co.vzap.Sale.Repository.RepositoryBase;
+import za.co.vzap.Interface.Repository.RepositoryBase;
 
 public class InventoryControlRepository extends RepositoryBase<InventoryControl> {
-
     private static String tableName = "InventoryControl";
 
     public InventoryControlRepository() {
@@ -154,5 +149,4 @@ public class InventoryControlRepository extends RepositoryBase<InventoryControl>
     public InventoryControl getById(String id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
 }

@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import za.co.vzap.Interface.Repository.RepositoryBase;
 import za.co.vzap.Sale.Model.Payment;
 import za.co.vzap.Sale.Model.PaymentTypeEnum;
-import za.co.vzap.Sale.Repository.RepositoryBase;
 
 public class PaymentRepository extends RepositoryBase<Payment> {
 

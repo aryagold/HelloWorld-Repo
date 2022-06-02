@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import za.co.vzap.Inventory.Model.Category;
-import za.co.vzap.Sale.Repository.RepositoryBase;
+import za.co.vzap.Interface.Repository.RepositoryBase;
 
 public class CategoryRepository extends RepositoryBase<Category> {
     private static String tableName = "Category";
@@ -16,32 +16,53 @@ public class CategoryRepository extends RepositoryBase<Category> {
 
     @Override
     public boolean add(Category category) {
-        try {
-            ps = con.prepareStatement("INSERT INTO " + tableName + "(id, name) VALUES(?, ?)");
-            ps.setString(1, getNextCode());
-            ps.setString(2, category.getName());
+        if(con != null) {
+            try {
+                ps = con.prepareStatement("INSERT INTO " + tableName + "(id, name) VALUES(?, ?)");
+                ps.setString(1, getNextCode());
+                ps.setString(2, category.getName());
 
-            rowsAffected = ps.executeUpdate();
+                rowsAffected = ps.executeUpdate();
 
-        } catch (SQLException e) {
-            System.out.println("SQLException error thrown in the Category Repository class at the add(Category category) method.");
-            throw new RuntimeException(e);
+            } catch(SQLException e) {
+                e.printStackTrace();
+            }
+            finally {
+                if(ps != null) {
+                    try {
+                        ps.close();
+                    } catch(SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
+        
         return rowsAffected == 1;
     }
 
     @Override
     public boolean update(Category category) {
-        try {
-            ps = con.prepareStatement("Update " + tableName + " set name = ? where id = ?");
-            ps.setString(1, category.getName());
-            ps.setString(2,category.categoryId);
+        if(con != null) {
+            try {
+                ps = con.prepareStatement("Update " + tableName + " set name = ? where id = ?");
+                ps.setString(1, category.getName());
+                ps.setString(2,category.categoryId);
             
-            rowsAffected = ps.executeUpdate();
+                rowsAffected = ps.executeUpdate();
             
-        } catch (SQLException e) {
-            System.out.println("SQLException thrown in the Category Repository class at the update(Category category) method.");
-            throw new RuntimeException(e);
+            } catch(SQLException e) {
+                e.printStackTrace();
+            }
+            finally {
+                if(ps != null) {
+                    try {
+                        ps.close();
+                    } catch(SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
         
         return rowsAffected == 1;
@@ -55,6 +76,8 @@ public class CategoryRepository extends RepositoryBase<Category> {
     @Override
     public Category getById(String Id) {
         Category category = null;
+        
+        if(con != null) {
             try {
                 ps = con.prepareStatement("SELECT * FROM " + tableName + " WHERE ID = ?");
             
@@ -69,10 +92,19 @@ public class CategoryRepository extends RepositoryBase<Category> {
                     
                     category.categoryId = rs.getString("id");
                 }
-            } catch (SQLException e) {
-                System.out.println("SQLException thrown in the Category Repository class at the getById(int Id) method");
-            throw new RuntimeException(e);
+           } catch(SQLException e) {
+                e.printStackTrace();
             }
+            finally {
+                if(ps != null) {
+                    try {
+                        ps.close();
+                    } catch(SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
 
         return category;
     }

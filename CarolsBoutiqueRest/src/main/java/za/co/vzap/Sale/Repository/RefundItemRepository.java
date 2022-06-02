@@ -1,5 +1,6 @@
 package za.co.vzap.Sale.Repository;
 
+import za.co.vzap.Interface.Repository.RepositoryBase;
 import za.co.vzap.Sale.Model.RefundItem;
 import java.sql.ResultSet;
 import java.sql.SQLException;

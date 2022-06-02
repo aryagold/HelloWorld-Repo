@@ -6,13 +6,15 @@ public class Inventory implements IEntity {
     public int Id;
     private String branchId;
     private int sizeId;
-    private String productId;
+    private int productCode;
+    private String barcode;
     private int quantity;
 
-    public Inventory(String branchId, int sizeId, String productId, int quantity) {
+    public Inventory(String branchId, int sizeId, int productCode, String barcode, int quantity) {
         this.branchId = branchId;
         this.sizeId = sizeId;
-        this.productId = productId;
+        this.productCode = productCode;
+        this.barcode = barcode;
         this.quantity = quantity;
     }
 
@@ -35,12 +37,20 @@ public class Inventory implements IEntity {
         this.sizeId = sizeId;
     }
 
-    public String getProductId() {
-        return productId;
+    public int getProductCode() {
+        return productCode;
     }
 
-    public void setProductId(String productId) {
-        this.productId = productId;
+    public void setProductCode(int productCode) {
+        this.productCode = productCode;
+    }
+
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
     }
 
     public int getQuantity() {

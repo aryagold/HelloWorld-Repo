@@ -6,7 +6,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import za.co.vzap.Inventory.Model.Inventory;
-import za.co.vzap.Sale.Repository.RepositoryBase;
+import za.co.vzap.Interface.Repository.RepositoryBase;
 
 public class InventoryRepository extends RepositoryBase<Inventory> {
     private static String tableName = "Inventory";
@@ -18,11 +18,16 @@ public class InventoryRepository extends RepositoryBase<Inventory> {
     @Override
     public boolean add(Inventory inventory) {
         try {
-            ps = con.prepareStatement("INSERT INTO " + tableName+ "(branchId, sizeId, productId, quantity) VALUES (?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS);
+            ps = con.prepareStatement("INSERT INTO " + tableName+ "(branchId, sizeId, productCode, barcode, quantity) VALUES (?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS);
+            
+            int sizeId = inventory.getSizeId();
+            int productCode = inventory.getProductCode();
+            
             ps.setString(1,inventory.getBranchId());
-            ps.setInt(2, inventory.getSizeId());
-            ps.setString(3,inventory.getProductId());
-            ps.setInt(4,inventory.getQuantity());
+            ps.setInt(2, sizeId);
+            ps.setInt(3,productCode);
+            ps.setString(4, inventory.getBarcode());
+            ps.setInt(5,inventory.getQuantity());
 
             rowsAffected = ps.executeUpdate();
 
@@ -43,12 +48,13 @@ public class InventoryRepository extends RepositoryBase<Inventory> {
     @Override
     public boolean update(Inventory inventory) {
         try {
-            ps = con.prepareStatement("update " + tableName + " set branchID = ?, sizeId = ?, productID = ?, quantity = ? where id = ?", Statement.RETURN_GENERATED_KEYS);
+            ps = con.prepareStatement("update " + tableName + " set branchID = ?, sizeId = ?, productCode = ?, barcode = ?, quantity = ? where id = ?", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1,inventory.getBranchId());
             ps.setInt(2, inventory.getSizeId());
-            ps.setString(3,inventory.getProductId());
-            ps.setInt(4,inventory.getQuantity());
-            ps.setInt(5, inventory.Id);
+            ps.setInt(3,inventory.getProductCode());
+            ps.setString(4, inventory.getBarcode());
+            ps.setInt(5,inventory.getQuantity());
+            ps.setInt(6, inventory.Id);
             
             rowsAffected = ps.executeUpdate();
 
@@ -75,7 +81,8 @@ public class InventoryRepository extends RepositoryBase<Inventory> {
                 inventory = new Inventory(
                         rs.getString("branchID"),
                         rs.getInt("sizeId"),
-                        rs.getString("productID"),
+                        rs.getInt("productCode"),
+                        rs.getString("barcode"),
                         rs.getInt("quantity")
                 );
                 
@@ -111,7 +118,8 @@ public class InventoryRepository extends RepositoryBase<Inventory> {
                     Inventory inventory = new Inventory(
                             rs.getString("branchID"),
                             rs.getInt("sizeId"),
-                            rs.getString("productID"),
+                            rs.getInt("productCode"),
+                            rs.getString("barcode"),
                             rs.getInt("quantity")
                     );
 
@@ -135,6 +143,7 @@ public class InventoryRepository extends RepositoryBase<Inventory> {
 
         return inventories;
     }
+    
 }
     
 

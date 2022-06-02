@@ -6,7 +6,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import za.co.vzap.Customer.Model.Review;
-import za.co.vzap.Sale.Repository.RepositoryBase;
+import za.co.vzap.Interface.Repository.RepositoryBase;
 
 public class ReviewRepository extends RepositoryBase<Review> {
     private static String tableName = "review";
@@ -18,10 +18,10 @@ public class ReviewRepository extends RepositoryBase<Review> {
     @Override
     public boolean add(Review review) {
         try {
-            ps = con.prepareStatement("INSERT INTO " + tableName + "(comment, rating, saleId) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            ps = con.prepareStatement("INSERT INTO " + tableName + "(comment, rating, branchId) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1,review.getComment());
             ps.setInt(2,review.getRating());
-            ps.setString(3,review.getSaleId());
+            ps.setString(3,review.getBranchId());
 
             rowsAffected = ps.executeUpdate();
 
@@ -42,10 +42,10 @@ public class ReviewRepository extends RepositoryBase<Review> {
     @Override
     public boolean update(Review review) {
         try {
-            ps = con.prepareStatement("Update " + tableName + " set comment = ?, rating = ?, saleId = ? WHERE id = ?");
+            ps = con.prepareStatement("Update " + tableName + " set comment = ?, rating = ?, branchId = ? WHERE id = ?");
             ps.setString(1,review.getComment());
             ps.setInt(2,review.getRating());
-            ps.setString(3,review.getSaleId());
+            ps.setString(3,review.getBranchId());
             ps.setInt(4,review.Id);
 
             rowsAffected = ps.executeUpdate();
@@ -71,7 +71,7 @@ public class ReviewRepository extends RepositoryBase<Review> {
                 review = new Review(
                         rs.getString("comment"),
                         rs.getInt("rating"),
-                        rs.getString("saleId")
+                        rs.getString("branchId")
                 );
                 
                 review.Id = rs.getInt("id");
@@ -106,7 +106,7 @@ public class ReviewRepository extends RepositoryBase<Review> {
                     Review review = new Review(
                             rs.getString("comment"),
                             rs.getInt("rating"),
-                            rs.getString("saleId")
+                            rs.getString("branchId")
                     );
                     
                     review.Id = id;

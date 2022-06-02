@@ -1,5 +1,6 @@
-package za.co.vzap.Sale.Repository;
+package za.co.vzap.Interface.Repository;
 
+import za.co.vzap.Interface.Repository.IRepository;
 import java.sql.*;
 import java.util.List;
 

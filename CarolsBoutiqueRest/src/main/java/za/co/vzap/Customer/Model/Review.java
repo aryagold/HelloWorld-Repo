@@ -6,12 +6,12 @@ public class Review implements IEntity {
     public int Id;
     private String comment;
     private int rating;
-    private String saleId;
+    private String branchId;
 
-    public Review(String comment, int rating, String saleId) {
+    public Review(String comment, int rating, String branchId) {
         this.comment = comment;
         this.rating = rating;
-        this.saleId = saleId;
+        this.branchId = branchId;
     }
 
     public Review() {
@@ -33,11 +33,11 @@ public class Review implements IEntity {
         this.rating = rating;
     }
 
-    public String getSaleId() {
-        return saleId;
+    public String getBranchId() {
+        return branchId;
     }
 
-    public void setSaleId(String saleId) {
-        this.saleId = saleId;
+    public void setBranchId(String branchId) {
+        this.branchId = branchId;
     }
 }
