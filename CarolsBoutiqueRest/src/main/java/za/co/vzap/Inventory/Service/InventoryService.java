@@ -19,6 +19,7 @@ import za.co.vzap.Inventory.Repository.ProductCodeRepository;
 import za.co.vzap.Inventory.Repository.ProductRepository;
 import za.co.vzap.Inventory.Repository.SizeRepository;
 import za.co.vzap.Sale.Model.IEntity;
+import za.co.vzap.Sale.Model.Sale;
 import za.co.vzap.User.Model.User;
 
 public class InventoryService extends ServiceBase {
@@ -150,27 +151,27 @@ public class InventoryService extends ServiceBase {
     }
 
     @Override
-    public boolean addToSale(IEntity iEntity) {
+    public boolean addToSale(String productId, int quantity, String userId, String email, int paymentId, String branchId) {
         return false;
     }
 
     @Override
-    public boolean addRefund(IEntity iEntity) {
+    public boolean addRefund(String barcode, int quantity) {
         return false;
     }
 
     @Override
-    public boolean confirmSale(IEntity iEntity) {
-      return false;
+    public void confirmSale(Sale sale) {
+     
     }
 
     @Override
-    public boolean deleteSaleLineItem(IEntity iEntity) {
+    public boolean deleteSaleLineItem(Product product) {
         return false;
     }
 
     @Override
-    public boolean updateToReserved(IEntity iEntity) {
+    public boolean updateToReserved(String saleId) {
         return false;
     }
 
@@ -227,6 +228,16 @@ public class InventoryService extends ServiceBase {
     @Override
     public void downloadCurrentReport() {
        
+    }
+
+    @Override
+    public void cancelSale(Sale arg0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void email(IEntity entity) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     

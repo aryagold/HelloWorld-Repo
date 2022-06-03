@@ -5,7 +5,9 @@ import java.util.List;
 import za.co.vzap.Branch.Model.Branch;
 import za.co.vzap.Inventory.Model.Inventory;
 import za.co.vzap.Inventory.Model.InventoryControl;
+import za.co.vzap.Inventory.Model.Product;
 import za.co.vzap.Sale.Model.IEntity;
+import za.co.vzap.Sale.Model.Sale;
 import za.co.vzap.User.Model.User;
 
 public abstract class ServiceBase implements IService {
@@ -32,22 +34,25 @@ public abstract class ServiceBase implements IService {
     public abstract boolean addProduct(String productId, String name, String categoryId, double price);
 
     @Override
-    public abstract boolean addToSale(IEntity iEntity);
+    public abstract boolean addToSale(String productId, int quantity, String userId, String email, int paymentId, String branchId);
 
     @Override
-    public abstract boolean addRefund(IEntity iEntity);
+    public abstract boolean addRefund(String barcode, int quantity);
 
     @Override
-    public abstract boolean confirmSale(IEntity iEntity);
+    public abstract void confirmSale(Sale sale);
+    
+    @Override 
+    public abstract void cancelSale(Sale sale);
 
     @Override
     public abstract List<Inventory> findProduct(String productId);
 
     @Override
-    public abstract boolean deleteSaleLineItem(IEntity iEntity);
+    public abstract boolean deleteSaleLineItem(Product product);
 
     @Override
-    public abstract boolean updateToReserved(IEntity iEntity);
+    public abstract boolean updateToReserved(String saleId);
 
     @Override
     public abstract void requestIBT(IEntity iEntity);

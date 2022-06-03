@@ -4,7 +4,9 @@ import java.util.List;
 import za.co.vzap.Branch.Model.Branch;
 import za.co.vzap.Inventory.Model.Inventory;
 import za.co.vzap.Inventory.Model.InventoryControl;
+import za.co.vzap.Inventory.Model.Product;
 import za.co.vzap.Sale.Model.IEntity;
+import za.co.vzap.Sale.Model.Sale;
 import za.co.vzap.User.Model.User;
 
 public interface IService {
@@ -22,17 +24,21 @@ public interface IService {
     
     boolean addProduct(String productId, String name, String categoryId, double price);
     
-    boolean addToSale(IEntity entity);
+    boolean addToSale(String productId, int quantity, String userId, String email, int paymentId, String branchId);
     
-    boolean addRefund(IEntity entity);//here
+    boolean addRefund(String barcode, int quantity);//here
     
-    boolean confirmSale( IEntity entity);
+    void confirmSale(Sale sale);
+    
+    void cancelSale(Sale sale);
+    
+    void email(IEntity entity);
     
     List<Inventory> findProduct(String productId);//here
     
-    boolean deleteSaleLineItem(IEntity entity);//here
+    boolean deleteSaleLineItem(Product product);//here
     
-    boolean updateToReserved(IEntity entity);//here
+    boolean updateToReserved(String saleID);//here
     
     void requestIBT(IEntity entity);
     

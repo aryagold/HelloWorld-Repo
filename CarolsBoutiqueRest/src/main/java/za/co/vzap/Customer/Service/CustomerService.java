@@ -10,7 +10,9 @@ import za.co.vzap.Interface.Repository.IRepository;
 import za.co.vzap.Interface.Service.ServiceBase;
 import za.co.vzap.Inventory.Model.Inventory;
 import za.co.vzap.Inventory.Model.InventoryControl;
+import za.co.vzap.Inventory.Model.Product;
 import za.co.vzap.Sale.Model.IEntity;
+import za.co.vzap.Sale.Model.Sale;
 import za.co.vzap.User.Model.User;
 
 public class CustomerService extends ServiceBase {
@@ -76,18 +78,18 @@ public class CustomerService extends ServiceBase {
     }
 
     @Override
-    public boolean addToSale(IEntity iEntity) {
+    public boolean addToSale(String productId, int quantity, String userId, String email, int paymentId, String branchId) {
         return false;
     }
 
     @Override
-    public boolean addRefund(IEntity iEntity) {
+    public boolean addRefund(String barcode, int quantity) {
        return false;
     }
 
     @Override
-    public boolean confirmSale(IEntity iEntity) {
-        return false;
+    public void confirmSale(Sale sale) {
+       
     }
 
     @Override
@@ -96,12 +98,12 @@ public class CustomerService extends ServiceBase {
     }
 
     @Override
-    public boolean deleteSaleLineItem(IEntity iEntity) {
+    public boolean deleteSaleLineItem(Product product) {
         return false;
     }
 
     @Override
-    public boolean updateToReserved(IEntity iEntity) {
+    public boolean updateToReserved(String saleId) {
         return false;
     }
 
@@ -162,6 +164,16 @@ public class CustomerService extends ServiceBase {
 
     @Override
     public boolean addProduct(String arg0, String arg1, String arg3, double arg2) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void cancelSale(Sale arg0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void email(IEntity entity) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
