@@ -12,7 +12,7 @@ import za.co.vzap.Inventory.Model.Product;
 import za.co.vzap.Inventory.Repository.ProductRepository;
 import za.co.vzap.Inventory.Repository.ProductSaleRepository;
 import za.co.vzap.Sale.Model.IEntity;
-import za.co.vzap.Sale.Model.ProductSale;
+import za.co.vzap.Inventory.Model.ProductSale;
 import za.co.vzap.Sale.Model.Refund;
 import za.co.vzap.Sale.Model.RefundItem;
 import za.co.vzap.Sale.Model.Sale;

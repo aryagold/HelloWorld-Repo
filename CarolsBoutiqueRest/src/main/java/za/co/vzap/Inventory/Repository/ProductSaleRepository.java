@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import za.co.vzap.Sale.Model.ProductSale;
+import za.co.vzap.Inventory.Model.ProductSale;
 import za.co.vzap.Interface.Repository.RepositoryBase;
 
 public class ProductSaleRepository extends RepositoryBase<ProductSale> {

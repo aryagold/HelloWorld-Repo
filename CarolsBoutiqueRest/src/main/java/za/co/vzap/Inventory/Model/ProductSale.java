@@ -1,4 +1,6 @@
-package za.co.vzap.Sale.Model;
+package za.co.vzap.Inventory.Model;
+
+import za.co.vzap.Sale.Model.IEntity;
 
 public class ProductSale implements IEntity {
     public int Id;
