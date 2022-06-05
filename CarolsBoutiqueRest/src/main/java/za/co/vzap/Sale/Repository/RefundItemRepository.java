@@ -16,7 +16,7 @@ public class RefundItemRepository extends RepositoryBase<RefundItem> {
     }
 
     @Override
-    public boolean add(RefundItem refundItem) {
+    public int add(RefundItem refundItem) {
         if(con != null) {
             try {
                 ps = con.prepareStatement("Insert Into " + tableName + "(productId, quantity) values(?, ?)", Statement.RETURN_GENERATED_KEYS);
@@ -45,7 +45,7 @@ public class RefundItemRepository extends RepositoryBase<RefundItem> {
             }
         }
 
-        return rowsAffected == 1;
+        return refundItem.Id;
     }
 
     @Override
@@ -154,6 +154,11 @@ public class RefundItemRepository extends RepositoryBase<RefundItem> {
         }
 
         return refundItems;
+    }
+
+    @Override
+    public String add2(RefundItem arg0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -16,7 +16,7 @@ public class UserRepository extends RepositoryBase<User> {
     }
 
     @Override
-    public boolean add(User user) {
+    public String add2(User user) {
          if(con != null) {
             try {
                 ps = con.prepareStatement("Insert Into " + tableName + "(id, name, email, role, branchId, password) values(?, ?, ?, ?, ?, ?)");
@@ -43,7 +43,7 @@ public class UserRepository extends RepositoryBase<User> {
             }
         }
 
-        return rowsAffected == 1;
+        return user.userId;
     }
 
     @Override
@@ -163,5 +163,10 @@ public class UserRepository extends RepositoryBase<User> {
         }
 
         return users;
+    }
+
+    @Override
+    public int add(User arg0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

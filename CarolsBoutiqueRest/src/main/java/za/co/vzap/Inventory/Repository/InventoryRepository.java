@@ -16,7 +16,7 @@ public class InventoryRepository extends RepositoryBase<Inventory> {
     }
 
     @Override
-    public boolean add(Inventory inventory) {
+    public int add(Inventory inventory) {
         try {
             ps = con.prepareStatement("INSERT INTO " + tableName+ "(branchId, sizeId, productCode, barcode, quantity) VALUES (?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS);
             
@@ -42,7 +42,7 @@ public class InventoryRepository extends RepositoryBase<Inventory> {
             throw new RuntimeException(e);
         }
         
-        return rowsAffected == 1;
+        return inventory.Id;
     }
 
     @Override
@@ -142,6 +142,11 @@ public class InventoryRepository extends RepositoryBase<Inventory> {
         }
 
         return inventories;
+    }
+
+    @Override
+    public String add2(Inventory arg0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

@@ -15,7 +15,7 @@ public class CategoryRepository extends RepositoryBase<Category> {
     }
 
     @Override
-    public boolean add(Category category) {
+    public String add2(Category category) {
         if(con != null) {
             try {
                 ps = con.prepareStatement("INSERT INTO " + tableName + "(id, name) VALUES(?, ?)");
@@ -38,7 +38,7 @@ public class CategoryRepository extends RepositoryBase<Category> {
             }
         }
         
-        return rowsAffected == 1;
+        return category.categoryId;
     }
 
     @Override
@@ -146,6 +146,11 @@ public class CategoryRepository extends RepositoryBase<Category> {
         }
 
         return categories;
+    }
+
+    @Override
+    public int add(Category arg0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

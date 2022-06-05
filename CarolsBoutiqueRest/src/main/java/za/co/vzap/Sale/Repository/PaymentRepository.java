@@ -53,7 +53,7 @@ public class PaymentRepository extends RepositoryBase<Payment> {
     }
 
     @Override
-    public boolean add(Payment entity) {
+    public int add(Payment entity) {
         if (con != null) {
             try {
                 ps = con.prepareStatement("INSERT INTO " + tableName + "(type, cardNumber, approved) values(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
@@ -76,7 +76,7 @@ public class PaymentRepository extends RepositoryBase<Payment> {
             }
         }
         
-        return rowsAffected == 1;
+        return entity.Id;
     }
 
     @Override
@@ -134,6 +134,11 @@ public class PaymentRepository extends RepositoryBase<Payment> {
     @Override
     public Payment getById(String id) {
         return null;
+    }
+
+    @Override
+    public String add2(Payment arg0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

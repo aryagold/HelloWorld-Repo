@@ -47,7 +47,7 @@ public class CustomerRepository extends RepositoryBase<Customer> {
     }
 
     @Override
-    public boolean add(Customer customer) {
+    public int add(Customer customer) {
         if (con != null) {
             try {
                 ps = con.prepareStatement("INSERT INTO " + tableName + "(email, phoneNumber) values(?, ?)", Statement.RETURN_GENERATED_KEYS);
@@ -69,7 +69,7 @@ public class CustomerRepository extends RepositoryBase<Customer> {
             }
 
         }
-        return rowsAffected == 1;
+        return customer.Id;
     }
 
     @Override
@@ -125,6 +125,11 @@ public class CustomerRepository extends RepositoryBase<Customer> {
     @Override
     public Customer getById(String id) {
         return null;
+    }
+
+    @Override
+    public String add2(Customer arg0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

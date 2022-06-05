@@ -4,7 +4,9 @@ import java.util.List;
 
 public interface IRepository<IEntity> {
     
-    boolean add(IEntity entity);
+    int add(IEntity entity);
+    
+    String add2(IEntity entity);
 
     boolean update(IEntity entity);
 

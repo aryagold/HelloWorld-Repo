@@ -16,7 +16,7 @@ public class SizeRepository extends RepositoryBase<Size> {
     }
     
     @Override
-    public boolean add(Size size) {
+    public int add(Size size) {
         if(con != null) {
             try {
                 ps = con.prepareStatement("INSERT INTO " + tableName + "(size) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
@@ -43,7 +43,7 @@ public class SizeRepository extends RepositoryBase<Size> {
             }
         }
         
-        return rowsAffected == 1;
+        return size.Id;
     }
 
     @Override
@@ -151,5 +151,10 @@ public class SizeRepository extends RepositoryBase<Size> {
         }
 
         return sizes;
+    }
+
+    @Override
+    public String add2(Size arg0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

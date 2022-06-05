@@ -15,7 +15,7 @@ public class BranchRepository extends RepositoryBase<Branch> {
     }
 
     @Override
-    public boolean add(Branch branch) {
+    public String add2(Branch branch) {
         if(con != null) {
             try {
                 ps = con.prepareStatement("Insert Into " + tableName + "(id, name, monthlyTarget, dailyTarget) values(?, ?, ?, ?)");
@@ -40,7 +40,7 @@ public class BranchRepository extends RepositoryBase<Branch> {
             }
         }
 
-        return rowsAffected == 1;
+        return branch.branchId;
     }
 
     @Override
@@ -152,6 +152,11 @@ public class BranchRepository extends RepositoryBase<Branch> {
         }
 
         return branches;
+    }
+
+    @Override
+    public int add(Branch arg0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

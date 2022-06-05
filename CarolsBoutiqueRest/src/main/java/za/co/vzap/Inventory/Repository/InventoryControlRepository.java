@@ -54,7 +54,7 @@ public class InventoryControlRepository extends RepositoryBase<InventoryControl>
     }
 
     @Override
-    public boolean add(InventoryControl entity) {
+    public int add(InventoryControl entity) {
         if (con != null) {
             try {
                 ps = con.prepareStatement("INSERT INTO " + tableName + "(userId, productId, date, quantityBefore, incomingQuantity, newStockQuantity, posted) values(?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
@@ -81,7 +81,7 @@ public class InventoryControlRepository extends RepositoryBase<InventoryControl>
 
         }
         
-        return rowsAffected == 1;
+        return entity.Id;
     }
 
     @Override
@@ -148,5 +148,10 @@ public class InventoryControlRepository extends RepositoryBase<InventoryControl>
     @Override
     public InventoryControl getById(String id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String add2(InventoryControl arg0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

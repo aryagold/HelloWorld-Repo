@@ -16,7 +16,7 @@ public class ReviewRepository extends RepositoryBase<Review> {
     }
 
     @Override
-    public boolean add(Review review) {
+    public int add(Review review) {
         try {
             ps = con.prepareStatement("INSERT INTO " + tableName + "(comment, rating, branchId) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1,review.getComment());
@@ -36,7 +36,7 @@ public class ReviewRepository extends RepositoryBase<Review> {
             throw new RuntimeException(e);
         }
         
-        return rowsAffected == 1;
+        return review.Id;
     }
 
     @Override
@@ -128,6 +128,11 @@ public class ReviewRepository extends RepositoryBase<Review> {
         }
 
         return reviews;
+    }
+
+    @Override
+    public String add2(Review arg0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
 

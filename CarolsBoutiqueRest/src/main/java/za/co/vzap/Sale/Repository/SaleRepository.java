@@ -18,7 +18,7 @@ public class SaleRepository extends RepositoryBase<Sale> {
     }
     
     @Override
-    public boolean add(Sale sale) {
+    public String add2(Sale sale) {
         if(con != null) {
             try {
                 ps = con.prepareStatement("Insert Into " + tableName + "(id, userId, email, date, paymentId, status, branchId) values(?, ?, ?, ?, ?, ?, ?)");
@@ -46,7 +46,7 @@ public class SaleRepository extends RepositoryBase<Sale> {
             }
         }
 
-        return rowsAffected == 1;
+        return sale.saleId;
     }
 
     @Override
@@ -166,5 +166,10 @@ public class SaleRepository extends RepositoryBase<Sale> {
         }
 
         return sales;
+    }
+
+    @Override
+    public int add(Sale arg0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

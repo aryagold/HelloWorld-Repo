@@ -14,7 +14,7 @@ public class ProductRepository  extends RepositoryBase<Product> {
     }
 
     @Override
-    public boolean add(Product product) {
+    public String add2(Product product) {
         if(con != null) {
             try {
                 ps = con.prepareStatement("INSERT INTO " + tableName + "(id, name, price) VALUES (?,?,?)");
@@ -38,7 +38,7 @@ public class ProductRepository  extends RepositoryBase<Product> {
             }
         }
         
-        return rowsAffected == 1;
+        return product.productId;
     }
 
     @Override
@@ -147,6 +147,11 @@ public class ProductRepository  extends RepositoryBase<Product> {
         }
 
         return products;
+    }
+
+    @Override
+    public int add(Product arg0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
 

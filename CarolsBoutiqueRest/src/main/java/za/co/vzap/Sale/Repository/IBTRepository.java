@@ -17,7 +17,7 @@ public class IBTRepository extends RepositoryBase<IBT> {
     }
 
     @Override
-    public boolean add(IBT ibt) {
+    public int add(IBT ibt) {
         if(con != null) {
             try {
                 ps = con.prepareStatement("Insert Into " + tableName + "(branchIdFrom, branchIdTo, productId, quantity, phoneNumber, status) values(?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
@@ -50,7 +50,7 @@ public class IBTRepository extends RepositoryBase<IBT> {
             }
         }
 
-        return rowsAffected == 1;
+        return ibt.Id;
     }
 
     @Override
@@ -173,6 +173,11 @@ public class IBTRepository extends RepositoryBase<IBT> {
         }
 
         return ibts;
+    }
+
+    @Override
+    public String add2(IBT arg0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
