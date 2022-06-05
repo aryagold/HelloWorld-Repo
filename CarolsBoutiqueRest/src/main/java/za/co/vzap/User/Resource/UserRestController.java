@@ -15,6 +15,7 @@ import za.co.vzap.User.Model.User;
 import za.co.vzap.User.Repository.UserRepository;
 import za.co.vzap.User.Service.UserService;
 
+@Path("/user")
 public class UserRestController {
     private IRepository userRepository = new UserRepository();
     private IRepository branchReposiotry = new BranchRepository();

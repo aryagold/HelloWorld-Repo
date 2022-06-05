@@ -5,9 +5,11 @@ import za.co.vzap.Sale.Model.IEntity;
 import za.co.vzap.Sale.Model.Sale;
 
 public interface IPOSService {
-    int addToSale(String productId, int quantity, String userId, String email, int paymentId, String branchId);
+    int addToSale(String saleId, String barcode);
     
-    int addRefund(String barcode, int quantity);//here
+    int addRefund(String barcode);//here
+    
+    int addReserved(String barcode);
     
     String confirmSale(Sale sale);
     

@@ -2,30 +2,34 @@ package za.co.vzap.Sale.Model;
 
 public class SaleLineItem implements IEntity {
     public int Id;
-    private String productId;
-    private int quantity;
+    private int inventoryId;
+    private String saleId;
 
-    public SaleLineItem(String productId, int quantity) {
-        this.productId = productId;
-        this.quantity = quantity;
+    public SaleLineItem(String saleId, int inventoryId) {
+        this.inventoryId = inventoryId;
+        this.saleId = saleId;
     }
 
     public SaleLineItem() {
     }
 
-    public String getProductId() {
-        return productId;
+    public int getInventoryId() {
+        return inventoryId;
     }
 
-    public void setProductId(String productId) {
-        this.productId = productId;
+    public void setInventoryId(int inventoryId) {
+        this.inventoryId = inventoryId;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public String getSaleId() {
+        return saleId;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setSaleId(String saleId) {
+        this.saleId = saleId;
     }
+    
+    
+
+   
 }

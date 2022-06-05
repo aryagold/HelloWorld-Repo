@@ -9,7 +9,6 @@ import za.co.vzap.Inventory.Repository.CategoryRepository;
 import za.co.vzap.Inventory.Repository.InventoryControlRepository;
 import za.co.vzap.Inventory.Repository.InventoryRepository;
 import za.co.vzap.Inventory.Repository.ProductRepository;
-import za.co.vzap.Inventory.Repository.ProductSaleRepository;
 import za.co.vzap.Sale.Repository.IBTRepository;
 import za.co.vzap.Sale.Repository.RefundItemRepository;
 import za.co.vzap.Sale.Repository.RefundRepository;
@@ -37,7 +36,6 @@ public class SeeIfWork {
         customerRepository = new CustomerRepository();
         productRepository = new ProductRepository();
         saleRepository = new SaleRepository();
-        productSaleRepository = new ProductSaleRepository();
         userRepository = new UserRepository();
         inventoryRepository = new InventoryRepository();
         categoryRepository = new CategoryRepository();

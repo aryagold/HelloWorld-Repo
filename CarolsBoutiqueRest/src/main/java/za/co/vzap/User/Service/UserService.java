@@ -22,17 +22,14 @@ public class UserService implements IUserService {
     
     @Override
     public boolean updateToTeller(String userId) { 
-        List<User> users = (List<User>) userRepository.getById(userId);    
+        User user = (User) userRepository.getById(userId);    
         
-        for(User u: users) {
-            u.setRole(RoleEnum.ofStatusCode(1));
-            
-            userRepository.update(u);
-            
-            if (u.getRole().getValue() == 1) {
-                return true;
-            }
+        user.setRole(RoleEnum.ofStatusCode(1));
         
+        userRepository.update(user);
+            
+        if (user.getRole().getValue() == 1) {
+            return true;
         }
         
         return false;
@@ -45,15 +42,12 @@ public class UserService implements IUserService {
 
     @Override
     public User login(User user) {
-        List<User> users = (List<User>) userRepository.getById(user.userId);
-            for(User u : users) {
+        User userRet = (User) userRepository.getById(user.userId);
                 
-                if (u.getPassword().equals(user.getPassword())) {
-                    return u;
-                }
+        if (userRet.getPassword().equals(user.getPassword())) {
+            return userRet;
+        }
                 
-            }
-            
-            return null;
+        return null;
     }   
 }

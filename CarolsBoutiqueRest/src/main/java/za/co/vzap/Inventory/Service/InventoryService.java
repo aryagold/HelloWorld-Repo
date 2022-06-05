@@ -15,11 +15,9 @@ import za.co.vzap.Inventory.Repository.InventoryRepository;
 import za.co.vzap.Inventory.Repository.ProductCategoryRepository;
 import za.co.vzap.Inventory.Repository.ProductCodeRepository;
 import za.co.vzap.Inventory.Repository.ProductRepository;
-import za.co.vzap.Inventory.Repository.ProductSaleRepository;
 import za.co.vzap.Inventory.Repository.SizeRepository;
 import za.co.vzap.Sale.Model.IBT;
 import za.co.vzap.Sale.Model.IBTStatusEnum;
-import za.co.vzap.Sale.Model.ProductSale;
 import za.co.vzap.Sale.Model.Sale;
 import za.co.vzap.Sale.Model.SaleStatusEnum;
 import za.co.vzap.Sale.Repository.IBTRepository;
@@ -36,7 +34,7 @@ public class InventoryService implements IInventoryService {
     private IRepository saleRepository = null;
     private IRepository productSaleRepository = null;
     
-    public InventoryService(IRepository productRepository, IRepository productCategoryRepository, IRepository inventoryControlRepository, IRepository inventoryRepository, IRepository sizeRepository, IRepository productCodeRepository, IRepository ibtRepository, IRepository saleRepository, IRepository productSaleRepository) {
+    public InventoryService(IRepository productRepository, IRepository productCategoryRepository, IRepository inventoryControlRepository, IRepository inventoryRepository, IRepository sizeRepository, IRepository productCodeRepository, IRepository ibtRepository, IRepository saleRepository) {
         productRepository = new ProductRepository();
         productCategoryRepository = new ProductCategoryRepository();
         inventoryControlRepository = new InventoryControlRepository();
@@ -45,7 +43,6 @@ public class InventoryService implements IInventoryService {
         productCodeRepository = new ProductCodeRepository();
         ibtRepository = new IBTRepository();
         saleRepository = new SaleRepository();
-        productSaleRepository = new ProductSaleRepository();
     }
     
     
@@ -87,8 +84,6 @@ public class InventoryService implements IInventoryService {
     
     private String addInventory(Inventory inventory) {
         inventoryRepository.add(inventory);
-        
-        System.out.println("Product not inventoried");
        
         return inventory.getBarcode();
     }
@@ -140,7 +135,7 @@ public class InventoryService implements IInventoryService {
     public void payIBT(IBT ibt, Sale sale) {
         LocalDateTime date = LocalDateTime.now();
         saleRepository.add(new Sale(sale.getUserId(), sale.getEmail(), Timestamp.valueOf(date), sale.getPaymentId(), ibt.getBranchIdFrom(), SaleStatusEnum.COMPLETED));
-        productSaleRepository.add(new ProductSale(ibt.getProductId(), sale.saleId));
+        // add to salelineitemrepository?
         
     }
     

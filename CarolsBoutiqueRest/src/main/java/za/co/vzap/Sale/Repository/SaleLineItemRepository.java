@@ -20,9 +20,9 @@ public class SaleLineItemRepository extends RepositoryBase<SaleLineItem> {
     public int add(SaleLineItem saleLineItem) {
         if(con != null) {
             try {
-                ps = con.prepareStatement("Insert Into " + tableName + "(productId, quantity) values(?, ?)", Statement.RETURN_GENERATED_KEYS);
-                ps.setString(1, saleLineItem.getProductId());
-                ps.setInt(2, saleLineItem.getQuantity());
+                ps = con.prepareStatement("Insert Into " + tableName + "(saleId, inventoryId) values(?, ?)", Statement.RETURN_GENERATED_KEYS);
+                ps.setString(1, saleLineItem.getSaleId());
+                ps.setInt(2, saleLineItem.getInventoryId());
                
                 rowsAffected = ps.executeUpdate();
 
@@ -53,9 +53,9 @@ public class SaleLineItemRepository extends RepositoryBase<SaleLineItem> {
     public boolean update(SaleLineItem saleLineItem) {
         if(con != null) {
             try {
-                ps = con.prepareStatement("Update " + tableName + " set productId = ?, quantity = ? where id = ?");
-                ps.setString(1, saleLineItem.getProductId());
-                ps.setInt(2, saleLineItem.getQuantity());
+                ps = con.prepareStatement("Update " + tableName + " set saleId = ?, inventoryId = ? where id = ?");
+                ps.setString(1, saleLineItem.getSaleId());
+                ps.setInt(2, saleLineItem.getInventoryId());
                 ps.setInt(3, saleLineItem.Id);
 
                 rowsAffected = ps.executeUpdate();
@@ -89,8 +89,8 @@ public class SaleLineItemRepository extends RepositoryBase<SaleLineItem> {
 
                 if(rs.next()) {
                     saleLineItem = new SaleLineItem(
-                            rs.getString("productId"),
-                            rs.getInt("quantity")
+                            rs.getString("saleId"),
+                            rs.getInt("inventoryId")
                     );
 
                     saleLineItem.Id = rs.getInt("id");
@@ -132,8 +132,8 @@ public class SaleLineItemRepository extends RepositoryBase<SaleLineItem> {
                     int id = rs.getInt("id");
 
                     SaleLineItem saleLineItem = new SaleLineItem(
-                            rs.getString("productId"),
-                            rs.getInt("quantity")
+                            rs.getString("saleId"),
+                            rs.getInt("inventoryId")
                     );
 
                     saleLineItem.Id = id;

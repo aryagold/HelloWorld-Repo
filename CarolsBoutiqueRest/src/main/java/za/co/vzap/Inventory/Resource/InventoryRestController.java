@@ -16,14 +16,13 @@ import za.co.vzap.Inventory.Model.InventoryControl;
 import za.co.vzap.Inventory.Repository.InventoryControlRepository;
 import za.co.vzap.Inventory.Repository.InventoryRepository;
 import za.co.vzap.Inventory.Repository.ProductCodeRepository;
-import za.co.vzap.Inventory.Repository.ProductSaleRepository;
 import za.co.vzap.Inventory.Repository.SizeRepository;
 import za.co.vzap.Inventory.Service.InventoryService;
 import za.co.vzap.Sale.Model.IBT;
 import za.co.vzap.Sale.Repository.IBTRepository;
 import za.co.vzap.Sale.Repository.SaleRepository;
 
-@Path("inventory")
+@Path("/inventory")
 public class InventoryRestController {
     private IRepository inventoryRepository = new InventoryRepository();
     private IRepository inventoryControlRepository = new InventoryControlRepository();
@@ -33,9 +32,8 @@ public class InventoryRestController {
     private IRepository productCodeRepository = new ProductCodeRepository();
     private IRepository ibtRepository = new IBTRepository();
     private IRepository saleRepository = new SaleRepository();
-    private IRepository productSaleRepository = new ProductSaleRepository();
     
-    private IInventoryService inventoryService = new InventoryService(productRepository, productCategoryRepository, inventoryControlRepository, inventoryRepository, sizeRepository, productCodeRepository, ibtRepository, saleRepository, productSaleRepository);
+    private IInventoryService inventoryService = new InventoryService(productRepository, productCategoryRepository, inventoryControlRepository, inventoryRepository, sizeRepository, productCodeRepository, ibtRepository, saleRepository);
     
     @POST
     @Path("/addInventoryControl")

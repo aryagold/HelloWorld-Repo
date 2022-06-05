@@ -1,6 +1,7 @@
 package za.co.vzap.Customer.Resource;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -23,19 +24,27 @@ public class CustomerRestController {
     private ICustomerService customerService = new CustomerService(reviewRepository, customerRepository);
     
     @POST
-    @Path("/addReview")
+    @Path("/addreview")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addReview(Review review) throws Exception {
+    public Response addReview(Review review) {
         return Response.status(Response.Status.OK).entity(customerService.addReview(review)).build();
     }
     
     @POST
-    @Path("/addCustomer")
+    @Path("/add")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addCustomer(Customer customer) throws Exception {
-        return Response.status(Response.Status.OK).entity(customerService.addCustomer(customer)).build();
+    public Response addCustomer(Customer customer) {
+        int id = customerService.addCustomer(customer);
+        
+        return Response.status(Response.Status.OK).entity(id).build();
+    }
+    
+    @GET
+    @Path("/test")
+    public Response test() {
+        return Response.status(Response.Status.OK).entity("test method").build();
     }
     
 }

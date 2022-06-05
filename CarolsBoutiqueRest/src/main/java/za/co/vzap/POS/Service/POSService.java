@@ -2,18 +2,22 @@ package za.co.vzap.POS.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 import za.co.vzap.Interface.Repository.IRepository;
 import za.co.vzap.Interface.Service.IPOSService;
+import za.co.vzap.Inventory.Model.Inventory;
 import za.co.vzap.Inventory.Model.Product;
+import za.co.vzap.Inventory.Model.ProductCode;
+import za.co.vzap.Inventory.Repository.ProductCodeRepository;
 import za.co.vzap.Inventory.Repository.ProductRepository;
-import za.co.vzap.Inventory.Repository.ProductSaleRepository;
 import za.co.vzap.Sale.Model.IEntity;
-import za.co.vzap.Sale.Model.ProductSale;
+import za.co.vzap.Sale.Model.Payment;
 import za.co.vzap.Sale.Model.Refund;
 import za.co.vzap.Sale.Model.RefundItem;
 import za.co.vzap.Sale.Model.Sale;
 import za.co.vzap.Sale.Model.SaleLineItem;
 import za.co.vzap.Sale.Model.SaleStatusEnum;
+import za.co.vzap.Sale.Repository.PaymentRepository;
 import za.co.vzap.Sale.Repository.RefundItemRepository;
 import za.co.vzap.Sale.Repository.RefundRepository;
 import za.co.vzap.Sale.Repository.SaleLineItemRepository;
@@ -26,28 +30,54 @@ import za.co.vzap.Sale.Repository.SaleRepository;
     private IRepository productSaleDB;
     private IRepository refundDB;
     private IRepository refundItemDB;
+    private IRepository inventoryRepository;
+    private IRepository productCodeRepository;
+    private IRepository saleLineItemRepository;
+    private IRepository paymentRepository;
     
     public POSService(){
        productDB = new ProductRepository();
        productDB = new SaleLineItemRepository();
        saleDB = new SaleRepository();
-       productSaleDB = new ProductSaleRepository();
        refundDB = new RefundRepository();//refund record.
        refundItemDB = new RefundItemRepository();// refund the item.
+       productCodeRepository = new ProductCodeRepository();
+       saleLineItemRepository = new SaleLineItemRepository();
+       paymentRepository = new PaymentRepository();
     }
     
     @Override 
-    public int addToSale(String productId, int quantity, String userId, String email, int paymentId, String branchId) {
+    public int addToSale(String saleId, String barcode) {
+       List<Inventory> items = inventoryRepository.getWhere("barcode", barcode);
        
-       SaleLineItem sli = new SaleLineItem(productId , quantity);//sale line item created.
-      
-       Sale sale = new Sale(userId, email, Timestamp.valueOf(LocalDateTime.now()), paymentId , branchId, SaleStatusEnum.RESERVED);// sale created
+       int inventoryId = 0;
+        
+       for(Inventory item : items) {
+           inventoryId = item.Id;
+       }
        
-       Product prod = (Product) productDB.getById(productId);// product created.
-       
-       productSaleDB.add(new ProductSale(productId,sale.saleId));// adding to intersect table(ProductSale).
+       SaleLineItem sli = new SaleLineItem(saleId, inventoryId);//sale line item created.
         
        return saleLineItemDB.add(sli) ;//adding the sale and sale line item to the data base (commit and roleback to be used here later).
+    }
+    
+    private int addPayment(Payment payment) {
+        if(randomizePayment()) {
+            
+            payment.setApproved(true);
+            
+            // confirmSale();
+            
+        } else {
+        
+            payment.setApproved(false);
+        
+            // cancelSale();
+        }
+        
+        return paymentRepository.add(payment);
+        
+        
     }
     
     private boolean randomizePayment(){
@@ -71,21 +101,41 @@ import za.co.vzap.Sale.Repository.SaleRepository;
     }
     
      @Override
-    public int addRefund(String barcode, int quantity) {
+    public int addRefund(String barcode) {
         
-        Product product = (Product) productDB.getWhere(barcode, 0).get(1);//getting the product.
+        List<Inventory> items = inventoryRepository.getWhere("barcode", barcode); 
         
-        ProductSale ps = (ProductSale) productSaleDB.getWhere("productID", product.productId).get(1);//getting the Product Sale.
+        int inventId = 0;
         
-        refundItemDB.add(new RefundItem(product.productId, quantity));//creating a refund item which will have the quantity.
-        double price = product.getPrice()* quantity ;
+        int productCode = 0;
         
-        String saleID = ps.getSaleId();//getting the sale ID b4 deleting the product sale record.
+        for(Inventory item : items) {
+            item.setQuantity(item.getQuantity() + 1);
+            
+            inventId = item.Id;
+            
+            productCode = item.getProductCode();
+            
+        } 
         
-        productSaleDB.deleteById(barcode);// deleting from the product sale database table.
+        ProductCode code = (ProductCode) productCodeRepository.getById(productCode);
+        
+        String productId = code.getProductId();
+        
+        refundItemDB.add(new RefundItem(productId, 1));
+        
+        
+        List<SaleLineItem> saleLineItems = saleLineItemRepository.getWhere("inventoryId", inventId);
+        
+        String saleId = "";
+        
+        for(SaleLineItem sli : saleLineItems) {
+            saleId = sli.getSaleId();
+            // delete the sale line item? 
+        }
         
         email(null);//edit this to send an email. It should take as a parameter an array list that can be unpacked differently in each method. this methods array list will have the price, saleId and product ID.
-        return  refundDB.add(new Refund(saleID,Timestamp.valueOf(LocalDateTime.now())));// creating the record of the refund to add to the database and returning a boolean .
+        return  refundDB.add(new Refund(saleId ,Timestamp.valueOf(LocalDateTime.now())));// creating the record of the refund to add to the database and returning an int.
     }
 
     @Override
@@ -102,11 +152,20 @@ import za.co.vzap.Sale.Repository.SaleRepository;
        
        return saleDB.update(sale);
     }
+    
+    @Override
+    public int addReserved(String arg0) {
+        // this method should add to sale with the extra functionality of emailing the customer at confirmation and after 36 hours 
+        // method should also change "reserved" enum to cancelled after 2 days or completed depending of customer ever came.
+        return 0;
+    }
 
     @Override
     public void email(IEntity arg0) {
        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    
         
     
 }
