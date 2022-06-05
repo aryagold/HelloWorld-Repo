@@ -8,13 +8,25 @@ import java.util.List;
 import za.co.vzap.Customer.Model.Review;
 import za.co.vzap.Interface.Repository.RepositoryBase;
 
+/**
+ *
+ * @author macpe
+ */
 public class ReviewRepository extends RepositoryBase<Review> {
     private static String tableName = "review";
 
+    /**
+     *
+     */
     public ReviewRepository() {
         super(tableName, null);
     }
 
+    /**
+     *
+     * @param review
+     * @return
+     */
     @Override
     public int add(Review review) {
         try {
@@ -39,6 +51,11 @@ public class ReviewRepository extends RepositoryBase<Review> {
         return review.Id;
     }
 
+    /**
+     *
+     * @param review
+     * @return
+     */
     @Override
     public boolean update(Review review) {
         try {
@@ -58,6 +75,11 @@ public class ReviewRepository extends RepositoryBase<Review> {
         return rowsAffected == 1;
     }
 
+    /**
+     *
+     * @param Id
+     * @return
+     */
     @Override
     public Review getById(int Id) {
         Review review= null;
@@ -85,11 +107,21 @@ public class ReviewRepository extends RepositoryBase<Review> {
         return review;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @Override
     public Review getById(String id) {
         return null;
     }
 
+    /**
+     *
+     * @param statement
+     * @return
+     */
     @Override
     protected List<Review> executeQuery(String statement) {
         List<Review> reviews = new ArrayList<>();
