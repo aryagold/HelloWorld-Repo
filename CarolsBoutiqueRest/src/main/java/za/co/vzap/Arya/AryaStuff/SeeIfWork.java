@@ -53,7 +53,7 @@ public class SeeIfWork {
     }
     
     public void run() {
-        customerRepository.add(new Customer("aryagoldridge@gmail.com", "0798036817"));
+       
         
     }
     
