@@ -15,7 +15,7 @@ import za.co.vzap.User.Model.User;
 import za.co.vzap.User.Repository.UserRepository;
 import za.co.vzap.User.Service.UserService;
 
-@Path("/user")
+@Path("user")
 public class UserRestController {
     private IRepository userRepository = new UserRepository();
     private IRepository branchReposiotry = new BranchRepository();
@@ -23,7 +23,7 @@ public class UserRestController {
     private IUserService userService = new UserService(userRepository, branchReposiotry);
     
     @POST
-    @Path("/login")
+    @Path("login")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response login(User user) throws Exception {
@@ -31,7 +31,7 @@ public class UserRestController {
     }
     
     @POST
-    @Path("/updateToTeller/{userId}")
+    @Path("updateToTeller/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateToTeller(@PathParam("userId")String userId) throws Exception {
@@ -39,7 +39,7 @@ public class UserRestController {
     }
     
     @POST
-    @Path("/addBranch")
+    @Path("addBranch")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addBranch(Branch branch) throws Exception {

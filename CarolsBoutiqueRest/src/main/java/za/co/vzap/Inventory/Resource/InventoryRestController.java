@@ -22,7 +22,7 @@ import za.co.vzap.Sale.Model.IBT;
 import za.co.vzap.Sale.Repository.IBTRepository;
 import za.co.vzap.Sale.Repository.SaleRepository;
 
-@Path("/inventory")
+@Path("inventory")
 public class InventoryRestController {
     private IRepository inventoryRepository = new InventoryRepository();
     private IRepository inventoryControlRepository = new InventoryControlRepository();
@@ -35,23 +35,23 @@ public class InventoryRestController {
     
     private IInventoryService inventoryService = new InventoryService(productRepository, productCategoryRepository, inventoryControlRepository, inventoryRepository, sizeRepository, productCodeRepository, ibtRepository, saleRepository);
     
-    @POST
-    @Path("/addInventoryControl")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response addInventoryControl(InventoryControl inventoryControl, Inventory inventory) throws Exception {
-        return Response.status(Response.Status.OK).entity(inventoryService.addInventoryControl(inventoryControl, inventory)).build();
-    }
+//    @POST
+//    @Path("addInventoryControl")
+//    @Produces(MediaType.TEXT_PLAIN)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    public int addInventoryControl(InventoryControl inventoryControl, Inventory inventory) throws Exception {
+//        return inventoryService.addInventoryControl(inventoryControl, inventory);
+//    }
     
     @GET
-    @Path("/findProduct/{productId}")
+    @Path("findProduct/{productId}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Inventory> findProduct(@PathParam("productId")String productId) {
         return inventoryService.findProduct(productId);
     }
     
     @POST
-    @Path("/requestIBT")
+    @Path("requestIBT")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public void requestIBT(IBT ibt) throws Exception {
@@ -59,7 +59,7 @@ public class InventoryRestController {
     }
     
     @POST
-    @Path("/acceptIBT")
+    @Path("acceptIBT")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public void acceptIBT(IBT ibt) throws Exception {
@@ -67,7 +67,7 @@ public class InventoryRestController {
     }
     
     @POST
-    @Path("/declineIBT")
+    @Path("declineIBT")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public void declineIBT(IBT ibt) throws Exception {
@@ -75,7 +75,7 @@ public class InventoryRestController {
     }
     
     @POST
-    @Path("/IBTReceived")
+    @Path("IBTReceived")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public void IBTReceived(IBT ibt) throws Exception {

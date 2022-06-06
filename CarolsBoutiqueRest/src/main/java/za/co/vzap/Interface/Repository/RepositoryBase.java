@@ -23,7 +23,7 @@ public abstract class RepositoryBase<IEntity> implements IRepository<IEntity> {
             e.printStackTrace();
         }
 
-        String url = "jdbc:mysql://localhost:3306/carolsboutique?useSSL=false";
+        String url = "jdbc:mysql://127.0.0.1:3306/carolsboutique?useSSL=false";
         try {
             this.con = DriverManager.getConnection(url, "root", "rootroot");
         } catch (SQLException e) {

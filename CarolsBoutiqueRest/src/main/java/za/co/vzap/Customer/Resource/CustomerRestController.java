@@ -15,8 +15,10 @@ import za.co.vzap.Customer.Repository.ReviewRepository;
 import za.co.vzap.Customer.Service.CustomerService;
 import za.co.vzap.Interface.Repository.IRepository;
 import za.co.vzap.Interface.Service.ICustomerService;
+import za.co.vzap.Report.Model.ItemAmount;
+import za.co.vzap.Report.Model.TopAchievingStores;
 
-@Path("/customer")
+@Path("customer")
 public class CustomerRestController {
     private IRepository reviewRepository = new ReviewRepository();
     private IRepository customerRepository = new CustomerRepository();
@@ -24,7 +26,7 @@ public class CustomerRestController {
     private ICustomerService customerService = new CustomerService(reviewRepository, customerRepository);
     
     @POST
-    @Path("/addreview")
+    @Path("addreview")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addReview(Review review) {
@@ -32,19 +34,24 @@ public class CustomerRestController {
     }
     
     @POST
-    @Path("/add")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Path("add")
+    @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addCustomer(Customer customer) {
+        System.out.println("In the addCustomer");
         int id = customerService.addCustomer(customer);
         
         return Response.status(Response.Status.OK).entity(id).build();
     }
     
     @GET
-    @Path("/test")
-    public Response test() {
-        return Response.status(Response.Status.OK).entity("test method").build();
+    @Path("test")
+    @Produces(MediaType.APPLICATION_JSON)
+    public TopAchievingStores test() {
+        TopAchievingStores stores = new TopAchievingStores();
+        stores.storeSales.add(new ItemAmount("store1", 1000000));
+        return stores;
     }
+    
     
 }

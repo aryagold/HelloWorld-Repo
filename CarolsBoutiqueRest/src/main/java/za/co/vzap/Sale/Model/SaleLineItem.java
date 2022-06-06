@@ -6,8 +6,9 @@ public class SaleLineItem implements IEntity {
     private String saleId;
 
     public SaleLineItem(String saleId, int inventoryId) {
-        this.inventoryId = inventoryId;
         this.saleId = saleId;
+        this.inventoryId = inventoryId;
+        
     }
 
     public SaleLineItem() {
