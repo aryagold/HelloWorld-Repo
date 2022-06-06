@@ -23,49 +23,37 @@ public class ProductRepositoryTest {
         this.productRepository = new ProductRepository();
     }
 
-    /**
-     * Test of add method, of class ProductRepository.
-     */
+   
     @Test
-    public void testAdd() {
+    public void testAdd2() {
        
-        assertEquals(true, productRepository.add(new Product("TestProd1", "TestProd1", 10.00)));
+        assertEquals( Integer.class , productRepository.add(new Product("TestProd1", "TestProd1", 10.00)));
         
     }
 
-    /**
-     * Test of update method, of class ProductRepository.
-     */
+   
     @Test
     public void testUpdate() {
         
         Product product = new Product("TestProd1", "TestProd1", 10.00);
-        productRepository.add(product);
+        String ID = productRepository.add2(product);
+        
+        product.productId = ID;
         product.setName("ChangedTestProd1");
        
-        assertEquals(true, productRepository.update(product));
+        assertEquals( Boolean.class , productRepository.update(product));
        
     }
 
-    /**
-     * Test of getById method, of class ProductRepository.
-     */
-    @Test
-    public void testGetById_int() {
-       throw new UnsupportedOperationException("This method cannot be tested yet");
-    }
-
-    /**
-     * Test of getById method, of class ProductRepository.
-     */
     @Test
     public void testGetById_String() {
        
         Product product = new Product("TestProd1", "TestProd1", 10.00);
-        productRepository.add(product);
+        String ID = productRepository.add2(product);
+        
+        product.productId = ID;
         
         assertEquals(Product.class, productRepository.getById("TestProd1"));
         
     }
-    
 }

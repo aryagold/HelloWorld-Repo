@@ -4,11 +4,6 @@
  */
 package za.co.vzap.Sale.Repository;
 
-import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,49 +23,38 @@ public class SaleLineItemRepositoryTest {
         this.saleLineItemRepository = new SaleLineItemRepository();
     }
  
-    /**
-     * Test of add method, of class SaleLineItemRepository.
-     */
+   
     @Test
     public void testAdd() {
        
-        assertEquals( true , saleLineItemRepository.add(new SaleLineItem("TestProdID", 10)));
+        assertEquals( Integer.class , saleLineItemRepository.add(new SaleLineItem("TestProdID", 10)));
         
     }
 
-    /**
-     * Test of update method, of class SaleLineItemRepository.
-     */
+    
     @Test
     public void testUpdate() {
        
         SaleLineItem saleLineItem = new SaleLineItem("TestProdID", 10);
-        saleLineItemRepository.add(saleLineItem);
-//        saleLineItem.setQuantity(50);
+        int ID = saleLineItemRepository.add(saleLineItem);
         
-        assertEquals( true , saleLineItemRepository.update(saleLineItem));
+        saleLineItem.Id = ID;
+        saleLineItem.setInventoryId(1234);
+        
+        assertEquals( Boolean.class , saleLineItemRepository.update(saleLineItem));
         
     }
 
-    /**
-     * Test of getById method, of class SaleLineItemRepository.
-     */
+    
     @Test
     public void testGetById_int() {
         
         SaleLineItem saleLineItem = new SaleLineItem("TestProdID", 10);
-        saleLineItemRepository.add(saleLineItem);
+        int ID = saleLineItemRepository.add(saleLineItem);
+        
+        saleLineItem.Id = ID;
       
         assertEquals(SaleLineItem.class, saleLineItemRepository.getById(saleLineItem.Id));
        
     }
-
-    /**
-     * Test of getById method, of class SaleLineItemRepository.
-     */
-    @Test
-    public void testGetById_String() {
-        throw new UnsupportedOperationException("This method cannot be tested yet.");
-    }
-
 }

@@ -24,49 +24,37 @@ public class PaymentRepositoryTest {
         this.paymentRepository = new PaymentRepository();
     }
 
-    /**
-     * Test of add method, of class PaymentRepository.
-     */
     @Test
     public void testAdd() {
         
-     assertEquals(true, paymentRepository.add(new Payment(PaymentTypeEnum.CARD, "TestCard1", true)));  
+     assertEquals(Integer.class, paymentRepository.add(new Payment(PaymentTypeEnum.CARD, "TestCard1", true)));  
        
     }
 
-    /**
-     * Test of update method, of class PaymentRepository.
-     */
+    
     @Test
     public void testUpdate() {
        
         Payment payment = new Payment(PaymentTypeEnum.CARD, "TestCard1", true);
-        paymentRepository.add(payment);
+        int ID = paymentRepository.add(payment);
+        
+        payment.Id = ID;
         payment.setCardNumber("TestCard2");
         
-        assertEquals(true, payment); 
+        assertEquals(Boolean.class, payment); 
        
     }
 
-    /**
-     * Test of getById method, of class PaymentRepository.
-     */
+   
     @Test
     public void testGetById_int() {
         
         Payment payment = new Payment(PaymentTypeEnum.CARD, "TestCard1", true);
-        paymentRepository.add(payment);
+        int ID = paymentRepository.add(payment);
+        
+        payment.Id = ID;
         
         assertEquals(Payment.class, paymentRepository.getById(payment.Id));
        
     }
-
-    /**
-     * Test of getById method, of class PaymentRepository.
-     */
-    @Test
-    public void testGetById_String() {
-        throw new UnsupportedOperationException("This method cannot be tested yet");
-    }
-    
 }

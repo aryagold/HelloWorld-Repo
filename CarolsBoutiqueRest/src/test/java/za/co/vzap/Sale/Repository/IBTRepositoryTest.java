@@ -4,11 +4,6 @@
  */
 package za.co.vzap.Sale.Repository;
 
-import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,47 +24,36 @@ public class IBTRepositoryTest {
         this.ibtRepository = new IBTRepository();
     }
 
-    /**
-     * Test of add method, of class IBTRepository.
-     */
+   
     @Test
     public void testAdd() {
        
-        assertEquals(true, ibtRepository.add(new IBT("TestBranchFrom", "TestBranchTo", "TestProd1", 2, "072Testing", IBTStatusEnum.REQUESTED)));
+        assertEquals(Integer.class, ibtRepository.add(new IBT("TestBranchFrom", "TestBranchTo", "TestProd1", 2, "072Testing", IBTStatusEnum.REQUESTED)));
         
     }
 
-    /**
-     * Test of update method, of class IBTRepository.
-     */
+   
     @Test
     public void testUpdate() {
         IBT ibt = new IBT("TestBranchFrom", "TestBranchTo", "TestProd1", 2, "072Testing", IBTStatusEnum.REQUESTED);
-        ibtRepository.add(ibt);
+        int ID = ibtRepository.add(ibt);
+        
+        ibt.Id = ID;
         ibt.setQuantity(20);
         
-        assertEquals(true,ibtRepository.update(ibt));
+        assertEquals( Boolean.class ,ibtRepository.update(ibt));
        
     }
 
-    /**
-     * Test of getById method, of class IBTRepository.
-     */
+    
     @Test
     public void testGetById_int() {
         IBT ibt = new IBT("TestBranchFrom", "TestBranchTo", "TestProd1", 2, "072Testing", IBTStatusEnum.REQUESTED);
-        ibtRepository.add(ibt);
+        int ID = ibtRepository.add(ibt);
+        
+        ibt.Id = ID;
        
         assertEquals(IBT.class, ibtRepository.getById(ibt.Id));
        
     }
-
-    /**
-     * Test of getById method, of class IBTRepository.
-     */
-    @Test
-    public void testGetById_String() {
-       throw new UnsupportedOperationException("this method cannot be tested yet");
-    }
-
 }

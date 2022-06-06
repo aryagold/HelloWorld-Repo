@@ -4,11 +4,6 @@
  */
 package za.co.vzap.Sale.Repository;
 
-import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,48 +23,36 @@ public class RefundItemRepositoryTest {
         this.refundItemRepository = new RefundItemRepository();
     }
 
-    /**
-     * Test of add method, of class RefundItemRepository.
-     */
     @Test
     public void testAdd() {
-        
-        assertEquals(true, refundItemRepository.add(new RefundItem("TestProdID", 20)));
+       
+        assertEquals(Integer.class, refundItemRepository.add(new RefundItem("TestProdID", 20)));
   
     }
 
-    /**
-     * Test of update method, of class RefundItemRepository.
-     */
+    
     @Test
     public void testUpdate() {
         
         RefundItem refundItem = new RefundItem("TestProdID", 20);
-        refundItemRepository.add(refundItem);
+        int ID = refundItemRepository.add(refundItem);
+        
+        refundItem.Id = ID;
         refundItem.setQuantity(50);
         
-        assertEquals(true, refundItemRepository.update(refundItem));
+        assertEquals( Boolean.class , refundItemRepository.update(refundItem));
     }
 
-    /**
-     * Test of getById method, of class RefundItemRepository.
-     */
+   
     @Test
     public void testGetById_int() {
         
         RefundItem refundItem = new RefundItem("TestProdID", 20);
-        refundItemRepository.add(refundItem);
+        int ID = refundItemRepository.add(refundItem);
+        
+        refundItem.Id = ID;
         
         assertEquals(RefundItem.class, refundItemRepository.getById(refundItem.Id));
         
     }
-
-    /**
-     * Test of getById method, of class RefundItemRepository.
-     */
-    @Test
-    public void testGetById_String() {
-        throw new UnsupportedOperationException("This method cannot be tested yet.");
-    }
-    
 }

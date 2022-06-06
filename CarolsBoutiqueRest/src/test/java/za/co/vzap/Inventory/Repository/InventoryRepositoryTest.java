@@ -4,7 +4,6 @@
  */
 package za.co.vzap.Inventory.Repository;
 
-import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,48 +23,38 @@ public class InventoryRepositoryTest {
         this.inventoryRepository = new InventoryRepository();
     }
 
-    /**
-     * Test of add method, of class InventoryRepository.
-     */
+   
     @Test
     public void testAdd() {
         
-        assertEquals(true, inventoryRepository.add(new Inventory("TestBranch1234", 1, 1234, "TestBarcode", 10)));
+        assertEquals( Integer.class , inventoryRepository.add(new Inventory("TestBranch1234", 1, 1234, "TestBarcode", 10)));
         
     }
 
-    /**
-     * Test of update method, of class InventoryRepository.
-     */
+    
     @Test
     public void testUpdate() {
        
         Inventory inven = new Inventory("TestBranch1234", 1, 1234, "TestBarcode", 10);
-        inventoryRepository.add(inven);
+        int ID = inventoryRepository.add(inven);
+        
+        inven.Id = ID;
         inven.setBarcode("TestBarcode2");
         
-        assertEquals(true, inventoryRepository.update(inven));
+        assertEquals( Boolean.class , inventoryRepository.update(inven));
        
     }
 
-    /**
-     * Test of getById method, of class InventoryRepository.
-     */
+    
     @Test
     public void testGetById_int() {
         
         Inventory inven = new Inventory("TestBranch1234", 1, 1234, "TestBarcode", 10);
+        int ID = inventoryRepository.add(inven);
+        
+        inven.Id = ID;
         
         assertEquals(Inventory.class, inventoryRepository.getById(inven.Id));
        
     }
-
-    /**
-     * Test of getById method, of class InventoryRepository.
-     */
-    @Test
-    public void testGetById_String() {
-       throw new UnsupportedOperationException("This class cannot be tested yet");
-    }
-    
 }

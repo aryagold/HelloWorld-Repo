@@ -4,9 +4,7 @@
  */
 package za.co.vzap.Branch.Repository;
 
-import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import za.co.vzap.Branch.Model.Branch;
@@ -23,49 +21,40 @@ public class BranchRepositoryTest {
     void BranchRepositoryTest() {
         br = new BranchRepository();
     }
-    /**
-     * Test of add method, of class BranchRepository.
-     */
+  
+    
     @Test
-    public void testAdd() {
+    public void testAdd2() {
         System.out.println("add");
-        assertEquals(true, br.add(new Branch("test", 0, 0)));
+        
+        assertEquals(String.class, br.add2(new Branch("1234Test","TestBranch", 10000, 1000)));
+        
     }
 
-    /**
-     * Test of update method, of class BranchRepository.
-     */
+    
     @Test
     public void testUpdate() {
         System.out.println("update");
-        Branch branch = new Branch("1234","test", 0, 0);
-        br.add(branch);
+        
+        Branch branch = new Branch("1234Test","TestBranch", 10000, 1000);
+        String branchID = br.add2(branch);
+        
+        branch.branchId = branchID;
         branch.setDailyTarget(5000);
     
-        assertEquals(true,br.update(branch)); 
+        assertEquals( Boolean.class , br.update(branch) ); 
        
     }
-
-    /**
-     * Test of getById method, of class BranchRepository.
-     */
-    @Test
-    public void testGetById_int() {
-       throw new UnsupportedOperationException("You cannot test this method right now");
-    }
-
-    /**
-     * Test of getById method, of class BranchRepository.
-     */
+    
     @Test
     public void testGetById_String() {
         System.out.println("getById");
        
-        br.add(new Branch("1234Test","test", 0, 0));
+        Branch branch = new Branch("1234Test","TestBranch", 10000, 1000);
+        br.add2(branch);
         
-        assertEquals(Branch.class,br.getById("1234Test"));
+        assertEquals(Branch.class,br.getById(branch.branchId));
        
     }
-
     
 }

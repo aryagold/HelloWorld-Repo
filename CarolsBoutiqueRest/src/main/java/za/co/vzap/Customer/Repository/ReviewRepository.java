@@ -114,7 +114,7 @@ public class ReviewRepository extends RepositoryBase<Review> {
      */
     @Override
     public Review getById(String id) {
-        return null;
+       throw new UnsupportedOperationException("Not supported yet");
     }
 
     /**

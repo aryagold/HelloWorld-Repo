@@ -4,7 +4,6 @@
  */
 package za.co.vzap.Inventory.Repository;
 
-import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,48 +23,37 @@ public class ProductCodeRepositoryTest {
         this.productCodeRepository = new ProductCodeRepository();
     }
 
-    /**
-     * Test of add method, of class ProductCodeRepository.
-     */
+    
     @Test
     public void testAdd() {
         
-        assertEquals(true, productCodeRepository.add(new ProductCode("TestProd")));
+        assertEquals(Integer.class , productCodeRepository.add(new ProductCode("TestProd")));
        
     }
 
-    /**
-     * Test of update method, of class ProductCodeRepository.
-     */
+   
     @Test
     public void testUpdate() {
        
         ProductCode prodCode = new ProductCode("TestProd");
-        productCodeRepository.add(prodCode);
+        int ID = productCodeRepository.add(prodCode);
+        
+        prodCode.Id = ID;
         prodCode.setProductCode("Testprod2");
         
-        assertEquals(true, productCodeRepository.update(prodCode));
+        assertEquals( Boolean.class , productCodeRepository.update(prodCode));
         
     }
 
-    /**
-     * Test of getById method, of class ProductCodeRepository.
-     */
+   
     @Test
     public void testGetById_int() {
        
         ProductCode prodCode = new ProductCode("TestProd1");
-        productCodeRepository.add(prodCode);
+        int ID = productCodeRepository.add(prodCode);
+        
+        prodCode.Id = ID;
         
         assertEquals(ProductCode.class, productCodeRepository.getById(prodCode.Id));
     }
-
-    /**
-     * Test of getById method, of class ProductCodeRepository.
-     */
-    @Test
-    public void testGetById_String() {
-       throw new UnsupportedOperationException("This method cannot be tested yet");
-    }
-    
 }

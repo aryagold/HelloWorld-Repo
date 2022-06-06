@@ -4,8 +4,6 @@
  */
 package za.co.vzap.Inventory.Repository;
 
-import java.util.List;
-
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,50 +23,42 @@ public class CategoryRepositoryTest {
         this.categoryRepository = new CategoryRepository();
     }
     
-    /**
-     * Test of add method, of class CategoryRepository.
-     */
+   
     @Test
-    public void testAdd() {
+    public void testAdd2() {
+        
+        Category category = new Category("Test Category");
+        
+        String result =  categoryRepository.add2(category) ;
        
-        assertEquals(true, categoryRepository.add(new Category("Test Category")));
+        assertEquals( String.class ,result);
        
     }
 
-    /**
-     * Test of update method, of class CategoryRepository.
-     */
+    
     @Test
     public void testUpdate() {
        
         Category category = new Category("Testing123", "Test Category");
-        categoryRepository.add(category);
+        String categoryID = categoryRepository.add2(category);
         
         category.setName("TestUpdateName");
+        category.categoryId = categoryID;
         
-        assertEquals(true, categoryRepository.update(category));
+        assertEquals(Boolean.class, categoryRepository.update(category));
        
     }
 
-    /**
-     * Test of getById method, of class CategoryRepository.
-     */
-    @Test
-    public void testGetById_int() {
-       throw new UnsupportedOperationException("Cannot run this test as yet");
-    }
-
-    /**
-     * Test of getById method, of class CategoryRepository.
-     */
+    
     @Test
     public void testGetById_String() {
        
         Category category = new Category("Test1234","Test Category");
-        categoryRepository.add(category);
+        String categoryID = categoryRepository.add2(category);
         
-        assertEquals(Category.class, categoryRepository.getById("Test1234"));
+        category.categoryId = categoryID;
+        
+        assertEquals(Category.class, categoryRepository.getById(category.categoryId));
        
     }
-    
 }

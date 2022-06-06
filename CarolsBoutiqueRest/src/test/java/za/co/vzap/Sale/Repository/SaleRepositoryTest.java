@@ -6,11 +6,6 @@ package za.co.vzap.Sale.Repository;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import za.co.vzap.Interface.Repository.IRepository;
@@ -29,46 +24,34 @@ public class SaleRepositoryTest {
         this.saleRepository = new SaleRepository();
     }
 
-    /**
-     * Test of add method, of class SaleRepository.
-     */
+   
     @Test
-    public void testAdd() {
+    public void test2Add() {
         
-        assertEquals( true , saleRepository.add(new Sale("TestSaleID", "TestUserID", "Test@gmail.com", Timestamp.valueOf(LocalDateTime.now()), 1, "TestBranchID", SaleStatusEnum.RESERVED)));
+        assertEquals( String.class , saleRepository.add2(new Sale("TestSaleID", "TestUserID", "Test@gmail.com", Timestamp.valueOf(LocalDateTime.now()), 1, "TestBranchID", SaleStatusEnum.RESERVED)));
         
     }
 
-    /**
-     * Test of update method, of class SaleRepository.
-     */
     @Test
     public void testUpdate() {
         
         Sale sale = new Sale("TestSaleID", "TestUserID", "Test@gmail.com", Timestamp.valueOf(LocalDateTime.now()), 1 , "TestBranchID", SaleStatusEnum.RESERVED);
-        saleRepository.add(sale);
+        String ID = saleRepository.add2(sale);
+        
+        sale.saleId = ID ;
         sale.setEmail("Test2@gmail.com");
         
-        assertEquals( true , saleRepository.update(sale));
+        assertEquals( Boolean.class , saleRepository.update(sale));
         
     }
 
-    /**
-     * Test of getById method, of class SaleRepository.
-     */
-    @Test
-    public void testGetById_int() {
-        throw new UnsupportedOperationException("This method cannot be tested yet.");
-    }
-
-    /**
-     * Test of getById method, of class SaleRepository.
-     */
     @Test
     public void testGetById_String() {
          
         Sale sale = new Sale("TestSaleID", "TestUserID", "Test@gmail.com", Timestamp.valueOf(LocalDateTime.now()), 1 , "TestBranchID", SaleStatusEnum.RESERVED);
-        saleRepository.add(sale);
+        String ID = saleRepository.add2(sale);
+        
+        sale.saleId = ID;
         
         assertEquals( Sale.class, sale.saleId);
     }

@@ -72,9 +72,9 @@ public class BranchRepository extends RepositoryBase<Branch> {
 
         return rowsAffected == 1;
     }
-
+    
     @Override
-    public Branch getById(int arg0) {
+    public Branch getById(int arg0) throws UnsupportedOperationException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

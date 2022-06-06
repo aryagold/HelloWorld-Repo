@@ -18,56 +18,48 @@ public class ReviewRepositoryTest {
     
  private IRepository reviewDB;
 
-     /*
-     * Test of add method, of class ReviewRepository.
-     */
+     
     @BeforeEach
-    void CustomerRepositoryTest(){
+    void ReviewRepositoryTest(){
         reviewDB = new ReviewRepository();
     }
     
+    
     @Test
     public void testAdd() {
-        System.out.println("Testing add method");
-        assertEquals(true,reviewDB.add(new Review("nice branch",10, "1234Test")));
+        System.out.println("add");
+        
+        assertEquals( Integer.class ,reviewDB.add(new Review("nice branch",10, "1234Test")));
+        
     }
 
-    /**
-     * Test of update method, of class ReviewRepository.
-     */
+   
     @Test
     public void testUpdate() {
-        System.out.println("Testing update method");
+        System.out.println("update");
         
         Review review = new Review("nice branch",10, "1234Test");
-        reviewDB.add(review);
-        review.setComment("OK branch");
+        int reviewID = reviewDB.add(review);//adding
         
-        assertEquals(true, reviewDB.update(review) );
+        review.Id = reviewID;
+        review.setComment("OK branch");//setting
+        
+        assertEquals( Boolean.class , reviewDB.update(review) );
         
     }
 
-    /**
-     * Test of getById method, of class ReviewRepository.
-     */
-@Test
+    
+    @Test
     public void testGetById_int() {
-        System.out.println("Testing GetById(int id) method");
+        System.out.println("getById_int");
         
         Review review = new Review("nice branch",10, "1234Test");
-        reviewDB.add(review);
+        int reviewID = reviewDB.add(review);//adding
+        
+        review.Id = reviewID;//setting
         
         assertEquals(Review.class, reviewDB.getById(review.Id));
         
     }
-
-    /**
-     * Test of getById method, of class ReviewRepository.
-     */
-    @Test
-    public void testGetById_String() {
-     throw new UnsupportedOperationException("Cannot test this method yet");
-    }
-    
 }
 

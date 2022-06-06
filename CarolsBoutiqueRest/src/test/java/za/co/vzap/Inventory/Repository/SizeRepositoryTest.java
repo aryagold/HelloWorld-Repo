@@ -23,49 +23,38 @@ public class SizeRepositoryTest {
         this.sizeRepository = new SizeRepository();
     }
 
-    /**
-     * Test of add method, of class SizeRepository.
-     */
+   
     @Test
     public void testAdd() {
        
-        assertEquals(true, sizeRepository.add(new Size("TestSize")));
+        assertEquals(Integer.class, sizeRepository.add(new Size("TestSize")));
        
     }
 
-    /**
-     * Test of update method, of class SizeRepository.
-     */
+   
     @Test
     public void testUpdate() {
         
         Size size =  new Size("TestSize");
-        sizeRepository.add(size);
+        int ID = sizeRepository.add(size);
+        
+        size.Id = ID;
         size.setSize("UpdateTestSize");
         
-        assertEquals(true,sizeRepository.update(size));
+        assertEquals(Boolean.class,sizeRepository.update(size));
         
     }
 
-    /**
-     * Test of getById method, of class SizeRepository.
-     */
+    
     @Test
     public void testGetById_int() {
         
         Size size =  new Size("TestSize");
-        sizeRepository.add(size);
+        int ID = sizeRepository.add(size);
+        
+        size.Id = ID;
         
         assertEquals(Size.class, sizeRepository.getById(size.Id));
        
     }
-
-    /**
-     * Test of getById method, of class SizeRepository.
-     */
-    @Test
-    public void testGetById_String() {
-        throw new UnsupportedOperationException("This method cannot be tested yet");
-    }
-    
 }

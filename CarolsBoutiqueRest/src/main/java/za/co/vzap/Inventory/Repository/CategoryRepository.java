@@ -16,10 +16,12 @@ public class CategoryRepository extends RepositoryBase<Category> {
 
     @Override
     public String add2(Category category) {
+        String id = null;
         if(con != null) {
             try {
                 ps = con.prepareStatement("INSERT INTO " + tableName + "(id, name) VALUES(?, ?)");
-                ps.setString(1, getNextCode());
+                id = getNextCode();
+                ps.setString(1, id);
                 ps.setString(2, category.getName());
 
                 rowsAffected = ps.executeUpdate();
@@ -38,7 +40,7 @@ public class CategoryRepository extends RepositoryBase<Category> {
             }
         }
         
-        return category.categoryId;
+        return id;
     }
 
     @Override

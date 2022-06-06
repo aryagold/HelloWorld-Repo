@@ -25,49 +25,37 @@ public class InventoryControlRepositoryTest {
         inventoryControlRepository = new InventoryControlRepository();
     }
 
-    /**
-     * Test of add method, of class InventoryControlRepository.
-     */
+   
     @Test
     public void testAdd() {
         
-        assertEquals(true, inventoryControlRepository.add(new InventoryControl("TestUser1", "TestProduct1",Timestamp.valueOf(LocalDateTime.now()), 0, 10, 10, true)));
+        assertEquals( Integer.class , inventoryControlRepository.add(new InventoryControl("TestUser1", "TestProduct1",Timestamp.valueOf(LocalDateTime.now()), 0, 10, 10, true)));
        
     }
 
-    /**
-     * Test of update method, of class InventoryControlRepository.
-     */
+    
     @Test
     public void testUpdate() {
         
         InventoryControl invenCtrl = new InventoryControl("TestUser1", "TestProduct1",Timestamp.valueOf(LocalDateTime.now()), 0, 10, 10, true);
-        inventoryControlRepository.add(invenCtrl);
+        int ID = inventoryControlRepository.add(invenCtrl);
         invenCtrl.setIncomingQuantity(20);
+        invenCtrl.Id = ID;
         
-        assertEquals(true, inventoryControlRepository.update(invenCtrl));
+        assertEquals( Boolean.class , inventoryControlRepository.update(invenCtrl));
        
     }
 
-    /**
-     * Test of getById method, of class InventoryControlRepository.
-     */
+    
     @Test
     public void testGetById_int() {
         
         InventoryControl invenCtrl = new InventoryControl("TestUser1", "TestProduct1",Timestamp.valueOf(LocalDateTime.now()), 0, 10, 10, true);
-        inventoryControlRepository.add(invenCtrl);
+        int ID = inventoryControlRepository.add(invenCtrl);
+        
+        invenCtrl.Id = ID; 
         
         assertEquals(InventoryControl.class, inventoryControlRepository.getById(invenCtrl.Id));
        
-    }
-
-    /**
-     * Test of getById method, of class InventoryControlRepository.
-     */
-    @Test
-    public void testGetById_String() {
-       throw new UnsupportedOperationException("This method cannot be tested yet.");
-    }
-    
+    }   
 }
