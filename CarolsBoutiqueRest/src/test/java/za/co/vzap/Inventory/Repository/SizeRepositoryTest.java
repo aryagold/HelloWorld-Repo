@@ -26,8 +26,12 @@ public class SizeRepositoryTest {
    
     @Test
     public void testAdd() {
+        
+        Size size = new Size("TestSize");
+        
+        Integer result = sizeRepository.add(size);
        
-        assertEquals(Integer.class, sizeRepository.add(new Size("TestSize")));
+        assertEquals(Integer.class, result.getClass() );
        
     }
 
@@ -41,7 +45,9 @@ public class SizeRepositoryTest {
         size.Id = ID;
         size.setSize("UpdateTestSize");
         
-        assertEquals(Boolean.class,sizeRepository.update(size));
+        Boolean result = sizeRepository.update(size);
+        
+        assertEquals(Boolean.class, result.getClass() );
         
     }
 
@@ -54,7 +60,9 @@ public class SizeRepositoryTest {
         
         size.Id = ID;
         
-        assertEquals(Size.class, sizeRepository.getById(size.Id));
+        Size result = (Size) sizeRepository.getById(size.Id);
+        
+        assertEquals(Size.class, result.getClass());
        
     }
 }

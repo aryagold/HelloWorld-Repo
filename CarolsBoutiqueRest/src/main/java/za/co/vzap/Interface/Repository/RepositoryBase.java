@@ -25,7 +25,7 @@ public abstract class RepositoryBase<IEntity> implements IRepository<IEntity> {
 
         String url = "jdbc:mysql://127.0.0.1:3306/carolsboutique?useSSL=false";
         try {
-            this.con = DriverManager.getConnection(url, "root", "rootroot");
+            this.con = DriverManager.getConnection(url, "root", "root");
         } catch (SQLException e) {
             e.printStackTrace();
         }

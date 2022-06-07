@@ -29,7 +29,10 @@ public class ReviewRepositoryTest {
     public void testAdd() {
         System.out.println("add");
         
-        assertEquals( Integer.class ,reviewDB.add(new Review("nice branch",10, "1234Test")));
+        Review review = new Review("nice branch",10, "1234Test");
+        Integer result = reviewDB.add(review);
+        
+        assertEquals( Integer.class , result.getClass());
         
     }
 
@@ -39,12 +42,14 @@ public class ReviewRepositoryTest {
         System.out.println("update");
         
         Review review = new Review("nice branch",10, "1234Test");
-        int reviewID = reviewDB.add(review);//adding
+        int reviewID = reviewDB.add(review);
         
         review.Id = reviewID;
-        review.setComment("OK branch");//setting
+        review.setComment("OK branch");
         
-        assertEquals( Boolean.class , reviewDB.update(review) );
+        Boolean result = reviewDB.update(review);
+        
+        assertEquals( Boolean.class , result.getClass() );
         
     }
 
@@ -54,11 +59,12 @@ public class ReviewRepositoryTest {
         System.out.println("getById_int");
         
         Review review = new Review("nice branch",10, "1234Test");
-        int reviewID = reviewDB.add(review);//adding
+        int reviewID = reviewDB.add(review);
         
-        review.Id = reviewID;//setting
+        review.Id = reviewID;
+        Review result =(Review) reviewDB.getById(review.Id);
         
-        assertEquals(Review.class, reviewDB.getById(review.Id));
+        assertEquals(Review.class, result.getClass());
         
     }
 }

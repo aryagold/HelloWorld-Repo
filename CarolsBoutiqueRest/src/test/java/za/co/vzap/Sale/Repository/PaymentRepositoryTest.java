@@ -27,7 +27,11 @@ public class PaymentRepositoryTest {
     @Test
     public void testAdd() {
         
-     assertEquals(Integer.class, paymentRepository.add(new Payment(PaymentTypeEnum.CARD, "TestCard1", true)));  
+        Payment payment = new Payment(PaymentTypeEnum.CARD, "TestCard1", true);
+        
+        Integer result = paymentRepository.add(payment);
+        
+        assertEquals(Integer.class, result.getClass());  
        
     }
 
@@ -41,7 +45,9 @@ public class PaymentRepositoryTest {
         payment.Id = ID;
         payment.setCardNumber("TestCard2");
         
-        assertEquals(Boolean.class, payment); 
+        Boolean result = paymentRepository.update(payment);
+        
+        assertEquals(Boolean.class, result.getClass()); 
        
     }
 
@@ -54,7 +60,9 @@ public class PaymentRepositoryTest {
         
         payment.Id = ID;
         
-        assertEquals(Payment.class, paymentRepository.getById(payment.Id));
+        Payment result = (Payment) paymentRepository.getById(payment.Id);
+        
+        assertEquals(Payment.class, result.getClass() );
        
     }
 }

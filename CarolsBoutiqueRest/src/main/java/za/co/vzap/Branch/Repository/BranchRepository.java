@@ -16,10 +16,13 @@ public class BranchRepository extends RepositoryBase<Branch> {
 
     @Override
     public String add2(Branch branch) {
+        
+        branch.branchId = getNextCode();
+        
         if(con != null) {
             try {
                 ps = con.prepareStatement("Insert Into " + tableName + "(id, name, monthlyTarget, dailyTarget) values(?, ?, ?, ?)");
-                ps.setString(1, getNextCode());
+                ps.setString(1,branch.branchId);
                 ps.setString(2, branch.getName());
                 ps.setDouble(3, branch.getMonthlyTarget());
                 ps.setDouble(4, branch.getDailyTarget());

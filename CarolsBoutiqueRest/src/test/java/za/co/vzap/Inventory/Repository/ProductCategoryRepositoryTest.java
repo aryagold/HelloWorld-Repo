@@ -26,8 +26,12 @@ public class ProductCategoryRepositoryTest {
     
     @Test
     public void testAdd() {
+        
+        ProductCategory pc = new ProductCategory("TestProd1","TestCat1");
+        
+        Integer result = productCategoryRepository.add(pc);
       
-        assertEquals(Integer.class, productCategoryRepository.add(new ProductCategory("TestProd1","TestCat1")));
+        assertEquals(Integer.class, result.getClass() );
         
     }
 
@@ -40,7 +44,9 @@ public class ProductCategoryRepositoryTest {
         pc.Id = ID;
         pc.setProductId("TestProd2");
         
-        assertEquals(Boolean.class ,productCategoryRepository.update(pc));
+        Boolean result = productCategoryRepository.update(pc);
+        
+        assertEquals(Boolean.class , result.getClass() );
         
     }
 
@@ -51,8 +57,9 @@ public class ProductCategoryRepositoryTest {
         int ID = productCategoryRepository.add(pc);
         
         pc.Id = ID;
+        ProductCategory result = (ProductCategory)productCategoryRepository.getById(pc.Id);
         
-        assertEquals(ProductCategory.class, productCategoryRepository.getById(pc.Id));
+        assertEquals(ProductCategory.class, result.getClass());
        
     }
 }

@@ -27,7 +27,11 @@ public class InventoryRepositoryTest {
     @Test
     public void testAdd() {
         
-        assertEquals( Integer.class , inventoryRepository.add(new Inventory("TestBranch1234", 1, 1234, "TestBarcode", 10)));
+        Inventory inventory = new Inventory("TestBranch1234", 1, 1234, "TestBarcode", 10);
+        
+        Integer result = inventoryRepository.add(inventory);
+        
+        assertEquals( Integer.class , result.getClass());
         
     }
 
@@ -41,7 +45,9 @@ public class InventoryRepositoryTest {
         inven.Id = ID;
         inven.setBarcode("TestBarcode2");
         
-        assertEquals( Boolean.class , inventoryRepository.update(inven));
+        Boolean result = inventoryRepository.update(inven);
+        
+        assertEquals( Boolean.class , result.getClass() );
        
     }
 
@@ -54,7 +60,9 @@ public class InventoryRepositoryTest {
         
         inven.Id = ID;
         
-        assertEquals(Inventory.class, inventoryRepository.getById(inven.Id));
+        Inventory result = (Inventory) inventoryRepository.getById(inven.Id);
+        
+        assertEquals(Inventory.class, result.getClass() );
        
     }
 }

@@ -4,9 +4,9 @@
  */
 package za.co.vzap.Branch.Repository;
 
+import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import za.co.vzap.Branch.Model.Branch;
 import za.co.vzap.Interface.Repository.IRepository;
 
@@ -27,11 +27,13 @@ public class BranchRepositoryTest {
     public void testAdd2() {
         System.out.println("add");
         
-        assertEquals(String.class, br.add2(new Branch("1234Test","TestBranch", 10000, 1000)));
+        Branch branch = new Branch("1234Test","TestBranch", 10000, 1000);
+        String result = br.add2(branch);
+        
+        assertEquals(String.class, result.getClass());
         
     }
 
-    
     @Test
     public void testUpdate() {
         System.out.println("update");
@@ -41,8 +43,10 @@ public class BranchRepositoryTest {
         
         branch.branchId = branchID;
         branch.setDailyTarget(5000);
+        
+        boolean result =  br.update(branch);
     
-        assertEquals( Boolean.class , br.update(branch) ); 
+        assertEquals( true , result ); 
        
     }
     
@@ -52,8 +56,10 @@ public class BranchRepositoryTest {
        
         Branch branch = new Branch("1234Test","TestBranch", 10000, 1000);
         br.add2(branch);
+         
+        Branch result = (Branch) br.getById(branch.branchId);
         
-        assertEquals(Branch.class,br.getById(branch.branchId));
+        assertEquals(Branch.class, result.getClass());
        
     }
     

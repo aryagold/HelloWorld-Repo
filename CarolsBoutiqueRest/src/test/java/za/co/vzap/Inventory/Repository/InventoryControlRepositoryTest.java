@@ -29,7 +29,11 @@ public class InventoryControlRepositoryTest {
     @Test
     public void testAdd() {
         
-        assertEquals( Integer.class , inventoryControlRepository.add(new InventoryControl("TestUser1", "TestProduct1",Timestamp.valueOf(LocalDateTime.now()), 0, 10, 10, true)));
+        InventoryControl invenCtrl = new InventoryControl("TestUser1", "TestProduct1",Timestamp.valueOf(LocalDateTime.now()), 0, 10, 10, true);
+        
+        Integer result = inventoryControlRepository.add(invenCtrl);
+        
+        assertEquals( Integer.class , result.getClass() );
        
     }
 
@@ -40,9 +44,11 @@ public class InventoryControlRepositoryTest {
         InventoryControl invenCtrl = new InventoryControl("TestUser1", "TestProduct1",Timestamp.valueOf(LocalDateTime.now()), 0, 10, 10, true);
         int ID = inventoryControlRepository.add(invenCtrl);
         invenCtrl.setIncomingQuantity(20);
-        invenCtrl.Id = ID;
         
-        assertEquals( Boolean.class , inventoryControlRepository.update(invenCtrl));
+        invenCtrl.Id = ID;
+        Boolean result = inventoryControlRepository.update(invenCtrl);
+        
+        assertEquals( Boolean.class , result.getClass() );
        
     }
 
@@ -54,8 +60,9 @@ public class InventoryControlRepositoryTest {
         int ID = inventoryControlRepository.add(invenCtrl);
         
         invenCtrl.Id = ID; 
+        InventoryControl result = (InventoryControl) inventoryControlRepository.getById(invenCtrl.Id);
         
-        assertEquals(InventoryControl.class, inventoryControlRepository.getById(invenCtrl.Id));
+        assertEquals(InventoryControl.class, result.getClass());
        
     }   
 }

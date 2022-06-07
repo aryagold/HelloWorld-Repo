@@ -26,14 +26,18 @@ public class SaleRepositoryTest {
 
    
     @Test
-    public void test2Add() {
+    public void test2Add() {// works
         
-        assertEquals( String.class , saleRepository.add2(new Sale("TestSaleID", "TestUserID", "Test@gmail.com", Timestamp.valueOf(LocalDateTime.now()), 1, "TestBranchID", SaleStatusEnum.RESERVED)));
+        Sale sale = new Sale("TestSaleID", "TestUserID", "Test@gmail.com", Timestamp.valueOf(LocalDateTime.now()), 1, "TestBranchID", SaleStatusEnum.RESERVED);
+        
+        String result = saleRepository.add2(sale);
+        
+        assertEquals( String.class , result.getClass() );
         
     }
 
     @Test
-    public void testUpdate() {
+    public void testUpdate() {// works
         
         Sale sale = new Sale("TestSaleID", "TestUserID", "Test@gmail.com", Timestamp.valueOf(LocalDateTime.now()), 1 , "TestBranchID", SaleStatusEnum.RESERVED);
         String ID = saleRepository.add2(sale);
@@ -41,18 +45,23 @@ public class SaleRepositoryTest {
         sale.saleId = ID ;
         sale.setEmail("Test2@gmail.com");
         
-        assertEquals( Boolean.class , saleRepository.update(sale));
+        Boolean result = saleRepository.update(sale);
+        
+        assertEquals( Boolean.class , result.getClass() );
         
     }
 
     @Test
-    public void testGetById_String() {
+    public void testGetById_String() {// null pointer as the method returns a null.
          
         Sale sale = new Sale("TestSaleID", "TestUserID", "Test@gmail.com", Timestamp.valueOf(LocalDateTime.now()), 1 , "TestBranchID", SaleStatusEnum.RESERVED);
         String ID = saleRepository.add2(sale);
         
         sale.saleId = ID;
         
-        assertEquals( Sale.class, sale.saleId);
+        Sale result =(Sale) saleRepository.getById(sale.saleId);
+        System.out.println(result);
+        
+        assertEquals( Sale.class, result.getClass());
     }
 }

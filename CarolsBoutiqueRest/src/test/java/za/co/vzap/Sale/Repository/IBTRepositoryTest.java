@@ -27,8 +27,12 @@ public class IBTRepositoryTest {
    
     @Test
     public void testAdd() {
+        
+        IBT ibt = new IBT("TestBranchFrom", "TestBranchTo", "TestProd1", 2, "072Testing", IBTStatusEnum.REQUESTED);
+        
+        Integer result = ibtRepository.add(ibt);
        
-        assertEquals(Integer.class, ibtRepository.add(new IBT("TestBranchFrom", "TestBranchTo", "TestProd1", 2, "072Testing", IBTStatusEnum.REQUESTED)));
+        assertEquals(Integer.class, result.getClass() );
         
     }
 
@@ -41,7 +45,9 @@ public class IBTRepositoryTest {
         ibt.Id = ID;
         ibt.setQuantity(20);
         
-        assertEquals( Boolean.class ,ibtRepository.update(ibt));
+        Boolean result = ibtRepository.update(ibt);
+        
+        assertEquals( Boolean.class , result.getClass() );
        
     }
 
@@ -52,8 +58,10 @@ public class IBTRepositoryTest {
         int ID = ibtRepository.add(ibt);
         
         ibt.Id = ID;
+        
+        IBT result = (IBT) ibtRepository.getById(ibt.Id);
        
-        assertEquals(IBT.class, ibtRepository.getById(ibt.Id));
+        assertEquals(IBT.class, result.getClass());
        
     }
 }

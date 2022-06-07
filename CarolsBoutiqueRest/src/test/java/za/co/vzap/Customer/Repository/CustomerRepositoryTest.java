@@ -30,7 +30,9 @@ public class CustomerRepositoryTest {
         
         Customer customer = new Customer("Test@gmail.com","0000000000");
         
-        assertEquals(Integer.class,customerDB.add(customer));
+        Integer result = customerDB.add(customer);
+        
+        assertEquals(Integer.class, result.getClass());
     }
 
     
@@ -41,10 +43,12 @@ public class CustomerRepositoryTest {
         Customer customer = new Customer("Test@gmail.com","0000000000");
         int customerID = customerDB.add(customer);
        
-        customer.Id = customerID;//setting customer attributes to new values
+        customer.Id = customerID;
         customer.setPhoneNumber("NumberTest");
         
-        assertEquals( Boolean.class ,customerDB.update(customer));
+        boolean result = customerDB.update(customer);
+        
+        assertEquals( true , result);
     }
 
    
@@ -53,11 +57,9 @@ public class CustomerRepositoryTest {
         System.out.println("getById");
        
         Customer customer = new Customer("Test@gmail.com","0000000000");
-        int customerID = customerDB.add(customer);
+        Integer result = customerDB.add(customer);
         
-        customer.Id = customerID;
-        
-        assertEquals( Customer.class , customerDB.getById(customer.Id));
+        assertEquals( Customer.class , result.getClass());
         
     }
 }

@@ -31,7 +31,7 @@ public class CategoryRepositoryTest {
         
         String result =  categoryRepository.add2(category) ;
        
-        assertEquals( String.class ,result);
+        assertEquals( String.class ,result.getClass());
        
     }
 
@@ -45,7 +45,9 @@ public class CategoryRepositoryTest {
         category.setName("TestUpdateName");
         category.categoryId = categoryID;
         
-        assertEquals(Boolean.class, categoryRepository.update(category));
+        Boolean result =  categoryRepository.update(category);
+        
+        assertEquals(Boolean.class, result.getClass());
        
     }
 
@@ -58,7 +60,9 @@ public class CategoryRepositoryTest {
         
         category.categoryId = categoryID;
         
-        assertEquals(Category.class, categoryRepository.getById(category.categoryId));
+        Category result = (Category) categoryRepository.getById(category.categoryId);
+        
+        assertEquals(Category.class, result.getClass());
        
     }
 }

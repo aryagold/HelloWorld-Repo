@@ -26,8 +26,12 @@ public class ProductRepositoryTest {
    
     @Test
     public void testAdd2() {
+        
+        Product product = new Product("TestProd1", "TestProd1", 10.00);
+        
+        Integer result = productRepository.add(product);
        
-        assertEquals( Integer.class , productRepository.add(new Product("TestProd1", "TestProd1", 10.00)));
+        assertEquals( Integer.class , result.getClass());
         
     }
 
@@ -40,8 +44,10 @@ public class ProductRepositoryTest {
         
         product.productId = ID;
         product.setName("ChangedTestProd1");
+        
+        Boolean result = productRepository.update(product);
        
-        assertEquals( Boolean.class , productRepository.update(product));
+        assertEquals( Boolean.class , result.getClass() );
        
     }
 
@@ -53,7 +59,9 @@ public class ProductRepositoryTest {
         
         product.productId = ID;
         
-        assertEquals(Product.class, productRepository.getById("TestProd1"));
+        Product result = (Product) productRepository.getById("TestProd1");
+        
+        assertEquals(Product.class, result.getClass());
         
     }
 }

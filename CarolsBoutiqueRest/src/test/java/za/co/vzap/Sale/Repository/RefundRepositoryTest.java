@@ -15,7 +15,7 @@ import za.co.vzap.Sale.Model.Refund;
  *
  * @author macpe
  */
-public class RefundRepositoryTest {
+public class RefundRepositoryTest { // works
     
     private IRepository refundRepository;
     
@@ -25,15 +25,18 @@ public class RefundRepositoryTest {
 
    
     @Test
-    public void testAdd() {
+    public void testAdd() {// works
         
-        assertEquals(Integer.class, refundRepository.add(new Refund("TestSaleId", Timestamp.valueOf(LocalDateTime.now()))));
+        Refund refund = new Refund("TestSaleId", Timestamp.valueOf(LocalDateTime.now()));
+        Integer result = refundRepository.add(refund);
+        
+        assertEquals(Integer.class, result.getClass() );
         
     }
 
     
     @Test
-    public void testUpdate() {
+    public void testUpdate() { // works
         
         Refund refund = new Refund("TestSaleId", Timestamp.valueOf(LocalDateTime.now()));
         int ID = refundRepository.add(refund);
@@ -41,20 +44,24 @@ public class RefundRepositoryTest {
         refund.Id = ID;
         refund.setSaleId("TestSaleId2");
         
-        assertEquals( Boolean.class , refundRepository.update(refund));
+        Boolean result = refundRepository.update(refund);
+        
+        assertEquals( Boolean.class , result.getClass() );
        
     }
 
     
     @Test
-    public void testGetById_int() {
+    public void testGetById_int() {//works
         
         Refund refund = new Refund("TestSaleId", Timestamp.valueOf(LocalDateTime.now()));
         int ID = refundRepository.add(refund);
         
         refund.Id = ID;
         
-        assertEquals(Refund.class, refundRepository.getById(refund.Id));
+        Refund result = (Refund)refundRepository.getById(refund.Id);
+        
+        assertEquals(Refund.class, result.getClass());
         
     }
 }

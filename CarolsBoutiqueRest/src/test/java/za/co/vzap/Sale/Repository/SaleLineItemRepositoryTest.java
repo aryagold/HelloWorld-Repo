@@ -26,8 +26,12 @@ public class SaleLineItemRepositoryTest {
    
     @Test
     public void testAdd() {
+        
+        SaleLineItem saleLineItem = new SaleLineItem("TestProdID", 10);
+        
+        Integer result = saleLineItemRepository.add(saleLineItem);
        
-        assertEquals( Integer.class , saleLineItemRepository.add(new SaleLineItem("TestProdID", 10)));
+        assertEquals( Integer.class , result.getClass());
         
     }
 
@@ -41,7 +45,9 @@ public class SaleLineItemRepositoryTest {
         saleLineItem.Id = ID;
         saleLineItem.setInventoryId(1234);
         
-        assertEquals( Boolean.class , saleLineItemRepository.update(saleLineItem));
+        Boolean result = saleLineItemRepository.update(saleLineItem);
+        
+        assertEquals( Boolean.class , result.getClass() );
         
     }
 
@@ -53,8 +59,10 @@ public class SaleLineItemRepositoryTest {
         int ID = saleLineItemRepository.add(saleLineItem);
         
         saleLineItem.Id = ID;
+        
+        SaleLineItem result  = (SaleLineItem) saleLineItemRepository.getById(saleLineItem.Id);
       
-        assertEquals(SaleLineItem.class, saleLineItemRepository.getById(saleLineItem.Id));
+        assertEquals(SaleLineItem.class, result.getClass() );
        
     }
 }
