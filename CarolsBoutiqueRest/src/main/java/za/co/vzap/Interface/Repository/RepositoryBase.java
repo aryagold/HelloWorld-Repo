@@ -87,7 +87,7 @@ public abstract class RepositoryBase<IEntity> implements IRepository<IEntity> {
     
     protected String getNextCode() {
         String nextCode = "";
-        String statement = "Select max(id) from " + tableName;
+        String statement = "Select max(id) as lastId from " + tableName;
         
         int i = 0;
         
@@ -98,13 +98,16 @@ public abstract class RepositoryBase<IEntity> implements IRepository<IEntity> {
                 rs = ps.executeQuery();
 
                 while(rs.next()) {
-                    String lastId = rs.getString("id");
+                    String lastId = rs.getString("lastId");
+                    
+                    if (lastId == null) break;
+                    
                     String lastNumber = lastId.substring(idPrefix.length());
                     
                     i = Integer.parseInt(lastNumber);
                 }
                 
-                nextCode = idPrefix + String.format("%04d", i++);
+                nextCode = idPrefix + String.format("%03d", ++i);
 
             } catch(SQLException e) {
                 e.printStackTrace();

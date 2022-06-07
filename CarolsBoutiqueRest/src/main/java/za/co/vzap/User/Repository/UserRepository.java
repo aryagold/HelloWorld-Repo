@@ -17,10 +17,13 @@ public class UserRepository extends RepositoryBase<User> {
 
     @Override
     public String add2(User user) {
+        String id = getNextCode();
+        user.setUserId(id);
+        
          if(con != null) {
             try {
                 ps = con.prepareStatement("Insert Into " + tableName + "(id, name, email, role, branchId, password) values(?, ?, ?, ?, ?, ?)");
-                ps.setString(1, getNextCode());
+                ps.setString(1, id);
                 ps.setString(2, user.getName());
                 ps.setString(3, user.getEmail());
                 ps.setInt(4, user.getRole().getValue());
@@ -88,7 +91,7 @@ public class UserRepository extends RepositoryBase<User> {
 
         if(con != null) {
             try {
-                ps = con.prepareStatement("select * from " + tableName + " where id = " + Id);
+                ps = con.prepareStatement("select * from " + tableName + " where id = '" + Id + "'");
 
                 rs = ps.executeQuery();
 
@@ -98,7 +101,7 @@ public class UserRepository extends RepositoryBase<User> {
                             rs.getString("email"),
                             rs.getString("branchId"),
                             rs.getString("password"),
-                            RoleEnum.ofStatusCode(rs.getInt("role"))
+                            RoleEnum.valueOf(rs.getInt("role"))
                               
                     );
                     
@@ -141,7 +144,7 @@ public class UserRepository extends RepositoryBase<User> {
                             rs.getString("email"),
                             rs.getString("branchId"),
                             rs.getString("password"),
-                            RoleEnum.ofStatusCode(rs.getInt("role"))
+                            RoleEnum.valueOf(rs.getInt("role"))
                               
                     );
 

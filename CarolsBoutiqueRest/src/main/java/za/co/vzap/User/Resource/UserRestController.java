@@ -26,23 +26,23 @@ public class UserRestController {
     @Path("login")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response login(User user) throws Exception {
+    public Response login(User user) {
         return Response.status(Response.Status.OK).entity(userService.login(user)).build();
     }
     
     @POST
-    @Path("updateToTeller/{userId}")
+    @Path("updatetoteller/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateToTeller(@PathParam("userId")String userId) throws Exception {
+    public Response updateToTeller(@PathParam("userId")String userId) {
         return Response.status(Response.Status.OK).entity(userService.updateToTeller(userId)).build();
     }
     
     @POST
-    @Path("addBranch")
+    @Path("addbranch")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addBranch(Branch branch) throws Exception {
+    public Response addBranch(Branch branch) {
         return Response.status(Response.Status.OK).entity(userService.addBranch(branch)).build();
     }
 }

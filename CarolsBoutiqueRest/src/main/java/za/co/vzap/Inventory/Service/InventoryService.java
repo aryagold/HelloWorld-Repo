@@ -134,7 +134,7 @@ public class InventoryService implements IInventoryService {
     @Override
     public void payIBT(IBT ibt, Sale sale) {
         LocalDateTime date = LocalDateTime.now();
-        saleRepository.add(new Sale(sale.getUserId(), sale.getEmail(), Timestamp.valueOf(date), sale.getPaymentId(), ibt.getBranchIdFrom(), SaleStatusEnum.COMPLETED));
+        saleRepository.add(new Sale(sale.getUserId(), sale.getCustomerEmail(), Timestamp.valueOf(date), sale.getPaymentId(), SaleStatusEnum.COMPLETED));
         // add to salelineitemrepository?
         
     }

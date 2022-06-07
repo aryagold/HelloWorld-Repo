@@ -15,8 +15,8 @@ public class UserService implements IUserService {
     private IRepository branchRepository;
 
     public UserService(IRepository userRepository, IRepository branchRepository) {
-        userRepository = new UserRepository();
-        branchRepository = new BranchRepository();
+        this.userRepository = new UserRepository();
+        this.branchRepository = new BranchRepository();
     }
    
     
@@ -24,7 +24,7 @@ public class UserService implements IUserService {
     public boolean updateToTeller(String userId) { 
         User user = (User) userRepository.getById(userId);    
         
-        user.setRole(RoleEnum.ofStatusCode(1));
+        user.setRole(RoleEnum.valueOf(1));
         
         userRepository.update(user);
             

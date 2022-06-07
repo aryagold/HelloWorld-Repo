@@ -4,54 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 import za.co.vzap.Interface.Repository.IRepository;
 import za.co.vzap.Interface.Service.IReportService;
+import za.co.vzap.Report.Model.CustomerReports;
+import za.co.vzap.Report.Model.DailySales;
 import za.co.vzap.Report.Model.ItemAmount;
+import za.co.vzap.Report.Model.LeastPerformingStores;
+import za.co.vzap.Report.Model.MonthlySales;
+import za.co.vzap.Report.Model.ProductSales;
+import za.co.vzap.Report.Model.TargetStores;
 import za.co.vzap.Report.Model.TopAchievingStores;
+import za.co.vzap.Report.Model.TopEmployees;
+import za.co.vzap.Report.Model.TopFourtyProducts;
 import za.co.vzap.Sale.Model.IEntity;
 import za.co.vzap.Sale.Repository.SaleRepository;
 
 public class ReportService implements IReportService {
     private IRepository saleRepository = new SaleRepository();
 
-    @Override
-    public void viewCustomerReport() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void viewMonthlySales() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void viewTopEmployees() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void viewTop40() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void viewLeastPerforming() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void viewProductReport(IEntity arg0) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void viewDailySales(IEntity arg0) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void downloadCurrentReport() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
     @Override
     public TopAchievingStores getTopAchievingStores() {
         ItemAmount itemAmount = null;
@@ -64,5 +33,54 @@ public class ReportService implements IReportService {
         
         return null;
     }
+    
+    @Override
+    public CustomerReports getCustomerReport() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public MonthlySales getMonthlySales() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public TopEmployees getTopEmployees() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public TargetStores getStoresAtTarget() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public TopFourtyProducts getTop40Products() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public LeastPerformingStores getLeastPerforming() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ProductSales getProductSales() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public DailySales getDailySales() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String downloadCurrentReport() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
+
+    
     
 }

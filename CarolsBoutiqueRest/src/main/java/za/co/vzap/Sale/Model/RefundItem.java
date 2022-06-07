@@ -2,30 +2,30 @@ package za.co.vzap.Sale.Model;
 
 public class RefundItem implements IEntity {
     public int Id;
-    private String productId;
-    private int quantity;
+    private int inventoryId;
+    private int refundId;
 
-    public RefundItem(String productId, int quantity) {
-        this.productId = productId;
-        this.quantity = quantity;
+    public RefundItem(int inventoryId, int refundId) {
+        this.inventoryId = inventoryId;
+        this.refundId = refundId;
     }
 
     public RefundItem() {
     }
 
-    public String getProductId() {
-        return productId;
+    public int getInventoryId() {
+        return inventoryId;
     }
 
-    public void setProductId(String productId) {
-        this.productId = productId;
+    public void setInventoryId(int inventoryId) {
+        this.inventoryId = inventoryId;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public int getRefundId() {
+        return refundId;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setRefundId(int refundId) {
+        this.refundId = refundId;
     }
 }

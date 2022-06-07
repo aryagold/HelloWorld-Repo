@@ -93,7 +93,7 @@ public class IBTRepository extends RepositoryBase<IBT> {
 
         if(con != null) {
             try {
-                ps = con.prepareStatement("select * from " + tableName + " where id = " + Id);
+                ps = con.prepareStatement("select * from " + tableName + " where id = '" + Id + "'");
 
                 rs = ps.executeQuery();
 
@@ -104,7 +104,7 @@ public class IBTRepository extends RepositoryBase<IBT> {
                             rs.getString("productId"),
                             rs.getInt("quantity"),
                             rs.getString("phoneNumber"),
-                            IBTStatusEnum.ofStatusCode(rs.getInt("status"))
+                            IBTStatusEnum.valueOf(rs.getInt("status"))
                     );
 
                     ibt.Id = rs.getInt("id");
@@ -151,7 +151,7 @@ public class IBTRepository extends RepositoryBase<IBT> {
                             rs.getString("productId"),
                             rs.getInt("quantity"),
                             rs.getString("phoneNumber"),
-                            IBTStatusEnum.ofStatusCode(rs.getInt("status"))
+                            IBTStatusEnum.valueOf(rs.getInt("status"))
                     );
 
                     ibt.Id = id;

@@ -16,11 +16,12 @@ public class CategoryRepository extends RepositoryBase<Category> {
 
     @Override
     public String add2(Category category) {
-        String id = null;
+        String id = getNextCode();
+        category.categoryId = id;
+        
         if(con != null) {
             try {
                 ps = con.prepareStatement("INSERT INTO " + tableName + "(id, name) VALUES(?, ?)");
-                id = getNextCode();
                 ps.setString(1, id);
                 ps.setString(2, category.getName());
 

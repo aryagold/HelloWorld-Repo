@@ -8,6 +8,7 @@ import za.co.vzap.Interface.Service.IPOSService;
 import za.co.vzap.Inventory.Model.Inventory;
 import za.co.vzap.Inventory.Model.Product;
 import za.co.vzap.Inventory.Model.ProductCode;
+import za.co.vzap.Inventory.Repository.InventoryRepository;
 import za.co.vzap.Inventory.Repository.ProductCodeRepository;
 import za.co.vzap.Inventory.Repository.ProductRepository;
 import za.co.vzap.Sale.Model.IEntity;
@@ -16,6 +17,7 @@ import za.co.vzap.Sale.Model.Refund;
 import za.co.vzap.Sale.Model.RefundItem;
 import za.co.vzap.Sale.Model.Sale;
 import za.co.vzap.Sale.Model.SaleLineItem;
+import za.co.vzap.Sale.Model.SaleLineItemDto;
 import za.co.vzap.Sale.Model.SaleStatusEnum;
 import za.co.vzap.Sale.Repository.PaymentRepository;
 import za.co.vzap.Sale.Repository.RefundItemRepository;
@@ -24,41 +26,65 @@ import za.co.vzap.Sale.Repository.SaleLineItemRepository;
 import za.co.vzap.Sale.Repository.SaleRepository;
 
  public class POSService implements IPOSService {
-    private IRepository productDB;
-    private IRepository saleLineItemDB;
-    private IRepository saleDB;
-    private IRepository productSaleDB;
-    private IRepository refundDB;
-    private IRepository refundItemDB;
+    private IRepository productRepository;
+    private IRepository saleRepository;
+    private IRepository refundRepository;
+    private IRepository refundItemRepository;
     private IRepository inventoryRepository;
     private IRepository productCodeRepository;
     private IRepository saleLineItemRepository;
     private IRepository paymentRepository;
     
-    public POSService(){
-       productDB = new ProductRepository();
-       productDB = new SaleLineItemRepository();
-       saleDB = new SaleRepository();
-       refundDB = new RefundRepository();//refund record.
-       refundItemDB = new RefundItemRepository();// refund the item.
-       productCodeRepository = new ProductCodeRepository();
-       saleLineItemRepository = new SaleLineItemRepository();
-       paymentRepository = new PaymentRepository();
+    public POSService(IRepository productRepository, IRepository saleRepository, IRepository refundRepository, IRepository refundItemRepository, IRepository inventoryRepository, IRepository productCodeRepository, IRepository saleLineItemRepository, IRepository paymentRepository) {
+       this.productRepository = new ProductRepository();
+       this.saleRepository = new SaleRepository();
+       this.refundRepository = new RefundRepository();
+       this.refundItemRepository = new RefundItemRepository();
+       this.inventoryRepository = new InventoryRepository();
+       this.productCodeRepository = new ProductCodeRepository();
+       this.saleLineItemRepository = new SaleLineItemRepository();
+       this.paymentRepository = new PaymentRepository();
+    }
+    
+    @Override
+    public String addSale(Sale sale) {
+        sale.setDate(Timestamp.valueOf(LocalDateTime.now()));
+        
+        String id = saleRepository.add2(sale);
+        
+        return id;
+    }
+    
+    public boolean voidSale(Sale sale) {
+        sale.setStatus(SaleStatusEnum.CANCELLED);
+        
+        boolean voided = saleRepository.update(sale);
+        
+        return voided;
     }
     
     @Override 
-    public int addToSale(String saleId, String barcode) {
-       List<Inventory> items = inventoryRepository.getWhere("barcode", barcode);
+    public SaleLineItemDto addSaleLineItem(SaleLineItemDto dto) throws Exception {
        
-       int inventoryId = 0;
-        
-       for(Inventory item : items) {
-           inventoryId = item.Id;
+       List<Inventory> items = inventoryRepository.getWhere("barcode", dto.barcode);
+       
+       if(items.size() == 0) {
+           throw new Exception("Invalid barcode");
        }
        
-       SaleLineItem sli = new SaleLineItem(saleId, inventoryId);//sale line item created.
+       Inventory inventory = items.get(0);
+       
+       SaleLineItem sli = new SaleLineItem(dto.saleId, inventory.Id);
+       
+       int id = saleLineItemRepository.add(sli);
+       
+       dto.Id = id;
+       dto.inventoryId = inventory.Id;
+//       dto.price = inventory.
         
-       return saleLineItemDB.add(sli) ;//adding the sale and sale line item to the data base (commit and roleback to be used here later).
+       return dto;
+       
+       // build up receipt with sale line items
     }
     
     private int addPayment(Payment payment) {
@@ -66,13 +92,9 @@ import za.co.vzap.Sale.Repository.SaleRepository;
             
             payment.setApproved(true);
             
-            // confirmSale();
-            
         } else {
         
             payment.setApproved(false);
-        
-            // cancelSale();
         }
         
         return paymentRepository.add(payment);
@@ -83,74 +105,99 @@ import za.co.vzap.Sale.Repository.SaleRepository;
     private boolean randomizePayment(){
         int number = (int)(Math.random()+1)*5;
         
-        return  (((Math.random()+1)*5) != 4);  
+        return number != 4;  
     }
 
     @Override
-    public String confirmSale(Sale sale) {
-        sale.setStatus(SaleStatusEnum.COMPLETED);
+    public boolean confirmSale(Sale sale) {
+        Payment payment = (Payment) paymentRepository.getById(sale.getPaymentId());
         
-        return saleDB.add2(sale);
+        if(randomizePayment()) {
+            
+            sale.setStatus(SaleStatusEnum.COMPLETED);
+            payment.setApproved(true);
+        } else {
+            
+            sale.setStatus(SaleStatusEnum.CANCELLED);
+            payment.setApproved(false);
+        }
+        
+        int paymentId = addPayment(payment);
+        
+        sale.setPaymentId(paymentId);
+        
+        return saleRepository.update(sale);
         
         //email receipt to customer's provided email address on this sale object
     }
     
-    @Override
-    public void cancelSale(Sale sale) {
-        sale.setStatus(SaleStatusEnum.CANCELLED);
-    }
     
      @Override
-    public int addRefund(String barcode) {
+    public int addRefund(Refund refund) {
         
-        List<Inventory> items = inventoryRepository.getWhere("barcode", barcode); 
+        String saleId = refund.getSaleId();
         
-        int inventId = 0;
+        Sale sale = (Sale) saleRepository.getById(saleId);
         
-        int productCode = 0;
+        sale.setStatus(SaleStatusEnum.CANCELLED);
         
-        for(Inventory item : items) {
-            item.setQuantity(item.getQuantity() + 1);
+        saleRepository.update(sale);
+        
+        List<SaleLineItem> items = (List<SaleLineItem>) saleLineItemRepository.getWhere("saleId", saleId);
+        
+        for(SaleLineItem item : items) {
+            saleLineItemRepository.deleteById(item.Id);
             
-            inventId = item.Id;
+            Inventory inventory = (Inventory) inventoryRepository.getById(item.getInventoryId());
             
-            productCode = item.getProductCode();
-            
-        } 
-        
-        ProductCode code = (ProductCode) productCodeRepository.getById(productCode);
-        
-        String productId = code.getProductId();
-        
-        refundItemDB.add(new RefundItem(productId, 1));
-        
-        
-        List<SaleLineItem> saleLineItems = saleLineItemRepository.getWhere("inventoryId", inventId);
-        
-        String saleId = "";
-        
-        for(SaleLineItem sli : saleLineItems) {
-            saleId = sli.getSaleId();
-            // delete the sale line item? 
+            inventory.setQuantity(inventory.getQuantity() + 1);   
         }
         
-        email(null);//edit this to send an email. It should take as a parameter an array list that can be unpacked differently in each method. this methods array list will have the price, saleId and product ID.
-        return  refundDB.add(new Refund(saleId ,Timestamp.valueOf(LocalDateTime.now())));// creating the record of the refund to add to the database and returning an int.
+        return refundRepository.add(refund);
+        
+        //email customer with refund receipt
+       
+    }
+    
+    @Override
+    public int addRefundItem(RefundItem refundItem, int refundId) {
+        Refund refund = (Refund) refundRepository.getById(refundId);
+        
+        String saleId =refund.getSaleId();
+        
+        int inventoryId = refundItem.getInventoryId();
+        
+        Inventory inventory = (Inventory) inventoryRepository.getById(inventoryId);
+        
+        inventory.setQuantity(inventory.getQuantity() + 1);
+        
+        inventoryRepository.update(inventory);
+        
+        List<SaleLineItem> saleLineItems = (List<SaleLineItem>) saleLineItemRepository.getWhere("saleId", saleId);
+        
+        return refundItemRepository.add(refundItem);
+        
+        //build up refund receipt with this item
     }
 
     @Override
-    public boolean deleteSaleLineItem(Product product) {
+    public boolean deleteSaleLineItem(SaleLineItem saleLineItem) {
+        int inventoryId = saleLineItem.getInventoryId();
         
-       return saleLineItemDB.deleteById(product.productId);// deletes the SaleLineItem related to the product.
+        Inventory inventory = (Inventory) inventoryRepository.getById(inventoryId);
+        
+        inventory.setQuantity(inventory.getQuantity() + 1);
+        
+        return saleLineItemRepository.deleteById(saleLineItem.Id);
     }
 
     @Override
     public boolean updateToReserved(String saleID) {
         
-       Sale sale = (Sale) saleDB.getById(saleID);
+       Sale sale = (Sale) saleRepository.getById(saleID);
        sale.setStatus(SaleStatusEnum.RESERVED);
        
-       return saleDB.update(sale);
+       return saleRepository.update(sale);
     }
     
     @Override
@@ -163,9 +210,8 @@ import za.co.vzap.Sale.Repository.SaleRepository;
     @Override
     public void email(IEntity arg0) {
        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    }        
 
     
-        
     
 }

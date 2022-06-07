@@ -83,7 +83,7 @@ public class RefundRepository extends RepositoryBase<Refund> {
 
         if(con != null) {
             try {
-                ps = con.prepareStatement("select * from " + tableName + " where id = " + Id);
+                ps = con.prepareStatement("select * from " + tableName + " where id = '" + Id + "'");
 
                 rs = ps.executeQuery();
 

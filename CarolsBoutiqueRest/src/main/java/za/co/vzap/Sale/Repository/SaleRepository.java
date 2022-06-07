@@ -3,9 +3,7 @@ package za.co.vzap.Sale.Repository;
 import za.co.vzap.Interface.Repository.RepositoryBase;
 import za.co.vzap.Sale.Model.Sale;
 import za.co.vzap.Sale.Model.SaleStatusEnum;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,16 +17,19 @@ public class SaleRepository extends RepositoryBase<Sale> {
     
     @Override
     public String add2(Sale sale) {
+        String id = getNextCode();
+        
+        sale.setSaleId(id);
         if(con != null) {
             try {
-                ps = con.prepareStatement("Insert Into " + tableName + "(id, userId, email, date, paymentId, status, branchId) values(?, ?, ?, ?, ?, ?, ?)");
-                ps.setString(1, getNextCode());
+                ps = con.prepareStatement("Insert Into " + tableName + "(id, userId, customerEmail, date, paymentId, status) values(?, ?, ?, ?, ?, ?)");
+                ps.setString(1, id);
                 ps.setString(2, sale.getUserId());
-                ps.setString(3, sale.getEmail());
+                ps.setString(3, sale.getCustomerEmail());
                 ps.setTimestamp(4, sale.getDate());
-                ps.setInt(5, sale.getPaymentId());
+                ps.setObject(5, sale.getPaymentId());
                 ps.setInt(6, sale.getStatus().getValue());
-                ps.setString(7, sale.getBranchId());
+                
                
                 rowsAffected = ps.executeUpdate();
 
@@ -53,14 +54,13 @@ public class SaleRepository extends RepositoryBase<Sale> {
     public boolean update(Sale sale) {
         if(con != null) {
             try {
-                ps = con.prepareStatement("Update " + tableName + " set userId = ?, email = ?, date = ?, paymentId = ?, status = ?, branchId = ? where id = ?");
+                ps = con.prepareStatement("Update " + tableName + " set userId = ?, customerEmail = ?, date = ?, paymentId = ?, status = ?, where id = ?");
                 ps.setString(1, sale.getUserId());
-                ps.setString(2, sale.getEmail());
+                ps.setString(2, sale.getCustomerEmail());
                 ps.setTimestamp(3, sale.getDate());
                 ps.setInt(4, sale.getPaymentId());
                 ps.setInt(5, sale.getStatus().getValue());
-                ps.setString(6, sale.getBranchId());
-                ps.setString(7, sale.saleId);
+                ps.setString(6, sale.saleId);
                
                 rowsAffected = ps.executeUpdate();
 
@@ -92,18 +92,17 @@ public class SaleRepository extends RepositoryBase<Sale> {
 
         if(con != null) {
             try {
-                ps = con.prepareStatement("select * from " + tableName + " where id = " + Id);
+                ps = con.prepareStatement("select * from " + tableName + " where id = '" + Id + "'");
 
                 rs = ps.executeQuery();
 
                 if(rs.next()) {
                     sale = new Sale(
                             rs.getString("userId"),
-                            rs.getString("email"),
+                            rs.getString("customerEmail"),
                             rs.getTimestamp("date"),
                             rs.getInt("paymentId"),
-                            rs.getString("branchId"),
-                            SaleStatusEnum.ofStatusCode(rs.getInt("status"))
+                            SaleStatusEnum.valueOf(rs.getInt("status"))
                     );
                     
                     sale.saleId = rs.getString("id");
@@ -141,11 +140,10 @@ public class SaleRepository extends RepositoryBase<Sale> {
                     Sale sale = new Sale(
                             rs.getString("id"),
                             rs.getString("userId"),
-                            rs.getString("email"),
+                            rs.getString("customerEmail"),
                             rs.getTimestamp("date"),
                             rs.getInt("paymentId"),
-                            rs.getString("branchId"),
-                            SaleStatusEnum.ofStatusCode(rs.getInt("status"))
+                            SaleStatusEnum.valueOf(rs.getInt("status"))
                     );
 
                     sales.add(sale);

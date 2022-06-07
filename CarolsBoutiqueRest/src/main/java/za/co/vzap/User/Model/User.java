@@ -84,4 +84,11 @@ public class User implements IEntity {
     public void setRole(RoleEnum role) {
         this.role = role;
     }
+
+    @Override
+    public String toString() {
+        return "User{" + "userId=" + userId + ", name=" + name + ", email=" + email + ", branchId=" + branchId + ", password=" + password + ", role=" + role + '}';
+    }
+    
+    
 }

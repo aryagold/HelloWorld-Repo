@@ -35,13 +35,11 @@ public class CustomerRestController {
     
     @POST
     @Path("add")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addCustomer(Customer customer) {
-        System.out.println("In the addCustomer");
-        int id = customerService.addCustomer(customer);
         
-        return Response.status(Response.Status.OK).entity(id).build();
+        return Response.status(Response.Status.OK).entity(customerService.addCustomer(customer)).build();
     }
     
     @GET

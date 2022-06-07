@@ -5,28 +5,25 @@ import java.sql.Timestamp;
 public class Sale implements IEntity {
     public String saleId;
     private String userId;
-    private String email;
+    private String customerEmail;
     private Timestamp date;
-    private int paymentId;
-    private String branchId;
+    private Integer paymentId;
     private SaleStatusEnum status;
 
-    public Sale(String userId, String email, Timestamp date, int paymentId, String branchId, SaleStatusEnum status) {
+    public Sale(String userId, String customerEmail, Timestamp date, Integer paymentId, SaleStatusEnum status) {
         this.userId = userId;
-        this.email = email;
+        this.customerEmail = customerEmail;
         this.date = date;
         this.paymentId = paymentId;
-        this.branchId = branchId;
         this.status = status;
     }
 
-    public Sale(String saleId, String userId, String email, Timestamp date, int paymentId, String branchId, SaleStatusEnum status) {
+    public Sale(String saleId, String userId, String customerEmail, Timestamp date, Integer paymentId, SaleStatusEnum status) {
         this.saleId = saleId;
         this.userId = userId;
-        this.email = email;
+        this.customerEmail = customerEmail;
         this.date = date;
         this.paymentId = paymentId;
-        this.branchId = branchId;
         this.status = status;
     }
     
@@ -51,12 +48,12 @@ public class Sale implements IEntity {
         this.userId = userId;
     }
 
-    public String getEmail() {
-        return email;
+    public String getCustomerEmail() {
+        return customerEmail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
     }
 
     public Timestamp getDate() {
@@ -67,20 +64,12 @@ public class Sale implements IEntity {
         this.date = date;
     }
 
-    public int getPaymentId() {
+    public Integer getPaymentId() {
         return paymentId;
     }
 
-    public void setPaymentId(int paymentId) {
+    public void setPaymentId(Integer paymentId) {
         this.paymentId = paymentId;
-    }
-
-    public String getBranchId() {
-        return branchId;
-    }
-
-    public void setBranchId(String branchId) {
-        this.branchId = branchId;
     }
 
     public SaleStatusEnum getStatus() {

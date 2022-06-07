@@ -12,14 +12,14 @@ public class CustomerService implements ICustomerService {
     private IRepository customerRepository = null;
     
     public CustomerService(IRepository reviewRepository, IRepository customerRepository) {
-        reviewRepository = new ReviewRepository();
-        customerRepository = new CustomerRepository();
+        this.reviewRepository = new ReviewRepository();
+        this.customerRepository = new CustomerRepository();
     }
     
     @Override
     public int addReview(Review review) {
         
-        if(review.getComment().isBlank()) review.setComment("No comment");
+        if(review.getComment().isEmpty()) review.setComment("No comment");
         
         int id = reviewRepository.add(review);
         

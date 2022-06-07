@@ -19,9 +19,9 @@ public class RefundItemRepository extends RepositoryBase<RefundItem> {
     public int add(RefundItem refundItem) {
         if(con != null) {
             try {
-                ps = con.prepareStatement("Insert Into " + tableName + "(productId, quantity) values(?, ?)", Statement.RETURN_GENERATED_KEYS);
-                ps.setString(1, refundItem.getProductId());
-                ps.setInt(2, refundItem.getQuantity());
+                ps = con.prepareStatement("Insert Into " + tableName + "(inventoryId, refundId) values(?, ?)", Statement.RETURN_GENERATED_KEYS);
+                ps.setInt(1, refundItem.getInventoryId());
+                ps.setInt(2, refundItem.getRefundId());
                
                 rowsAffected = ps.executeUpdate();
 
@@ -52,9 +52,9 @@ public class RefundItemRepository extends RepositoryBase<RefundItem> {
     public boolean update(RefundItem refundItem) {
         if(con != null) {
             try {
-                ps = con.prepareStatement("Update " + tableName + " set productId = ?, quantity = ? where id = ?", Statement.RETURN_GENERATED_KEYS);
-                ps.setString(1, refundItem.getProductId());
-                ps.setInt(2, refundItem.getQuantity());
+                ps = con.prepareStatement("Update " + tableName + " set inventoryId = ?, refundId = ? where id = ?", Statement.RETURN_GENERATED_KEYS);
+                ps.setInt(1, refundItem.getInventoryId());
+                ps.setInt(2, refundItem.getRefundId());
                 ps.setInt(3, refundItem.Id);
 
                 rowsAffected = ps.executeUpdate();
@@ -82,14 +82,14 @@ public class RefundItemRepository extends RepositoryBase<RefundItem> {
 
         if(con != null) {
             try {
-                ps = con.prepareStatement("select * from " + tableName + " where id = " + Id);
+                ps = con.prepareStatement("select * from " + tableName + " where id = '" + Id + "'");
 
                 rs = ps.executeQuery();
 
                 if(rs.next()) {
                     refundItem = new RefundItem(
-                            rs.getString("productId"),
-                            rs.getInt("quantity")
+                            rs.getInt("inventoryId"),
+                            rs.getInt("refundId")
                     );
 
                     refundItem.Id = rs.getInt("id");
@@ -131,8 +131,8 @@ public class RefundItemRepository extends RepositoryBase<RefundItem> {
                     int id = rs.getInt("id");
 
                     RefundItem refundItem = new RefundItem(
-                            rs.getString("productId"),
-                            rs.getInt("quantity")
+                            rs.getInt("inventoryId"),
+                            rs.getInt("refundId")
                     );
 
                     refundItem.Id = id;
