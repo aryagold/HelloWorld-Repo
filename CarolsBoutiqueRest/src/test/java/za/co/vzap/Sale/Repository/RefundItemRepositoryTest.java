@@ -30,7 +30,7 @@ public class RefundItemRepositoryTest {
         
         Integer result = refundItemRepository.add(refundItem);
        
-        assertEquals(Integer.class, result.getClass() );
+        assertEquals(Integer.class, refundItemRepository.add(new RefundItem("TestProdID", 20)));
   
     }
 
@@ -42,7 +42,7 @@ public class RefundItemRepositoryTest {
         int ID = refundItemRepository.add(refundItem);
         
         refundItem.Id = ID;
-        refundItem.setQuantity(50);
+        refundItem.setProductId("TestProdID");
         
         Boolean result = refundItemRepository.update(refundItem);
         

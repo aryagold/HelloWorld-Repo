@@ -71,7 +71,7 @@ public class InventoryRepository extends RepositoryBase<Inventory> {
         Inventory inventory = null;
         
         try {
-            ps = con.prepareStatement("SELECT * FROM " + tableName + " WHERE id = ?");// table name is missing and check the column names in the table.
+            ps = con.prepareStatement("SELECT * FROM " + tableName + " WHERE id = ?");
             
             ps.setInt(1, Id);
             

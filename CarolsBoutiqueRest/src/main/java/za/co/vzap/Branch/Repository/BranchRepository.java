@@ -16,13 +16,14 @@ public class BranchRepository extends RepositoryBase<Branch> {
 
     @Override
     public String add2(Branch branch) {
+        String id = getNextCode();
         
-        branch.branchId = getNextCode();
+        branch.setBranchId(id);
         
         if(con != null) {
             try {
                 ps = con.prepareStatement("Insert Into " + tableName + "(id, name, monthlyTarget, dailyTarget) values(?, ?, ?, ?)");
-                ps.setString(1,branch.branchId);
+                ps.setString(1, id);
                 ps.setString(2, branch.getName());
                 ps.setDouble(3, branch.getMonthlyTarget());
                 ps.setDouble(4, branch.getDailyTarget());
@@ -87,7 +88,7 @@ public class BranchRepository extends RepositoryBase<Branch> {
 
         if(con != null) {
             try {
-                ps = con.prepareStatement("select * from " + tableName + " where id = " + Id);
+                ps = con.prepareStatement("select * from " + tableName + " where id = '" + Id + "'");
 
                 rs = ps.executeQuery();
 

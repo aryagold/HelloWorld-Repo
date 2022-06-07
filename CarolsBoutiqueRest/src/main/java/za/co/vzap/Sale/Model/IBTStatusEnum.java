@@ -1,12 +1,16 @@
 package za.co.vzap.Sale.Model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum IBTStatusEnum {
     REQUESTED(0),
     APPROVED(1),
     REJECTED(2),
     COMPLETED(3);
 
-    int value;
+    private int value;
+    private static Map map = new HashMap<>();
 
     IBTStatusEnum(int value) {
         this.value = value;
@@ -16,7 +20,15 @@ public enum IBTStatusEnum {
         return this.value;
     }
     
-    public static IBTStatusEnum ofStatusCode(int value) {
-        return IBTStatusEnum.ofStatusCode(value);
+    static {
+        for (IBTStatusEnum status : IBTStatusEnum.values()) {
+            map.put(status.value, status);
+        }
     }
+
+    public static IBTStatusEnum valueOf(int status) {
+        return (IBTStatusEnum) map.get(status);
+    }
+     
+     
 }

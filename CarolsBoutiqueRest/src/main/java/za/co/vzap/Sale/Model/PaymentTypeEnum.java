@@ -1,10 +1,14 @@
 package za.co.vzap.Sale.Model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum PaymentTypeEnum {
     CARD(0),
     CASH(1);
     
-    int value;
+    private int value;
+    private static Map map = new HashMap<>();
     
     PaymentTypeEnum(int value) {
         this.value = value;
@@ -14,8 +18,14 @@ public enum PaymentTypeEnum {
         return this.value;
     }
     
-    public static PaymentTypeEnum ofStatusCode(int value) {
-        return PaymentTypeEnum.ofStatusCode(value);
+    static {
+        for (PaymentTypeEnum method : PaymentTypeEnum.values()) {
+            map.put(method.value, method);
+        }
+    }
+
+    public static PaymentTypeEnum valueOf(int method) {
+        return (PaymentTypeEnum) map.get(method);
     }
     
 }

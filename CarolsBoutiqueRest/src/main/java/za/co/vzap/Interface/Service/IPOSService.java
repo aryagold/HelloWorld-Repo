@@ -1,21 +1,28 @@
 package za.co.vzap.Interface.Service;
 
-import za.co.vzap.Inventory.Model.Product;
 import za.co.vzap.Sale.Model.IEntity;
+import za.co.vzap.Sale.Model.Refund;
+import za.co.vzap.Sale.Model.RefundItem;
 import za.co.vzap.Sale.Model.Sale;
+import za.co.vzap.Sale.Model.SaleLineItem;
+import za.co.vzap.Sale.Model.SaleLineItemDto;
 
 public interface IPOSService {
-    int addToSale(String saleId, String barcode);
+    String addSale(Sale sale);
     
-    int addRefund(String barcode);//here
+    boolean voidSale(Sale sale);
+    
+    SaleLineItemDto addSaleLineItem(SaleLineItemDto dto) throws Exception;
+    
+    int addRefund(Refund refund);//here
+    
+    int addRefundItem(RefundItem refundItem, int refundId);
     
     int addReserved(String barcode);
     
-    String confirmSale(Sale sale);
+    boolean confirmSale(Sale sale);
     
-    void cancelSale(Sale sale);
-    
-    boolean deleteSaleLineItem(Product product);//here
+    boolean deleteSaleLineItem(SaleLineItem saleLineItem);//here
     
     boolean updateToReserved(String saleID);//here
     

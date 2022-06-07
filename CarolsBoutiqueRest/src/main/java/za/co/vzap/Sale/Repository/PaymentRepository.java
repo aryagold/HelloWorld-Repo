@@ -32,7 +32,7 @@ public class PaymentRepository extends RepositoryBase<Payment> {
                     int id = rs.getInt("id");
                     
                     Payment pay = new Payment(
-                            PaymentTypeEnum.ofStatusCode(rs.getInt("type")),
+                            PaymentTypeEnum.valueOf(rs.getInt("type")),
                             rs.getString("cardNumber"),
                             rs.getBoolean("approved")
                     );
@@ -113,7 +113,7 @@ public class PaymentRepository extends RepositoryBase<Payment> {
                 
                 if (rs.next()) {
                     pay = new Payment(
-                            PaymentTypeEnum.ofStatusCode(rs.getInt("type")),
+                            PaymentTypeEnum.valueOf(rs.getInt("type")),
                             rs.getString("cardNumber"),
                             rs.getBoolean("approved")
                     );

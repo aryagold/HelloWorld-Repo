@@ -8,17 +8,22 @@ import za.co.vzap.Interface.Repository.RepositoryBase;
 
 public class ProductRepository  extends RepositoryBase<Product> {
     private static String tableName = "Product";
+    private static String idPrefix = "PR";
 
     public ProductRepository() {
-        super(tableName, null);
+        super(tableName, idPrefix);
     }
 
     @Override
     public String add2(Product product) {
+        String id = getNextCode();
+        
+        product.productId = id;
+        
         if(con != null) {
             try {
                 ps = con.prepareStatement("INSERT INTO " + tableName + "(id, name, price) VALUES (?,?,?)");
-                ps.setString(1, product.productId);
+                ps.setString(1, id);
                 ps.setString(2, product.getName());
                 ps.setDouble(3, product.getPrice());
             
@@ -80,7 +85,7 @@ public class ProductRepository  extends RepositoryBase<Product> {
         
         if(con != null) {
             try {
-                ps = con.prepareStatement("SELECT * FROM product WHERE id = " + Id);
+                ps = con.prepareStatement("SELECT * FROM product WHERE id = '" + Id + "'");
                 rs = ps.executeQuery();
 
                 if(rs.next()){
