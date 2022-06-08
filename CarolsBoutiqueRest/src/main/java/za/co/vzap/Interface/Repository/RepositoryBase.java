@@ -25,7 +25,7 @@ public abstract class RepositoryBase<IEntity> implements IRepository<IEntity> {
 
         String url = "jdbc:mysql://127.0.0.1:3306/carolsboutique?useSSL=false";
         try {
-            this.con = DriverManager.getConnection(url, "root", "root");
+            this.con = DriverManager.getConnection(url, "root", "rootroot");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -50,7 +50,7 @@ public abstract class RepositoryBase<IEntity> implements IRepository<IEntity> {
     public boolean deleteById(String id) {
         if (con != null){
             try {
-                ps = con.prepareStatement("DELETE FROM " + tableName + " WHERE id = " + id);
+                ps = con.prepareStatement("DELETE FROM " + tableName + " WHERE id = '" + id + "'");
                 rowsAffected = ps.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -64,7 +64,7 @@ public abstract class RepositoryBase<IEntity> implements IRepository<IEntity> {
     @Override
     public List<IEntity> getWhere(String field, String value) {
         
-        String statement = "SELECT * from " + tableName + " WHERE "+ field + " = " + value;
+        String statement = "SELECT * from " + tableName + " WHERE "+ field + " = '" + value + "'";
         
         return executeQuery(statement);
     }

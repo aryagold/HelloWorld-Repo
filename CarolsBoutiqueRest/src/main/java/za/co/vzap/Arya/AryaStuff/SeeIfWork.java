@@ -2,6 +2,7 @@ package za.co.vzap.Arya.AryaStuff;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import za.co.vzap.Branch.Model.Branch;
 import za.co.vzap.Branch.Repository.BranchRepository;
 import za.co.vzap.Customer.Model.Customer;
@@ -11,13 +12,20 @@ import za.co.vzap.Customer.Repository.CustomerRepository;
 import za.co.vzap.Customer.Repository.ReviewRepository;
 import za.co.vzap.Customer.Service.CustomerService;
 import za.co.vzap.Interface.Service.ICustomerService;
+import za.co.vzap.Interface.Service.IInventoryService;
 import za.co.vzap.Interface.Service.IUserService;
 import za.co.vzap.Inventory.Model.Category;
+import za.co.vzap.Inventory.Model.Inventory;
+import za.co.vzap.Inventory.Model.InventoryControl;
 import za.co.vzap.Inventory.Model.Product;
+import za.co.vzap.Inventory.Model.Size;
 import za.co.vzap.Inventory.Repository.CategoryRepository;
 import za.co.vzap.Inventory.Repository.InventoryControlRepository;
 import za.co.vzap.Inventory.Repository.InventoryRepository;
+import za.co.vzap.Inventory.Repository.ProductCategoryRepository;
 import za.co.vzap.Inventory.Repository.ProductRepository;
+import za.co.vzap.Inventory.Repository.SizeRepository;
+import za.co.vzap.Inventory.Service.InventoryService;
 import za.co.vzap.Sale.Model.Sale;
 import za.co.vzap.Sale.Model.SaleStatusEnum;
 import za.co.vzap.Sale.Repository.IBTRepository;
@@ -34,7 +42,6 @@ public class SeeIfWork {
     IRepository customerRepository = null;
     IRepository productRepository = null;
     IRepository saleRepository = null;
-    IRepository productSaleRepository = null;
     IRepository userRepository = null;
     IRepository inventoryRepository = null;
     IRepository categoryRepository = null;
@@ -45,9 +52,13 @@ public class SeeIfWork {
     IRepository branchRepository = null;
     IRepository reviewRepository = null;
     IRepository inventoryControlRepository = null;
+    IRepository productCategoryRepository = null;
+    IRepository sizeRepository = null;
+    
     
     ICustomerService customerService = null;
     IUserService userService = null;
+    IInventoryService inventoryService = null;
     
     public SeeIfWork() {
         customerRepository = new CustomerRepository();
@@ -63,9 +74,12 @@ public class SeeIfWork {
         branchRepository = new BranchRepository();
         reviewRepository = new ReviewRepository();
         inventoryControlRepository = new InventoryControlRepository();
+        productCategoryRepository = new ProductCategoryRepository();
+        sizeRepository = new SizeRepository();
         
         customerService = new CustomerService(reviewRepository, customerRepository);
         userService = new UserService(userRepository, branchRepository);
+        inventoryService = new InventoryService(productRepository, productCategoryRepository, inventoryControlRepository, inventoryRepository, sizeRepository, ibtRepository, saleRepository, categoryRepository, branchRepository);
     }
     
     public static void main(String[] args) {
@@ -74,12 +88,25 @@ public class SeeIfWork {
     
     public void run() {
         
-//      int id = customerRepository.add(new Customer("aryagold", "0798036817"));
+//        int id = inventoryRepository.add(new Inventory("BR001", 2, "PR021", "00212", 10));
+//        // branch id, size id, product id, barcode, quantity
+//        
+//        System.out.println("The inventory ID is: " + id);
+        
+        
+        
+//        int id = inventoryControlRepository.add(new InventoryControl("US001", "PR001", Timestamp.valueOf(LocalDateTime.now()), 3, 2, 5, false));
+//        System.out.println("Inventory Control ID: " + id);
+        
+//        int id = sizeRepository.add(new Size("10"));
+//        System.out.println("Size ID is: " + id);
+        
+//      int id = customerRepository.add(new Customer("aryagoldtestdb", "0798036817"));
 //        
 //      System.out.println("The customer ID is: " + id);
         
         
-//      String id = userRepository.add2(new User("arya", "aryasemail", "BR001", "password", RoleEnum.MANAGER));
+//      String id = userRepository.add2(new User("Kendall", "employee@gmail.com", "BR007", "password", RoleEnum.TELLER));
 //        
 //      System.out.println("The user ID is: " + id);
 
@@ -87,7 +114,7 @@ public class SeeIfWork {
 //        
 //        System.out.println("Was it updated? " + updated);
         
-//        String branchId = userService.addBranch(new Branch("SandtonCarol'sBoutique", 6546.654, 434.54));
+//        String branchId = userService.addBranch(new Branch("QueenstownCarolsBoutique", 55000.00, 2500.00));
 //        
 //        System.out.println("The new branch ID added from the service is: " + branchId);
 
@@ -96,7 +123,7 @@ public class SeeIfWork {
 //          System.out.println("The returned user is: " + user.toString());
       
         
-//      String id = categoryRepository.add2(new Category("Womens athleisure"));
+//      String id = categoryRepository.add2(new Category("Womens Athleisure"));
 //      System.out.println("The category ID is: " + id);
         
 
@@ -106,13 +133,20 @@ public class SeeIfWork {
 //      int id = reviewRepository.add(new Review("good service", 9, "BR001"));
 //      System.out.println("Review ID " + id);
 
-      String id = saleRepository.add2(new Sale("US001", "aryagoldridge@gmail.com", Timestamp.valueOf(LocalDateTime.now()), null, SaleStatusEnum.COMPLETED));
-        
-      System.out.println("The sale ID is: " + id);
+//      String id = saleRepository.add2(new Sale("US001", "aryagoldridge@gmail.com", Timestamp.valueOf(LocalDateTime.now()), null, SaleStatusEnum.COMPLETED));
+//        
+//      System.out.println("The sale ID is: " + id);
 
 //      String id = productRepository.add2(new Product("black jacket", 699.99));
 //        
 //      System.out.println("The product ID is: " + id);
+
+//        String response = inventoryService.addProduct(new Product("", 500.00), Arrays.asList("CA005"));
+//        
+//        System.out.println(response);
+
+//        String response = inventoryService.addCategory(new Category("Mens Shoes"));
+//        System.out.println(response);
 
 //        Customer customer = new Customer("testservice", "testservice");
 //

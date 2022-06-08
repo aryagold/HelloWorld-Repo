@@ -1,5 +1,6 @@
 package za.co.vzap.Interface.Service;
 
+import java.util.List;
 import za.co.vzap.Sale.Model.IEntity;
 import za.co.vzap.Sale.Model.Refund;
 import za.co.vzap.Sale.Model.RefundItem;
@@ -14,17 +15,17 @@ public interface IPOSService {
     
     SaleLineItemDto addSaleLineItem(SaleLineItemDto dto) throws Exception;
     
+    List<SaleLineItemDto> getSaleLineItems(String saleId);
+    
     int addRefund(Refund refund);//here
     
     int addRefundItem(RefundItem refundItem, int refundId);
     
-    int addReserved(String barcode);
-    
     boolean confirmSale(Sale sale);
     
-    boolean deleteSaleLineItem(SaleLineItem saleLineItem);//here
+    boolean deleteSaleLineItem(int saleLineItemId);//here
     
-    boolean updateToReserved(String saleID);//here
+    boolean reserveSale(String saleID);//here
     
     void email(IEntity entity);
 }

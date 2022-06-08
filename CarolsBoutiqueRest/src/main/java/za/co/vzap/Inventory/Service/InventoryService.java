@@ -2,18 +2,23 @@ package za.co.vzap.Inventory.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import za.co.vzap.Branch.Model.Branch;
+import za.co.vzap.Branch.Repository.BranchRepository;
 import za.co.vzap.Interface.Repository.IRepository;
 import za.co.vzap.Interface.Service.IInventoryService;
+import za.co.vzap.Inventory.Model.Category;
 import za.co.vzap.Inventory.Model.Inventory;
 import za.co.vzap.Inventory.Model.InventoryControl;
+import za.co.vzap.Inventory.Model.InventoryDto;
 import za.co.vzap.Inventory.Model.Product;
 import za.co.vzap.Inventory.Model.ProductCategory;
-import za.co.vzap.Inventory.Model.ProductCode;
+import za.co.vzap.Inventory.Model.Size;
+import za.co.vzap.Inventory.Repository.CategoryRepository;
 import za.co.vzap.Inventory.Repository.InventoryControlRepository;
 import za.co.vzap.Inventory.Repository.InventoryRepository;
 import za.co.vzap.Inventory.Repository.ProductCategoryRepository;
-import za.co.vzap.Inventory.Repository.ProductCodeRepository;
 import za.co.vzap.Inventory.Repository.ProductRepository;
 import za.co.vzap.Inventory.Repository.SizeRepository;
 import za.co.vzap.Sale.Model.IBT;
@@ -29,34 +34,49 @@ public class InventoryService implements IInventoryService {
     private IRepository inventoryControlRepository = null;
     private IRepository inventoryRepository = null;
     private IRepository sizeRepository = null;
-    private IRepository productCodeRepository = null;
     private IRepository ibtRepository = null;
     private IRepository saleRepository = null;
-    private IRepository productSaleRepository = null;
+    private IRepository categoryRepository = null;
+    private IRepository branchRepository = null;
     
-    public InventoryService(IRepository productRepository, IRepository productCategoryRepository, IRepository inventoryControlRepository, IRepository inventoryRepository, IRepository sizeRepository, IRepository productCodeRepository, IRepository ibtRepository, IRepository saleRepository) {
-        productRepository = new ProductRepository();
-        productCategoryRepository = new ProductCategoryRepository();
-        inventoryControlRepository = new InventoryControlRepository();
-        inventoryRepository = new InventoryRepository();
-        sizeRepository = new SizeRepository();
-        productCodeRepository = new ProductCodeRepository();
-        ibtRepository = new IBTRepository();
-        saleRepository = new SaleRepository();
+    public InventoryService(IRepository productRepository, IRepository productCategoryRepository, IRepository inventoryControlRepository, IRepository inventoryRepository, IRepository sizeRepository, IRepository ibtRepository, IRepository saleRepository, IRepository categoryRepository, IRepository branchRepository) {
+        this.productRepository = new ProductRepository();
+        this.productCategoryRepository = new ProductCategoryRepository();
+        this.inventoryControlRepository = new InventoryControlRepository();
+        this.inventoryRepository = new InventoryRepository();
+        this.sizeRepository = new SizeRepository();
+        this.ibtRepository = new IBTRepository();
+        this.saleRepository = new SaleRepository();
+        this.categoryRepository = new CategoryRepository();
+        this.branchRepository = new BranchRepository();
     }
     
+    @Override
+    public String addProduct(Product product, List<String> categoryIds) {
+        String id = productRepository.add2(product);
+        
+        for(String catId : categoryIds) {
+            productCategoryRepository.add(new ProductCategory(product.getProductId(), catId));
+        }
+        
+        return id + " has been added to the product catalogue.";
+    }
     
     @Override
-    public int addInventoryControl(InventoryControl inventoryControl, Inventory inventory) {
+    public String addCategory(Category category) {
+        String id = categoryRepository.add2(category);
+        
+        
+        return id + " has been added to the category catalogue.";
+    }
+    
+    @Override
+    public InventoryDto addInventoryControl(InventoryControl inventoryControl, InventoryDto dto) {
         LocalDateTime date = LocalDateTime.now();
         Timestamp timestampDate = Timestamp.valueOf(date);
         inventoryControl.setDate(timestampDate);
         
-        List<Inventory> items = inventoryRepository.getWhere("barcode", inventory.getBarcode());
-        
-        String productId = inventoryControl.getProductId();
-        
-        List<ProductCode> codes = productCodeRepository.getWhere("productId", productId);
+        List<Inventory> items = inventoryRepository.getWhere("barcode", dto.barcode);
         
         int incomingQuantity = inventoryControl.getIncomingQuantity();
         
@@ -70,34 +90,62 @@ public class InventoryService implements IInventoryService {
         int newQuantity = quantityBefore + incomingQuantity;
         inventoryControl.setNewStockQuantity(newQuantity);
         
-        int id = inventoryControlRepository.add(inventoryControl);
-            
-        addInventory(inventory);
+        inventoryControlRepository.add(inventoryControl);
             
         inventoryControl.setPosted(true);
             
         inventoryControlRepository.update(inventoryControl);
             
-        return inventoryControl.Id;
+        return dto;
         
     }
     
-    private String addInventory(Inventory inventory) {
+    @Override
+    public String addInventory(InventoryDto dto) {
+        List<Size> sizes = sizeRepository.getWhere("size", dto.sizeName);
+        int sizeId = sizes.get(0).Id;
+        
+        List<Branch> branches = branchRepository.getWhere("name", dto.branchName);
+        
+        String branchId = branches.get(0).branchId;
+        
+        Inventory inventory = new Inventory(branchId, sizeId, dto.productId, dto.barcode, dto.quantity);
         inventoryRepository.add(inventory);
        
-        return inventory.getBarcode();
+        return dto.barcode;
     }
 
     @Override
-    public List<Inventory> findProduct(String productId) {
-        List<Inventory> items = inventoryRepository.getWhere("productCode", productId.substring(3)); // not sure if number e.g 001 = 1 ?
+    public List<InventoryDto> findProductWithProductId(String productId) throws Exception {
+        List<Inventory> items = inventoryRepository.getWhere("productId", productId);
+        List<InventoryDto> formattedItems = new ArrayList<>();
         
         if(items.isEmpty()) {
-            System.out.println("Could not find any products.");
+            throw new Exception("Could not find any products matching ID");
         }
         
-        return items;
+        for(Inventory item: items) {
+            
+        }
         
+        return formattedItems;
+        
+    }
+    
+    @Override
+    public List<InventoryDto> findProductWithBarcode(String barcode) throws Exception {
+        List<Inventory> items = inventoryRepository.getWhere("barcode", barcode);
+        List<InventoryDto> formattedItems = new ArrayList<>();
+        
+        if(items.isEmpty()) {
+            throw new Exception("Could not find any products matching barcode.");
+        }
+        
+        for(Inventory item : items) {
+        
+        }
+        
+        return formattedItems;
     }
     
     @Override
@@ -139,17 +187,8 @@ public class InventoryService implements IInventoryService {
         
     }
     
-    @Override
-    public String addProduct(String productId, String name, String categoryId, double price) {
-        Product product = new Product(productId, name, price);
-        
-        String id = productRepository.add2(product);
-        
-        productCategoryRepository.add(new ProductCategory(productId, categoryId));
-        
-        productCodeRepository.add(productId);
-        
-        return id;
-    }
+    
+
+    
         
 }

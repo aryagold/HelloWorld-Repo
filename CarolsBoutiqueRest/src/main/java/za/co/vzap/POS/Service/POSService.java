@@ -2,15 +2,16 @@ package za.co.vzap.POS.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import za.co.vzap.Interface.Repository.IRepository;
 import za.co.vzap.Interface.Service.IPOSService;
 import za.co.vzap.Inventory.Model.Inventory;
 import za.co.vzap.Inventory.Model.Product;
-import za.co.vzap.Inventory.Model.ProductCode;
+import za.co.vzap.Inventory.Model.Size;
 import za.co.vzap.Inventory.Repository.InventoryRepository;
-import za.co.vzap.Inventory.Repository.ProductCodeRepository;
 import za.co.vzap.Inventory.Repository.ProductRepository;
+import za.co.vzap.Inventory.Repository.SizeRepository;
 import za.co.vzap.Sale.Model.IEntity;
 import za.co.vzap.Sale.Model.Payment;
 import za.co.vzap.Sale.Model.Refund;
@@ -31,19 +32,19 @@ import za.co.vzap.Sale.Repository.SaleRepository;
     private IRepository refundRepository;
     private IRepository refundItemRepository;
     private IRepository inventoryRepository;
-    private IRepository productCodeRepository;
     private IRepository saleLineItemRepository;
     private IRepository paymentRepository;
+    private IRepository sizeRepository;
     
-    public POSService(IRepository productRepository, IRepository saleRepository, IRepository refundRepository, IRepository refundItemRepository, IRepository inventoryRepository, IRepository productCodeRepository, IRepository saleLineItemRepository, IRepository paymentRepository) {
+    public POSService(IRepository productRepository, IRepository saleRepository, IRepository refundRepository, IRepository refundItemRepository, IRepository inventoryRepository, IRepository saleLineItemRepository, IRepository paymentRepository, IRepository sizeRepository) {
        this.productRepository = new ProductRepository();
        this.saleRepository = new SaleRepository();
        this.refundRepository = new RefundRepository();
        this.refundItemRepository = new RefundItemRepository();
        this.inventoryRepository = new InventoryRepository();
-       this.productCodeRepository = new ProductCodeRepository();
        this.saleLineItemRepository = new SaleLineItemRepository();
        this.paymentRepository = new PaymentRepository();
+       this.sizeRepository = new SizeRepository();
     }
     
     @Override
@@ -80,8 +81,15 @@ import za.co.vzap.Sale.Repository.SaleRepository;
        
        dto.Id = id;
        dto.inventoryId = inventory.Id;
-//       dto.price = inventory.
-        
+       
+       Product product = (Product) productRepository.getById(inventory.getProductId());
+       dto.price = product.getPrice();
+       dto.productName = product.getName();
+       
+       List<Size> sizes = sizeRepository.getWhere("id", inventory.getSizeId());
+       Size size = sizes.get(0);
+       dto.sizeName = size.getSize();
+       
        return dto;
        
        // build up receipt with sale line items
@@ -116,6 +124,8 @@ import za.co.vzap.Sale.Repository.SaleRepository;
             
             sale.setStatus(SaleStatusEnum.COMPLETED);
             payment.setApproved(true);
+            
+            //email receipt to customer's provided email address on this sale object
         } else {
             
             sale.setStatus(SaleStatusEnum.CANCELLED);
@@ -128,7 +138,36 @@ import za.co.vzap.Sale.Repository.SaleRepository;
         
         return saleRepository.update(sale);
         
-        //email receipt to customer's provided email address on this sale object
+        
+    }
+    
+    public List<SaleLineItemDto> getSaleLineItems(String saleId) {
+        List<SaleLineItemDto> dtos = new ArrayList<>();
+        
+        List<SaleLineItem> items = saleLineItemRepository.getWhere("saleId", saleId);
+        
+        for(SaleLineItem item : items) {
+            SaleLineItemDto dto = new SaleLineItemDto();
+            
+            dto.Id = item.Id;
+            dto.saleId = saleId;
+            dto.inventoryId = item.getInventoryId();
+            
+            Inventory inventory = (Inventory) inventoryRepository.getById(item.getInventoryId());
+            
+            Product product = (Product) productRepository.getById(inventory.getProductId());
+            
+            dto.productName = product.getName();
+            dto.price = product.getPrice();
+            
+            Size size = (Size) sizeRepository.getById(inventory.getSizeId());
+            
+            dto.sizeName = size.getSize();
+            
+            dtos.add(dto);
+        }
+        
+        return dtos;
     }
     
     
@@ -181,31 +220,29 @@ import za.co.vzap.Sale.Repository.SaleRepository;
     }
 
     @Override
-    public boolean deleteSaleLineItem(SaleLineItem saleLineItem) {
+    public boolean deleteSaleLineItem(int saleLineItemId) {
+        SaleLineItem saleLineItem = (SaleLineItem) saleLineItemRepository.getById(saleLineItemId);
+        
         int inventoryId = saleLineItem.getInventoryId();
         
         Inventory inventory = (Inventory) inventoryRepository.getById(inventoryId);
         
         inventory.setQuantity(inventory.getQuantity() + 1);
         
-        return saleLineItemRepository.deleteById(saleLineItem.Id);
+        return saleLineItemRepository.deleteById(saleLineItemId);
     }
 
     @Override
-    public boolean updateToReserved(String saleID) {
+    public boolean reserveSale(String saleID) {
         
        Sale sale = (Sale) saleRepository.getById(saleID);
        sale.setStatus(SaleStatusEnum.RESERVED);
        
        return saleRepository.update(sale);
+       
+       // email thread to count down and send notifications then if time runs out change sale to cancelled.
     }
     
-    @Override
-    public int addReserved(String arg0) {
-        // this method should add to sale with the extra functionality of emailing the customer at confirmation and after 36 hours 
-        // method should also change "reserved" enum to cancelled after 2 days or completed depending of customer ever came.
-        return 0;
-    }
 
     @Override
     public void email(IEntity arg0) {

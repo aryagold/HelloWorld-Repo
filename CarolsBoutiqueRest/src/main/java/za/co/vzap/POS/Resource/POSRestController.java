@@ -1,8 +1,10 @@
 package za.co.vzap.POS.Resource;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -12,8 +14,8 @@ import javax.ws.rs.core.Response;
 import za.co.vzap.Interface.Repository.IRepository;
 import za.co.vzap.Interface.Service.IPOSService;
 import za.co.vzap.Inventory.Repository.InventoryRepository;
-import za.co.vzap.Inventory.Repository.ProductCodeRepository;
 import za.co.vzap.Inventory.Repository.ProductRepository;
+import za.co.vzap.Inventory.Repository.SizeRepository;
 import za.co.vzap.POS.Service.POSService;
 import za.co.vzap.Sale.Model.Sale;
 import za.co.vzap.Sale.Model.SaleLineItem;
@@ -31,11 +33,11 @@ public class POSRestController {
     private IRepository refundRepository = new RefundRepository();
     private IRepository refundItemRepository = new RefundItemRepository();
     private IRepository inventoryRepository = new InventoryRepository();
-    private IRepository productCodeRepository = new ProductCodeRepository();
     private IRepository saleLineItemRepository = new SaleLineItemRepository();
     private IRepository paymentRepository = new PaymentRepository();
+    private IRepository sizeRepository = new SizeRepository();
     
-    private IPOSService posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, productCodeRepository, saleLineItemRepository, paymentRepository);
+    private IPOSService posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository);
     
     @POST
     @Path("addsale")
@@ -62,6 +64,15 @@ public class POSRestController {
         return Response.status(Response.Status.OK).entity(dto).build();
     }
     
+    @GET
+    @Path("{saleId}/getsalelineitems")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getSaleLineItems(@PathParam("saleId")String saleId) {
+        List<SaleLineItemDto> dtos = posService.getSaleLineItems(saleId);
+        
+        return Response.status(Response.Status.OK).entity(dtos).build();
+    }
+    
     @POST
     @Path("voidSale")
     @Produces(MediaType.APPLICATION_JSON)
@@ -73,11 +84,11 @@ public class POSRestController {
     }
     
     @POST
-    @Path("deleteSaleLineItem")
+    @Path("deletesalelineitem/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response deleteSaleLineItem(SaleLineItem saleLineItem) {
-        boolean deleted = posService.deleteSaleLineItem(saleLineItem);
+    public Response deleteSaleLineItem(@PathParam("id")Integer id) {
+        boolean deleted = posService.deleteSaleLineItem(id);
         
         return Response.status(Response.Status.OK).entity(deleted).build();
     }

@@ -27,7 +27,7 @@ public class InventoryRepositoryTest {
     @Test
     public void testAdd() {
         
-        Inventory inventory = new Inventory("TestBranch1234", 1, 1234, "TestBarcode", 10);
+        Inventory inventory = new Inventory("TestBranch1234", 1, "PR001", "TestBarcode", 10);
         
         Integer result = inventoryRepository.add(inventory);
         
@@ -39,7 +39,7 @@ public class InventoryRepositoryTest {
     @Test
     public void testUpdate() {
        
-        Inventory inven = new Inventory("TestBranch1234", 1, 1234, "TestBarcode", 10);
+        Inventory inven = new Inventory("TestBranch1234", 1, "PR001", "TestBarcode", 10);
         int ID = inventoryRepository.add(inven);
         
         inven.Id = ID;
@@ -55,7 +55,7 @@ public class InventoryRepositoryTest {
     @Test
     public void testGetById_int() {
         
-        Inventory inven = new Inventory("TestBranch1234", 1, 1234, "TestBarcode", 10);
+        Inventory inven = new Inventory("TestBranch1234", 1, "PR001", "TestBarcode", 10);
         int ID = inventoryRepository.add(inven);
         
         inven.Id = ID;

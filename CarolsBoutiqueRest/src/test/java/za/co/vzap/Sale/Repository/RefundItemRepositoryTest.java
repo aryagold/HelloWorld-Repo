@@ -26,11 +26,11 @@ public class RefundItemRepositoryTest {
     @Test
     public void testAdd() {
         
-        RefundItem refundItem = new RefundItem("TestProdID", 20);
+        RefundItem refundItem = new RefundItem(2, 20);
         
         Integer result = refundItemRepository.add(refundItem);
        
-        assertEquals(Integer.class, refundItemRepository.add(new RefundItem("TestProdID", 20)));
+        assertEquals(Integer.class, refundItemRepository.add(new RefundItem(2, 20)));
   
     }
 
@@ -38,11 +38,11 @@ public class RefundItemRepositoryTest {
     @Test
     public void testUpdate() {
         
-        RefundItem refundItem = new RefundItem("TestProdID", 20);
+        RefundItem refundItem = new RefundItem(2, 20);
         int ID = refundItemRepository.add(refundItem);
         
         refundItem.Id = ID;
-        refundItem.setProductId("TestProdID");
+        refundItem.setInventoryId(2);
         
         Boolean result = refundItemRepository.update(refundItem);
         
@@ -53,7 +53,7 @@ public class RefundItemRepositoryTest {
     @Test
     public void testGetById_int() {
         
-        RefundItem refundItem = new RefundItem("TestProdID", 20);
+        RefundItem refundItem = new RefundItem(2, 20);
         int ID = refundItemRepository.add(refundItem);
         
         refundItem.Id = ID;
