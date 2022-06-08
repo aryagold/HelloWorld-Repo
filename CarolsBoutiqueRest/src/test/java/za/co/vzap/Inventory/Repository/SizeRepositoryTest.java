@@ -6,7 +6,6 @@ package za.co.vzap.Inventory.Repository;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.jupiter.api.BeforeEach;
 import za.co.vzap.Interface.Repository.IRepository;
 import za.co.vzap.Inventory.Model.Size;
 
@@ -17,15 +16,10 @@ import za.co.vzap.Inventory.Model.Size;
 public class SizeRepositoryTest {
     
     private IRepository sizeRepository;
-    
-    @BeforeEach
-    void SizeRepositoryTest() {
-        this.sizeRepository = new SizeRepository();
-    }
-
    
     @Test
     public void testAdd() {
+        sizeRepository = new SizeRepository();
         
         Size size = new Size("TestSize");
         
@@ -38,6 +32,7 @@ public class SizeRepositoryTest {
    
     @Test
     public void testUpdate() {
+        sizeRepository = new SizeRepository();
         
         Size size =  new Size("TestSize");
         int ID = sizeRepository.add(size);
@@ -54,6 +49,7 @@ public class SizeRepositoryTest {
     
     @Test
     public void testGetById_int() {
+        sizeRepository = new SizeRepository();
         
         Size size =  new Size("TestSize");
         int ID = sizeRepository.add(size);

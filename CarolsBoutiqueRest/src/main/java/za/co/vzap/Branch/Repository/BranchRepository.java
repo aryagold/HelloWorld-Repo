@@ -19,7 +19,6 @@ public class BranchRepository extends RepositoryBase<Branch> {
         String id = getNextCode();
         
         branch.setBranchId(id);
-        
         if(con != null) {
             try {
                 ps = con.prepareStatement("Insert Into " + tableName + "(id, name, monthlyTarget, dailyTarget) values(?, ?, ?, ?)");

@@ -18,14 +18,14 @@ public class InventoryRepository extends RepositoryBase<Inventory> {
     @Override
     public int add(Inventory inventory) {
         try {
-            ps = con.prepareStatement("INSERT INTO " + tableName+ "(branchId, sizeId, productCode, barcode, quantity) VALUES (?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS);
+            ps = con.prepareStatement("INSERT INTO " + tableName+ "(branchId, sizeId, productid, barcode, quantity) VALUES (?, ?, ?, ?,?)",Statement.RETURN_GENERATED_KEYS);
             
             int sizeId = inventory.getSizeId();
-            int productCode = inventory.getProductCode();
+            String productID = inventory.getProductID();
             
             ps.setString(1,inventory.getBranchId());
             ps.setInt(2, sizeId);
-            ps.setInt(3,productCode);
+            ps.setString(3,productID);
             ps.setString(4, inventory.getBarcode());
             ps.setInt(5,inventory.getQuantity());
 
@@ -48,10 +48,10 @@ public class InventoryRepository extends RepositoryBase<Inventory> {
     @Override
     public boolean update(Inventory inventory) {
         try {
-            ps = con.prepareStatement("update " + tableName + " set branchID = ?, sizeId = ?, productCode = ?, barcode = ?, quantity = ? where id = ?", Statement.RETURN_GENERATED_KEYS);
+            ps = con.prepareStatement("update " + tableName + " set branchID = ?, sizeId = ?, productid = ?, barcode = ?, quantity = ? where id = ?", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1,inventory.getBranchId());
             ps.setInt(2, inventory.getSizeId());
-            ps.setInt(3,inventory.getProductCode());
+            ps.setString(3,inventory.getProductID());
             ps.setString(4, inventory.getBarcode());
             ps.setInt(5,inventory.getQuantity());
             ps.setInt(6, inventory.Id);
@@ -81,7 +81,7 @@ public class InventoryRepository extends RepositoryBase<Inventory> {
                 inventory = new Inventory(
                         rs.getString("branchID"),
                         rs.getInt("sizeId"),
-                        rs.getInt("productCode"),
+                        rs.getString("productid"),
                         rs.getString("barcode"),
                         rs.getInt("quantity")
                 );
@@ -118,7 +118,7 @@ public class InventoryRepository extends RepositoryBase<Inventory> {
                     Inventory inventory = new Inventory(
                             rs.getString("branchID"),
                             rs.getInt("sizeId"),
-                            rs.getInt("productCode"),
+                            rs.getString("productid"),
                             rs.getString("barcode"),
                             rs.getInt("quantity")
                     );

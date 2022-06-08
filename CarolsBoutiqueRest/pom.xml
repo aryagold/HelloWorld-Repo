@@ -28,7 +28,6 @@
             <version>5.4.0</version>
             <scope>test</scope>
         </dependency>
-        <!--Changed this dependency to help with tests-->
 
         <dependency>
             <groupId>org.junit</groupId>
@@ -43,7 +42,7 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.8.2</version>
+            <version>5.8.1</version>
             <scope>test</scope>
             <type>jar</type>
         </dependency>

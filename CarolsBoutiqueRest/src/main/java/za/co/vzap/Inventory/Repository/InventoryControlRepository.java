@@ -34,8 +34,8 @@ public class InventoryControlRepository extends RepositoryBase<InventoryControl>
                             rs.getString("productId"),
                             rs.getTimestamp("date"),
                             rs.getInt("quantityBefore"),
-                            rs.getInt("incomingQuantity"),
-                            rs.getInt("newStockQuantity"),
+                            rs.getInt("addedQuantity"),
+                            rs.getInt("newQuantity"),
                             rs.getBoolean("posted")
                     );
                     
@@ -57,13 +57,14 @@ public class InventoryControlRepository extends RepositoryBase<InventoryControl>
     public int add(InventoryControl entity) {
         if (con != null) {
             try {
-                ps = con.prepareStatement("INSERT INTO " + tableName + "(userId, productId, date, quantityBefore, incomingQuantity, newStockQuantity, posted) values(?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                ps = con.prepareStatement("INSERT INTO " + tableName + "(userId, productId, date, quantityBefore, addedQuantity, newQuantity, posted) values(?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
                 ps.setString(1, entity.getUserId());
                 ps.setString(2, entity.getProductId());
                 ps.setTimestamp(3, entity.getDate());
                 ps.setInt(4, entity.getQuantityBefore());
-                ps.setInt(5, entity.getNewStockQuantity());
-                ps.setBoolean(6, entity.isPosted());
+                ps.setInt(5, entity.getIncomingQuantity());
+                ps.setInt(6, entity.getNewStockQuantity());
+                ps.setBoolean(7, entity.isPosted());
                 
                 rowsAffected = ps.executeUpdate();
                 
@@ -88,7 +89,7 @@ public class InventoryControlRepository extends RepositoryBase<InventoryControl>
     public boolean update(InventoryControl entity) {
         if (con != null) {
             try {
-                ps = con.prepareStatement("UPDATE " + tableName + "SET userId = ?, productId = ?, date = ?, quantitybefore = ?, incomingquantity = ?, newstockquantity = ?, posted = ? where id = ?");
+                ps = con.prepareStatement("UPDATE " + tableName + "SET userId = ?, productId = ?, date = ?, quantitybefore = ?, addedQuantity = ?, newquantity = ?, posted = ? where id = ?");
                 ps.setString(1, entity.getUserId());
                 ps.setString(2, entity.getProductId());
                 ps.setTimestamp(3, entity.getDate());
@@ -127,8 +128,8 @@ public class InventoryControlRepository extends RepositoryBase<InventoryControl>
                             rs.getString("productId"),
                             rs.getTimestamp("date"),
                             rs.getInt("quantityBefore"),
-                            rs.getInt("incomingQuantity"),
-                            rs.getInt("newStockQuantity"),
+                            rs.getInt("addedQuantity"),
+                            rs.getInt("newQuantity"),
                             rs.getBoolean("posted")
                     );
                     
