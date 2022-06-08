@@ -16,6 +16,7 @@ import za.co.vzap.Sale.Model.IEntity;
 import za.co.vzap.Sale.Model.Payment;
 import za.co.vzap.Sale.Model.Refund;
 import za.co.vzap.Sale.Model.RefundItem;
+import za.co.vzap.Sale.Model.RefundItemDto;
 import za.co.vzap.Sale.Model.Sale;
 import za.co.vzap.Sale.Model.SaleLineItem;
 import za.co.vzap.Sale.Model.SaleLineItemDto;
@@ -79,18 +80,7 @@ import za.co.vzap.Sale.Repository.SaleRepository;
        
        int id = saleLineItemRepository.add(sli);
        
-       dto.Id = id;
-       dto.inventoryId = inventory.Id;
-       
-       Product product = (Product) productRepository.getById(inventory.getProductId());
-       dto.price = product.getPrice();
-       dto.productName = product.getName();
-       
-       List<Size> sizes = sizeRepository.getWhere("id", inventory.getSizeId());
-       Size size = sizes.get(0);
-       dto.sizeName = size.getSize();
-       
-       return dto;
+       return toSaleLineItemDto(sli);
        
        // build up receipt with sale line items
     }
@@ -117,7 +107,7 @@ import za.co.vzap.Sale.Repository.SaleRepository;
     }
 
     @Override
-    public boolean confirmSale(Sale sale) {
+    public boolean completeSale(Sale sale) {
         Payment payment = (Payment) paymentRepository.getById(sale.getPaymentId());
         
         if(randomizePayment()) {
@@ -128,7 +118,7 @@ import za.co.vzap.Sale.Repository.SaleRepository;
             //email receipt to customer's provided email address on this sale object
         } else {
             
-            sale.setStatus(SaleStatusEnum.CANCELLED);
+            sale.setStatus(SaleStatusEnum.NEW);
             payment.setApproved(false);
         }
         
@@ -147,22 +137,7 @@ import za.co.vzap.Sale.Repository.SaleRepository;
         List<SaleLineItem> items = saleLineItemRepository.getWhere("saleId", saleId);
         
         for(SaleLineItem item : items) {
-            SaleLineItemDto dto = new SaleLineItemDto();
-            
-            dto.Id = item.Id;
-            dto.saleId = saleId;
-            dto.inventoryId = item.getInventoryId();
-            
-            Inventory inventory = (Inventory) inventoryRepository.getById(item.getInventoryId());
-            
-            Product product = (Product) productRepository.getById(inventory.getProductId());
-            
-            dto.productName = product.getName();
-            dto.price = product.getPrice();
-            
-            Size size = (Size) sizeRepository.getById(inventory.getSizeId());
-            
-            dto.sizeName = size.getSize();
+            SaleLineItemDto dto = toSaleLineItemDto(item);
             
             dtos.add(dto);
         }
@@ -172,25 +147,8 @@ import za.co.vzap.Sale.Repository.SaleRepository;
     
     
      @Override
-    public int addRefund(Refund refund) {
-        
-        String saleId = refund.getSaleId();
-        
-        Sale sale = (Sale) saleRepository.getById(saleId);
-        
-        sale.setStatus(SaleStatusEnum.CANCELLED);
-        
-        saleRepository.update(sale);
-        
-        List<SaleLineItem> items = (List<SaleLineItem>) saleLineItemRepository.getWhere("saleId", saleId);
-        
-        for(SaleLineItem item : items) {
-            saleLineItemRepository.deleteById(item.Id);
-            
-            Inventory inventory = (Inventory) inventoryRepository.getById(item.getInventoryId());
-            
-            inventory.setQuantity(inventory.getQuantity() + 1);   
-        }
+    public int addRefund(Refund refund) {   
+        refund.setDate(Timestamp.valueOf(LocalDateTime.now()));
         
         return refundRepository.add(refund);
         
@@ -199,22 +157,24 @@ import za.co.vzap.Sale.Repository.SaleRepository;
     }
     
     @Override
-    public int addRefundItem(RefundItem refundItem, int refundId) {
-        Refund refund = (Refund) refundRepository.getById(refundId);
+    public RefundItemDto addRefundItem(RefundItemDto dto) {
+        List<Inventory> items = inventoryRepository.getWhere("barcode", dto.barcode);
         
-        String saleId =refund.getSaleId();
+        Inventory inventory = items.get(0);
         
-        int inventoryId = refundItem.getInventoryId();
+        List<SaleLineItem> saleLineItems = saleLineItemRepository.getWhere("inventoryId", inventory.Id);
         
-        Inventory inventory = (Inventory) inventoryRepository.getById(inventoryId);
+        SaleLineItem saleLineItem = saleLineItems.get(0);
         
         inventory.setQuantity(inventory.getQuantity() + 1);
         
         inventoryRepository.update(inventory);
         
-        List<SaleLineItem> saleLineItems = (List<SaleLineItem>) saleLineItemRepository.getWhere("saleId", saleId);
+        RefundItem refundItem = (RefundItem) refundRepository.getById(dto.refundId);
         
-        return refundItemRepository.add(refundItem);
+        refundItemRepository.add(refundItem);
+        
+        return toRefundItemDto(refundItem);
         
         //build up refund receipt with this item
     }
@@ -249,6 +209,44 @@ import za.co.vzap.Sale.Repository.SaleRepository;
        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }        
 
+    private SaleLineItemDto toSaleLineItemDto(SaleLineItem saleLineItem) {
+        SaleLineItemDto dto = new SaleLineItemDto();
+        
+        dto.Id = saleLineItem.Id;
+        dto.inventoryId = saleLineItem.getInventoryId();
+        dto.saleId = saleLineItem.getSaleId();
+        
+        Inventory inventory = (Inventory) inventoryRepository.getById(saleLineItem.getInventoryId());
+        dto.barcode = inventory.getBarcode();
+        
+        Product product = (Product) productRepository.getById(inventory.getProductId());
+        dto.productName = product.getName();
+        dto.price = product.getPrice();
+        
+        Size size = (Size) sizeRepository.getById(inventory.getSizeId());
+        dto.sizeName = size.getSize();
+        
+        return dto;
+    }
     
+    private RefundItemDto toRefundItemDto(RefundItem refundItem) {
+        RefundItemDto dto = new RefundItemDto();
+        
+        dto.Id = refundItem.Id;
+        dto.inventoryId = refundItem.getInventoryId();
+        dto.refundId = refundItem.getRefundId();
+        
+        Inventory inventory = (Inventory) inventoryRepository.getById(refundItem.getInventoryId());
+        dto.barcode = inventory.getBarcode();
+        
+        Product product = (Product) productRepository.getById(inventory.getProductId());
+        dto.productName = product.getName();
+        dto.price = product.getPrice();
+        
+        Size size = (Size) sizeRepository.getById(inventory.getSizeId());
+        dto.sizeName = size.getSize();
+        
+        return dto;
+    }
     
 }

@@ -94,11 +94,11 @@ public class POSRestController {
     }
     
     @POST
-    @Path("confirmSale")
+    @Path("completeSale")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response confirmSale(Sale sale) {
-        boolean updated = posService.confirmSale(sale);
+        boolean updated = posService.completeSale(sale);
         
         return Response.status(Response.Status.OK).entity(updated).build();
     }

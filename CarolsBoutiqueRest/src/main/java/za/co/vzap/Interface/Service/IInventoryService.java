@@ -11,7 +11,7 @@ import za.co.vzap.Sale.Model.IBT;
 import za.co.vzap.Sale.Model.Sale;
 
 public interface IInventoryService {
-    InventoryDto addInventoryControl(InventoryControl inventoryControl, InventoryDto dto);
+    InventoryDto addInventoryControl(String userId, String barcode, int quantity) throws Exception;
     
     String addInventory(InventoryDto dto);
     

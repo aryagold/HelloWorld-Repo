@@ -4,6 +4,7 @@ import java.util.List;
 import za.co.vzap.Sale.Model.IEntity;
 import za.co.vzap.Sale.Model.Refund;
 import za.co.vzap.Sale.Model.RefundItem;
+import za.co.vzap.Sale.Model.RefundItemDto;
 import za.co.vzap.Sale.Model.Sale;
 import za.co.vzap.Sale.Model.SaleLineItem;
 import za.co.vzap.Sale.Model.SaleLineItemDto;
@@ -19,9 +20,9 @@ public interface IPOSService {
     
     int addRefund(Refund refund);//here
     
-    int addRefundItem(RefundItem refundItem, int refundId);
+    RefundItemDto addRefundItem(RefundItemDto dto);
     
-    boolean confirmSale(Sale sale);
+    boolean completeSale(Sale sale);
     
     boolean deleteSaleLineItem(int saleLineItemId);//here
     

@@ -71,33 +71,37 @@ public class InventoryService implements IInventoryService {
     }
     
     @Override
-    public InventoryDto addInventoryControl(InventoryControl inventoryControl, InventoryDto dto) {
+    public InventoryDto addInventoryControl(String userId, String barcode, int quantity) throws Exception {
         LocalDateTime date = LocalDateTime.now();
         Timestamp timestampDate = Timestamp.valueOf(date);
+        
+        List<Inventory> items = inventoryRepository.getWhere("barcode", barcode);
+        
+        if(items.isEmpty()) {
+            throw new Exception("Could not find product.");
+        }
+
+        Inventory inventory = items.get(0);
+        
+        InventoryControl inventoryControl = new InventoryControl();
+        
+        inventoryControl.setUserId(userId);
+        inventoryControl.setQuantityBefore(inventory.getQuantity());
+        inventoryControl.setIncomingQuantity(quantity);
+        inventoryControl.setNewStockQuantity(inventory.getQuantity() + quantity);
         inventoryControl.setDate(timestampDate);
         
-        List<Inventory> items = inventoryRepository.getWhere("barcode", dto.barcode);
-        
-        int incomingQuantity = inventoryControl.getIncomingQuantity();
-        
-        int quantityBefore = 0;
-        
-        for(Inventory i : items) {
-            quantityBefore = i.getQuantity();
-            inventoryControl.setQuantityBefore(quantityBefore);
-        }
-        
-        int newQuantity = quantityBefore + incomingQuantity;
-        inventoryControl.setNewStockQuantity(newQuantity);
-        
         inventoryControlRepository.add(inventoryControl);
+        
+        inventory.setQuantity(inventoryControl.getNewStockQuantity());
+        
+        inventoryRepository.update(inventory);
             
         inventoryControl.setPosted(true);
             
         inventoryControlRepository.update(inventoryControl);
             
-        return dto;
-        
+        return toInventoryDto(inventory);
     }
     
     @Override
@@ -134,7 +138,10 @@ public class InventoryService implements IInventoryService {
     
     @Override
     public List<InventoryDto> findProductWithBarcode(String barcode) throws Exception {
-        List<Inventory> items = inventoryRepository.getWhere("barcode", barcode);
+        List<Inventory> inventoryItem = inventoryRepository.getWhere("barcode", barcode);
+        String productId = inventoryItem.get(0).getProductId();
+        
+        List<Inventory> items = inventoryRepository.getWhere("productId", productId);
         List<InventoryDto> formattedItems = new ArrayList<>();
         
         if(items.isEmpty()) {
@@ -142,7 +149,7 @@ public class InventoryService implements IInventoryService {
         }
         
         for(Inventory item : items) {
-        
+            
         }
         
         return formattedItems;
@@ -187,7 +194,27 @@ public class InventoryService implements IInventoryService {
         
     }
     
+    private InventoryDto toInventoryDto(Inventory inventory) {
+        InventoryDto dto = new InventoryDto();
+        
+        dto.Id = inventory.Id;
+        dto.branchId = inventory.getBranchId();
+        dto.sizeId = inventory.getSizeId();
+        dto.productId = inventory.getProductId();
+        dto.barcode = inventory.getBarcode();
+        dto.quantity = inventory.getQuantity();
+        
+        Branch branch = (Branch) branchRepository.getById(inventory.getBranchId());
+        dto.branchName = branch.getName();
+        
+        Product product = (Product) productRepository.getById(inventory.getProductId());
+        dto.productName = product.getName();
     
+        Size size = (Size) sizeRepository.getById(inventory.getSizeId());
+        dto.sizeName = size.getSize();
+    
+        return dto;
+    }
 
     
         

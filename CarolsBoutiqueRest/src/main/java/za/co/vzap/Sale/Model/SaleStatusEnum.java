@@ -4,9 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum SaleStatusEnum {
-    RESERVED(0),
-    COMPLETED(1),
-    CANCELLED(2);
+    NEW(0),
+    RESERVED(1),
+    COMPLETED(2),
+    CANCELLED(3);
     
     private int value;
     private static Map map = new HashMap<>();
