@@ -6,28 +6,33 @@ package za.co.vzap.Inventory.Repository;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.jupiter.api.BeforeEach;
 import za.co.vzap.Interface.Repository.IRepository;
+import za.co.vzap.Inventory.Model.Category;
+import za.co.vzap.Inventory.Model.Product;
 import za.co.vzap.Inventory.Model.ProductCategory;
 
 /**
  *
  * @author macpe
  */
-public class ProductCategoryRepositoryTest {
+public class ProductCategoryRepositoryTest {//works
     
     private IRepository productCategoryRepository;
-    
-    @BeforeEach
-    void ProductCategoryRepositoryTest() {
-        this.productCategoryRepository = new ProductCategoryRepository();
-    }
-
+    private IRepository productDB;
+    private IRepository categoryDB;
     
     @Test
     public void testAdd() {
+        productCategoryRepository = new ProductCategoryRepository();
+        productDB = new ProductRepository();
+        categoryDB = new CategoryRepository();
         
-        ProductCategory pc = new ProductCategory("TestProd1","TestCat1");
+        Product product = new Product("TestProduct1",100.00);
+        String productID = productDB.add2(product);
+        Category category = new Category("TestCategory");
+        String categoryID = categoryDB.add2(category);
+        
+        ProductCategory pc = new ProductCategory(productID,categoryID);
         
         Integer result = productCategoryRepository.add(pc);
       
@@ -38,11 +43,23 @@ public class ProductCategoryRepositoryTest {
    
     @Test
     public void testUpdate() {
-        ProductCategory pc = new ProductCategory("TestProd1","TestCat1");
+        productCategoryRepository = new ProductCategoryRepository();
+        productDB = new ProductRepository();
+        categoryDB = new CategoryRepository();
+        
+        Product product = new Product("TestProduct1",100.00);
+        String productID = productDB.add2(product);
+        Category category = new Category("TestCategory");
+        String categoryID = categoryDB.add2(category);
+
+        
+        ProductCategory pc = new ProductCategory(productID,categoryID);
         int ID = productCategoryRepository.add(pc);
         
         pc.Id = ID;
-        pc.setProductId("TestProd2");
+        Product product2 = new Product("TestProduct2",100.00);
+        String productID2 = productDB.add2(product2);
+        pc.setProductId(productID2);
         
         Boolean result = productCategoryRepository.update(pc);
         
@@ -53,7 +70,17 @@ public class ProductCategoryRepositoryTest {
     
     @Test
     public void testGetById_int() {
-        ProductCategory pc = new ProductCategory("TestProd1","TestCat1");
+        productCategoryRepository = new ProductCategoryRepository();
+        productDB = new ProductRepository();
+        categoryDB = new CategoryRepository();
+        
+        Product product = new Product("TestProduct1",100.00);
+        String productID = productDB.add2(product);
+        Category category = new Category("TestCategory");
+        String categoryID = categoryDB.add2(category);
+
+        
+        ProductCategory pc = new ProductCategory(productID,categoryID);
         int ID = productCategoryRepository.add(pc);
         
         pc.Id = ID;

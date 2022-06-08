@@ -6,7 +6,6 @@ package za.co.vzap.Inventory.Repository;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.jupiter.api.BeforeEach;
 import za.co.vzap.Interface.Repository.IRepository;
 import za.co.vzap.Inventory.Model.Category;
 
@@ -17,15 +16,11 @@ import za.co.vzap.Inventory.Model.Category;
 public class CategoryRepositoryTest {
     
     private IRepository categoryRepository;
-    
-    @BeforeEach
-    void CategoryRepositoryTest() {
-        this.categoryRepository = new CategoryRepository();
-    }
-    
    
     @Test
-    public void testAdd2() {
+    public void testAdd2() {// works
+        
+        categoryRepository = new CategoryRepository();
         
         Category category = new Category("Test Category");
         
@@ -37,7 +32,8 @@ public class CategoryRepositoryTest {
 
     
     @Test
-    public void testUpdate() {
+    public void testUpdate() {// works
+        categoryRepository = new CategoryRepository();
        
         Category category = new Category("Testing123", "Test Category");
         String categoryID = categoryRepository.add2(category);
@@ -53,7 +49,8 @@ public class CategoryRepositoryTest {
 
     
     @Test
-    public void testGetById_String() {
+    public void testGetById_String() {// works
+        categoryRepository = new CategoryRepository();
        
         Category category = new Category("Test1234","Test Category");
         String categoryID = categoryRepository.add2(category);

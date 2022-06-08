@@ -4,9 +4,8 @@
  */
 package za.co.vzap.Customer.Repository;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import static org.junit.Assert.*;
 import za.co.vzap.Customer.Model.Customer;
 import za.co.vzap.Interface.Repository.IRepository;
 
@@ -14,19 +13,14 @@ import za.co.vzap.Interface.Repository.IRepository;
  *
  * @author macpe
  */
-public class CustomerRepositoryTest {
+public class CustomerRepositoryTest {// Categroy repository test works.
     private IRepository customerDB;
 
-     
-    @BeforeEach
-    void CustomerRepositoryTest(){
-        customerDB = new CustomerRepository();
-    }
-    
     
     @Test
-    public void testAdd() {
+    public void testAdd() {//works
         System.out.println("add");
+        customerDB = new CustomerRepository();
         
         Customer customer = new Customer("Test@gmail.com","0000000000");
         
@@ -37,8 +31,9 @@ public class CustomerRepositoryTest {
 
     
     @Test
-    public void testUpdate() {
+    public void testUpdate() {// works
         System.out.println("update");
+        customerDB = new CustomerRepository();
         
         Customer customer = new Customer("Test@gmail.com","0000000000");
         int customerID = customerDB.add(customer);
@@ -53,11 +48,14 @@ public class CustomerRepositoryTest {
 
    
     @Test
-    public void testGetById_int() {
+    public void testGetById_int() {// works
         System.out.println("getById");
+        customerDB = new CustomerRepository();
        
         Customer customer = new Customer("Test@gmail.com","0000000000");
-        Integer result = customerDB.add(customer);
+        int ID  = customerDB.add(customer);
+        
+        Customer result = (Customer) customerDB.getById(ID);
         
         assertEquals( Customer.class , result.getClass());
         

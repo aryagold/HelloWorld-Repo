@@ -8,8 +8,17 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import static org.junit.Assert.*;
 import org.junit.Test;
+import za.co.vzap.Branch.Model.Branch;
+import za.co.vzap.Branch.Repository.BranchRepository;
 import za.co.vzap.Interface.Repository.IRepository;
+import za.co.vzap.Sale.Model.Payment;
+import za.co.vzap.Sale.Model.PaymentTypeEnum;
 import za.co.vzap.Sale.Model.Refund;
+import za.co.vzap.Sale.Model.Sale;
+import za.co.vzap.Sale.Model.SaleStatusEnum;
+import za.co.vzap.User.Model.RoleEnum;
+import za.co.vzap.User.Model.User;
+import za.co.vzap.User.Repository.UserRepository;
 
 /**
  *
@@ -18,16 +27,30 @@ import za.co.vzap.Sale.Model.Refund;
 public class RefundRepositoryTest { // works
     
     private IRepository refundRepository;
+    private IRepository saleDB;
+    private IRepository paymentDB;
+    private IRepository userDB;
+    private IRepository branchDB;
     
-    public RefundRepositoryTest() {
-        this.refundRepository = new RefundRepository();
-    }
-
-   
     @Test
     public void testAdd() {// works
         
-        Refund refund = new Refund("TestSaleId", Timestamp.valueOf(LocalDateTime.now()));
+        refundRepository = new RefundRepository();
+        saleDB = new SaleRepository();
+        paymentDB = new PaymentRepository();
+        userDB = new UserRepository();
+        branchDB = new BranchRepository();
+        
+        Branch branch = new Branch("TestBranch1", 10000, 1000);
+        String branchID = branchDB.add2(branch);
+        Payment payment = new Payment(PaymentTypeEnum.CARD,"TestCard", true);
+        int paymentID = paymentDB.add(payment);
+        User user = new User("TestUser1", "TestEmail", branchID, "TestPassword", RoleEnum.TELLER);
+        String userID = userDB.add2(user);
+        Sale sale = new Sale(userID, "TestEMail", Timestamp.valueOf(LocalDateTime.now()), paymentID, SaleStatusEnum.COMPLETED);
+        String saleID = saleDB.add2(sale);
+        Refund refund = new Refund(saleID, Timestamp.valueOf(LocalDateTime.now()));
+       
         Integer result = refundRepository.add(refund);
         
         assertEquals(Integer.class, result.getClass() );
@@ -37,8 +60,24 @@ public class RefundRepositoryTest { // works
     
     @Test
     public void testUpdate() { // works
+        refundRepository = new RefundRepository();
+        saleDB = new SaleRepository();
+        paymentDB = new PaymentRepository();
+        userDB = new UserRepository();
+        branchDB = new BranchRepository();
         
-        Refund refund = new Refund("TestSaleId", Timestamp.valueOf(LocalDateTime.now()));
+        Branch branch = new Branch("TestBranch1", 10000, 1000);
+        String branchID = branchDB.add2(branch);
+        Payment payment = new Payment(PaymentTypeEnum.CARD,"TestCard", true);
+        int paymentID = paymentDB.add(payment);
+        User user = new User("TestUser1", "TestEmail", branchID, "TestPassword", RoleEnum.TELLER);
+        String userID = userDB.add2(user);
+        Sale sale = new Sale(userID, "TestEMail", Timestamp.valueOf(LocalDateTime.now()), paymentID, SaleStatusEnum.COMPLETED);
+        String saleID = saleDB.add2(sale);
+        Refund refund = new Refund(saleID, Timestamp.valueOf(LocalDateTime.now()));
+       
+
+        
         int ID = refundRepository.add(refund);
         
         refund.Id = ID;
@@ -53,8 +92,24 @@ public class RefundRepositoryTest { // works
     
     @Test
     public void testGetById_int() {//works
+        refundRepository = new RefundRepository();
+        saleDB = new SaleRepository();
+        paymentDB = new PaymentRepository();
+        userDB = new UserRepository();
+        branchDB = new BranchRepository();
         
-        Refund refund = new Refund("TestSaleId", Timestamp.valueOf(LocalDateTime.now()));
+        Branch branch = new Branch("TestBranch1", 10000, 1000);
+        String branchID = branchDB.add2(branch);
+        Payment payment = new Payment(PaymentTypeEnum.CARD,"TestCard", true);
+        int paymentID = paymentDB.add(payment);
+        User user = new User("TestUser1", "TestEmail", branchID, "TestPassword", RoleEnum.TELLER);
+        String userID = userDB.add2(user);
+        Sale sale = new Sale(userID, "TestEMail", Timestamp.valueOf(LocalDateTime.now()), paymentID, SaleStatusEnum.COMPLETED);
+        String saleID = saleDB.add2(sale);
+        Refund refund = new Refund(saleID, Timestamp.valueOf(LocalDateTime.now()));
+       
+
+    
         int ID = refundRepository.add(refund);
         
         refund.Id = ID;

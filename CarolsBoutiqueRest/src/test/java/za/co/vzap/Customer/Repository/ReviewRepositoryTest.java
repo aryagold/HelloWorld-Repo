@@ -1,12 +1,13 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
  */
 package za.co.vzap.Customer.Repository;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import static org.junit.Assert.*;
+import za.co.vzap.Branch.Model.Branch;
+import za.co.vzap.Branch.Repository.BranchRepository;
 import za.co.vzap.Customer.Model.Review;
 import za.co.vzap.Interface.Repository.IRepository;
 
@@ -17,19 +18,18 @@ import za.co.vzap.Interface.Repository.IRepository;
 public class ReviewRepositoryTest {
     
  private IRepository reviewDB;
-
-     
-    @BeforeEach
-    void ReviewRepositoryTest(){
-        reviewDB = new ReviewRepository();
-    }
-    
+ private IRepository branchDB;
     
     @Test
-    public void testAdd() {
+    public void testAdd() {// works
         System.out.println("add");
+        reviewDB = new ReviewRepository();
+        branchDB = new BranchRepository();
         
-        Review review = new Review("nice branch",10, "1234Test");
+        Branch branch = new Branch("TestBranch",10000,1000);
+        String branchID = branchDB.add2(branch);
+        
+        Review review = new Review("nice branch",10, branchID);
         Integer result = reviewDB.add(review);
         
         assertEquals( Integer.class , result.getClass());
@@ -38,10 +38,15 @@ public class ReviewRepositoryTest {
 
    
     @Test
-    public void testUpdate() {
+    public void testUpdate() {// works
         System.out.println("update");
+        reviewDB = new ReviewRepository();
+        branchDB = new BranchRepository();
         
-        Review review = new Review("nice branch",10, "1234Test");
+        Branch branch = new Branch("TestBranch",10000,1000);
+        String branchID = branchDB.add2(branch);
+        
+        Review review = new Review("nice branch",10, branchID);
         int reviewID = reviewDB.add(review);
         
         review.Id = reviewID;
@@ -55,10 +60,15 @@ public class ReviewRepositoryTest {
 
     
     @Test
-    public void testGetById_int() {
+    public void testGetById_int() {//works
         System.out.println("getById_int");
+        reviewDB = new ReviewRepository();
+        branchDB = new BranchRepository();
         
-        Review review = new Review("nice branch",10, "1234Test");
+        Branch branch = new Branch("TestBranch",10000,1000);
+        String branchID = branchDB.add2(branch);
+        
+        Review review = new Review("nice branch",10, branchID);
         int reviewID = reviewDB.add(review);
         
         review.Id = reviewID;

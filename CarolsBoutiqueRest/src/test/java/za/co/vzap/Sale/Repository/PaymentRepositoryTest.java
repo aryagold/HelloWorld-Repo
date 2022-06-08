@@ -6,7 +6,6 @@ package za.co.vzap.Sale.Repository;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.jupiter.api.BeforeEach;
 import za.co.vzap.Interface.Repository.IRepository;
 import za.co.vzap.Sale.Model.Payment;
 import za.co.vzap.Sale.Model.PaymentTypeEnum;
@@ -15,17 +14,13 @@ import za.co.vzap.Sale.Model.PaymentTypeEnum;
  *
  * @author macpe
  */
-public class PaymentRepositoryTest {
+public class PaymentRepositoryTest {// works
     
     private IRepository paymentRepository;
     
-    @BeforeEach
-    void PaymentRepositoryTest() {
-        this.paymentRepository = new PaymentRepository();
-    }
-
     @Test
     public void testAdd() {
+        paymentRepository = new PaymentRepository();
         
         Payment payment = new Payment(PaymentTypeEnum.CARD, "TestCard1", true);
         
@@ -38,6 +33,7 @@ public class PaymentRepositoryTest {
     
     @Test
     public void testUpdate() {
+        paymentRepository = new PaymentRepository();
        
         Payment payment = new Payment(PaymentTypeEnum.CARD, "TestCard1", true);
         int ID = paymentRepository.add(payment);
@@ -54,6 +50,7 @@ public class PaymentRepositoryTest {
    
     @Test
     public void testGetById_int() {
+        paymentRepository = new PaymentRepository();
         
         Payment payment = new Payment(PaymentTypeEnum.CARD, "TestCard1", true);
         int ID = paymentRepository.add(payment);

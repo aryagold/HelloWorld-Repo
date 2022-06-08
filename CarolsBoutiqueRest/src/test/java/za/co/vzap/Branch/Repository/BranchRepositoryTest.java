@@ -6,7 +6,6 @@ package za.co.vzap.Branch.Repository;
 
 import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.BeforeEach;
 import za.co.vzap.Branch.Model.Branch;
 import za.co.vzap.Interface.Repository.IRepository;
 
@@ -14,31 +13,28 @@ import za.co.vzap.Interface.Repository.IRepository;
  *
  * @author macpe
  */
-public class BranchRepositoryTest {
+public class BranchRepositoryTest {// branch works
     private IRepository br;
-    
-    @BeforeEach
-    void BranchRepositoryTest() {
-        br = new BranchRepository();
-    }
   
-    
     @Test
-    public void testAdd2() {
+    public void testAdd2() {// works
         System.out.println("add");
+        br = new BranchRepository();
         
-        Branch branch = new Branch("1234Test","TestBranch", 10000, 1000);
-        String result = br.add2(branch);
+        Branch branch = new Branch("TestBranch", 10000, 1000);
+       
+        String result = br.add2(branch) ;
         
         assertEquals(String.class, result.getClass());
         
     }
 
     @Test
-    public void testUpdate() {
+    public void testUpdate() {//works
         System.out.println("update");
+        br = new BranchRepository();
         
-        Branch branch = new Branch("1234Test","TestBranch", 10000, 1000);
+        Branch branch = new Branch("TestBranch", 10000, 1000);
         String branchID = br.add2(branch);
         
         branch.branchId = branchID;
@@ -51,13 +47,15 @@ public class BranchRepositoryTest {
     }
     
     @Test
-    public void testGetById_String() {
+    public void testGetById_String() {// works
         System.out.println("getById");
+        br = new BranchRepository();
        
-        Branch branch = new Branch("1234Test","TestBranch", 10000, 1000);
-        br.add2(branch);
+        Branch branch = new Branch("TestBranch", 10000.00, 1000.00);
+        String branchID = br.add2(branch);
          
-        Branch result = (Branch) br.getById(branch.branchId);
+        
+        Branch result = (Branch) br.getById(branchID);
         
         assertEquals(Branch.class, result.getClass());
        
