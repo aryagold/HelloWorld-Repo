@@ -31,7 +31,7 @@ import za.co.vzap.User.Repository.UserRepository;
  *
  * @author macpe
  */
-public class RefundItemRepositoryTest {
+public class RefundItemRepositoryTest {// works
     
     private IRepository refundItemRepository;
     private IRepository inventoryDB;
@@ -44,7 +44,7 @@ public class RefundItemRepositoryTest {
     private IRepository userDB;
     
     @Test
-    public void testAdd() {// throws null prointer at the get by ID method.
+    public void testAdd() {
         refundItemRepository = new RefundItemRepository();
         inventoryDB = new InventoryRepository();
         refundDB = new RefundRepository();
@@ -57,18 +57,26 @@ public class RefundItemRepositoryTest {
       
         Branch branch = new Branch("TestBranch1", 10000, 1000);
         String branchID = branchDB.add2(branch);
+        
         Product product = new Product("TestProduct1", 10);
         String productID = productDB.add2(product);
+        
         Size size = new Size("XXL");
         int sizeID = sizeDB.add(size);
+        
         Inventory inven = new Inventory(branchID, sizeID, productID,"TestBarcode", 10);
         int invenID = inventoryDB.add(inven);
+        
         Payment payment = new Payment(PaymentTypeEnum.CARD,"TestCard" , true);
         int paymentID = paymentDB.add(payment);
+        
         User user = new User("TestUser", "TestEmail", branchID, "TestPassword", RoleEnum.TELLER);
         String userID = userDB.add2(user);
+        
         Sale sale = new Sale(userID, "TestCustomerEmail", Timestamp.valueOf(LocalDateTime.now()), paymentID, SaleStatusEnum.COMPLETED);
-        Refund refund = new Refund(userID, Timestamp.valueOf(LocalDateTime.now()));
+        String saleID = saleDB.add2(sale);
+        
+        Refund refund = new Refund( saleID ,Timestamp.valueOf(LocalDateTime.now()));
         int refundID = refundDB.add(refund);
         
         RefundItem refundItem = new RefundItem(invenID,refundID);
@@ -83,7 +91,7 @@ public class RefundItemRepositoryTest {
     @Test
     public void testUpdate() {
         refundItemRepository = new RefundItemRepository();
-         inventoryDB = new InventoryRepository();
+        inventoryDB = new InventoryRepository();
         refundDB = new RefundRepository();
         branchDB = new BranchRepository();
         productDB = new ProductRepository();
@@ -105,7 +113,8 @@ public class RefundItemRepositoryTest {
         User user = new User("TestUser", "TestEmail", branchID, "TestPassword", RoleEnum.TELLER);
         String userID = userDB.add2(user);
         Sale sale = new Sale(userID, "TestCustomerEmail", Timestamp.valueOf(LocalDateTime.now()), paymentID, SaleStatusEnum.COMPLETED);
-        Refund refund = new Refund(userID, Timestamp.valueOf(LocalDateTime.now()));
+        String saleID = saleDB.add2(sale);
+        Refund refund = new Refund(saleID, Timestamp.valueOf(LocalDateTime.now()));
         int refundID = refundDB.add(refund);
         
         RefundItem refundItem = new RefundItem(invenID, refundID);
@@ -144,7 +153,8 @@ public class RefundItemRepositoryTest {
         User user = new User("TestUser", "TestEmail", branchID, "TestPassword", RoleEnum.TELLER);
         String userID = userDB.add2(user);
         Sale sale = new Sale(userID, "TestCustomerEmail", Timestamp.valueOf(LocalDateTime.now()), paymentID, SaleStatusEnum.COMPLETED);
-        Refund refund = new Refund(userID, Timestamp.valueOf(LocalDateTime.now()));
+        String saleID = saleDB.add2(sale);
+        Refund refund = new Refund(saleID, Timestamp.valueOf(LocalDateTime.now()));
         int refundID = refundDB.add(refund);
         
         RefundItem refundItem = new RefundItem(invenID, refundID);
@@ -152,7 +162,7 @@ public class RefundItemRepositoryTest {
         
         refundItem.Id = ID;
         RefundItem result =  (RefundItem) refundItemRepository.getById(refundItem.Id);
-        
+        System.out.println(result);
         assertEquals(RefundItem.class, result.getClass() );
         
     }

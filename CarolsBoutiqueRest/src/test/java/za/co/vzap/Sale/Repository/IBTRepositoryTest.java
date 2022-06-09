@@ -18,7 +18,7 @@ import za.co.vzap.Sale.Model.IBTStatusEnum;
  *
  * @author macpe
  */
-public class IBTRepositoryTest {// null pointer on result in teh get by iD method.
+public class IBTRepositoryTest {// works
     
     private IRepository ibtRepository;
     private IRepository branchDB;

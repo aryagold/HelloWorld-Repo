@@ -1,6 +1,5 @@
 package za.co.vzap.User.Service;
 
-import java.util.List;
 import za.co.vzap.Branch.Model.Branch;
 import za.co.vzap.Branch.Repository.BranchRepository;
 import za.co.vzap.Interface.Repository.IRepository;
@@ -26,7 +25,7 @@ public class UserService implements IUserService {
         
         user.setRole(RoleEnum.valueOf(1));
         
-        userRepository.update(user);
+        userRepository.update (user);
             
         if (user.getRole().getValue() == 1) {
             return true;
@@ -43,7 +42,7 @@ public class UserService implements IUserService {
     @Override
     public User login(User user) {
         User userRet = (User) userRepository.getById(user.userId);
-                
+        
         if (userRet.getPassword().equals(user.getPassword())) {
             return userRet;
         }

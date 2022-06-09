@@ -24,7 +24,7 @@ public class BranchRepositoryTest {// branch works
         Branch branch = new Branch("TestBranch", 10000, 1000);
        
         String result = br.add2(branch) ;
-        
+        System.out.println(result);
         assertEquals(String.class, result.getClass());
         
     }

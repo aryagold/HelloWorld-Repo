@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RefundItemRepository extends RepositoryBase<RefundItem> {
-    private static String tableName = "refund";
+    private static String tableName = "refunditem";
     
     public RefundItemRepository() {
         super(tableName, null);
