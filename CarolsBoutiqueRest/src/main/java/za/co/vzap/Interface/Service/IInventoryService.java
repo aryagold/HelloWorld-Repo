@@ -23,13 +23,4 @@ public interface IInventoryService {
     
     List<InventoryDto> findProductWithBarcode(String barcode) throws Exception;
     
-    void requestIBT(IBT ibt);
-    
-    void acceptIBT(IBT ibt);
-    
-    void IBTReceived(IBT ibt);
-    
-    void declineIBT(IBT ibt);
-    
-    void payIBT(IBT ibt, Sale sale);
 }

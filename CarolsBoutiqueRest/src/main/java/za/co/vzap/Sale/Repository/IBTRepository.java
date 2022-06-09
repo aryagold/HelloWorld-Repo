@@ -20,7 +20,7 @@ public class IBTRepository extends RepositoryBase<IBT> {
     public int add(IBT ibt) {
         if(con != null) {
             try {
-                ps = con.prepareStatement("Insert Into " + tableName + "(branchIdFrom, branchIdTo, productId, quantity, phoneNumber, status) values(?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                ps = con.prepareStatement("Insert Into " + tableName + "(branchIdFrom, branchIdTo, productId, quantity, customerPhoneNumber, status) values(?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
                 ps.setString(1, ibt.getBranchIdFrom());
                 ps.setString(2, ibt.getBranchIdTo());
                 ps.setString(3, ibt.getProductId());
@@ -57,7 +57,7 @@ public class IBTRepository extends RepositoryBase<IBT> {
     public boolean update(IBT ibt) {
         if(con != null) {
             try {
-                ps = con.prepareStatement("Update " + tableName + " set branchIdFrom = ?, branchIdTo = ?, productId = ?, quantity = ?, phoneNumber = ?, status = ? where id = ?");
+                ps = con.prepareStatement("Update " + tableName + " set branchIdFrom = ?, branchIdTo = ?, productId = ?, quantity = ?, customerPhoneNumber = ?, status = ? where id = ?");
                 ps.setString(1, ibt.getBranchIdFrom());
                 ps.setString(2, ibt.getBranchIdTo());
                 ps.setString(3, ibt.getProductId());
@@ -103,7 +103,7 @@ public class IBTRepository extends RepositoryBase<IBT> {
                             rs.getString("branchIdTo"),
                             rs.getString("productId"),
                             rs.getInt("quantity"),
-                            rs.getString("phoneNumber"),
+                            rs.getString("customerPhoneNumber"),
                             IBTStatusEnum.valueOf(rs.getInt("status"))
                     );
 
@@ -150,7 +150,7 @@ public class IBTRepository extends RepositoryBase<IBT> {
                             rs.getString("branchIdTo"),
                             rs.getString("productId"),
                             rs.getInt("quantity"),
-                            rs.getString("phoneNumber"),
+                            rs.getString("customerPhoneNumber"),
                             IBTStatusEnum.valueOf(rs.getInt("status"))
                     );
 

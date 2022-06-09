@@ -21,11 +21,6 @@ import za.co.vzap.Inventory.Repository.InventoryRepository;
 import za.co.vzap.Inventory.Repository.ProductCategoryRepository;
 import za.co.vzap.Inventory.Repository.ProductRepository;
 import za.co.vzap.Inventory.Repository.SizeRepository;
-import za.co.vzap.Sale.Model.IBT;
-import za.co.vzap.Sale.Model.IBTStatusEnum;
-import za.co.vzap.Sale.Model.Sale;
-import za.co.vzap.Sale.Model.SaleStatusEnum;
-import za.co.vzap.Sale.Repository.IBTRepository;
 import za.co.vzap.Sale.Repository.SaleRepository;
 
 public class InventoryService implements IInventoryService {
@@ -34,18 +29,16 @@ public class InventoryService implements IInventoryService {
     private IRepository inventoryControlRepository = null;
     private IRepository inventoryRepository = null;
     private IRepository sizeRepository = null;
-    private IRepository ibtRepository = null;
     private IRepository saleRepository = null;
     private IRepository categoryRepository = null;
     private IRepository branchRepository = null;
     
-    public InventoryService(IRepository productRepository, IRepository productCategoryRepository, IRepository inventoryControlRepository, IRepository inventoryRepository, IRepository sizeRepository, IRepository ibtRepository, IRepository saleRepository, IRepository categoryRepository, IRepository branchRepository) {
+    public InventoryService(IRepository productRepository, IRepository productCategoryRepository, IRepository inventoryControlRepository, IRepository inventoryRepository, IRepository sizeRepository, IRepository saleRepository, IRepository categoryRepository, IRepository branchRepository) {
         this.productRepository = new ProductRepository();
         this.productCategoryRepository = new ProductCategoryRepository();
         this.inventoryControlRepository = new InventoryControlRepository();
         this.inventoryRepository = new InventoryRepository();
         this.sizeRepository = new SizeRepository();
-        this.ibtRepository = new IBTRepository();
         this.saleRepository = new SaleRepository();
         this.categoryRepository = new CategoryRepository();
         this.branchRepository = new BranchRepository();
@@ -74,6 +67,7 @@ public class InventoryService implements IInventoryService {
     public InventoryDto addInventoryControl(String userId, String barcode, int quantity) throws Exception {
         LocalDateTime date = LocalDateTime.now();
         Timestamp timestampDate = Timestamp.valueOf(date);
+        InventoryDto dto = new InventoryDto();
         
         List<Inventory> items = inventoryRepository.getWhere("barcode", barcode);
         
@@ -90,18 +84,23 @@ public class InventoryService implements IInventoryService {
         inventoryControl.setIncomingQuantity(quantity);
         inventoryControl.setNewStockQuantity(inventory.getQuantity() + quantity);
         inventoryControl.setDate(timestampDate);
+        inventoryControl.setProductId(inventory.getProductId());
         
         inventoryControlRepository.add(inventoryControl);
         
         inventory.setQuantity(inventoryControl.getNewStockQuantity());
         
         inventoryRepository.update(inventory);
+        
+        dto = toInventoryDto(inventory);
+        
+        barcode = addInventory(dto);
             
         inventoryControl.setPosted(true);
             
         inventoryControlRepository.update(inventoryControl);
             
-        return toInventoryDto(inventory);
+        return dto;
     }
     
     @Override
@@ -129,7 +128,9 @@ public class InventoryService implements IInventoryService {
         }
         
         for(Inventory item: items) {
+            InventoryDto dto = toInventoryDto(item);
             
+            formattedItems.add(dto);
         }
         
         return formattedItems;
@@ -149,50 +150,15 @@ public class InventoryService implements IInventoryService {
         }
         
         for(Inventory item : items) {
+            InventoryDto dto = toInventoryDto(item);
             
+            formattedItems.add(dto);
         }
         
         return formattedItems;
     }
     
-    @Override
-    public void requestIBT(IBT ibt) {
-        int id = ibtRepository.add(ibt);
-//        new Email(3,).start();
-        // notify other store of the request
-    }
-
-    @Override
-    public void acceptIBT(IBT ibt) {
-        ibt.setStatus(IBTStatusEnum.APPROVED);
-        boolean success = ibtRepository.update(ibt);
-        
-        // thread to start ibt and email the manager after the ibt thread is done to say it has been delivered
-    }
     
-    @Override
-    public void declineIBT(IBT ibt) {
-        ibt.setStatus(IBTStatusEnum.REJECTED);
-        ibtRepository.update(ibt);
-        
-        // notify other store it has been rejected
-    }
-
-    @Override
-    public void IBTReceived(IBT ibt) {
-        ibt.setStatus(IBTStatusEnum.COMPLETED);
-        ibtRepository.update(ibt);
-        
-        // message must be sent to customer's phone to notfy them their product has arrived
-    }
-    
-    @Override
-    public void payIBT(IBT ibt, Sale sale) {
-        LocalDateTime date = LocalDateTime.now();
-        saleRepository.add(new Sale(sale.getUserId(), sale.getCustomerEmail(), Timestamp.valueOf(date), sale.getPaymentId(), SaleStatusEnum.COMPLETED));
-        // add to salelineitemrepository?
-        
-    }
     
     private InventoryDto toInventoryDto(Inventory inventory) {
         InventoryDto dto = new InventoryDto();

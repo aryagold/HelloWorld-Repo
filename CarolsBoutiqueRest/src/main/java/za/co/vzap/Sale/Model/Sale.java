@@ -79,4 +79,11 @@ public class Sale implements IEntity {
     public void setStatus(SaleStatusEnum status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Sale{" + "saleId=" + saleId + ", userId=" + userId + ", customerEmail=" + customerEmail + ", date=" + date + ", paymentId=" + paymentId + ", status=" + status + '}';
+    }
+    
+    
 }

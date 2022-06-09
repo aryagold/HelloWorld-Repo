@@ -89,7 +89,7 @@ public class InventoryControlRepository extends RepositoryBase<InventoryControl>
     public boolean update(InventoryControl entity) {
         if (con != null) {
             try {
-                ps = con.prepareStatement("UPDATE " + tableName + "SET userId = ?, productId = ?, date = ?, quantitybefore = ?, addedQuantity = ?, newquantity = ?, posted = ? where id = ?");
+                ps = con.prepareStatement("UPDATE " + tableName + " SET userId = ?, productId = ?, date = ?, quantitybefore = ?, addedQuantity = ?, newquantity = ?, posted = ? where id = ?");
                 ps.setString(1, entity.getUserId());
                 ps.setString(2, entity.getProductId());
                 ps.setTimestamp(3, entity.getDate());

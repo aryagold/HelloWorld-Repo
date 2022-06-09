@@ -29,6 +29,11 @@ public class SaleLineItem implements IEntity {
     public void setSaleId(String saleId) {
         this.saleId = saleId;
     }
+
+    @Override
+    public String toString() {
+        return "SaleLineItem{" + "Id=" + Id + ", inventoryId=" + inventoryId + ", saleId=" + saleId + '}';
+    }
     
     
 

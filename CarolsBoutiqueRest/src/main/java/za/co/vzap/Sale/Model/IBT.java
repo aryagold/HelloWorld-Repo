@@ -68,4 +68,11 @@ public class IBT implements IEntity {
     public void setStatus(IBTStatusEnum status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "IBT{" + "Id=" + Id + ", branchIdFrom=" + branchIdFrom + ", branchIdTo=" + branchIdTo + ", productId=" + productId + ", quantity=" + quantity + ", phoneNumber=" + phoneNumber + ", status=" + status + '}';
+    }
+    
+    
 }

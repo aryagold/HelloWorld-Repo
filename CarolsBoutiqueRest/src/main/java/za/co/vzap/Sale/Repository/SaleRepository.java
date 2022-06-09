@@ -54,7 +54,7 @@ public class SaleRepository extends RepositoryBase<Sale> {
     public boolean update(Sale sale) {
         if(con != null) {
             try {
-                ps = con.prepareStatement("Update " + tableName + " set userId = ?, customerEmail = ?, date = ?, paymentId = ?, status = ?, where id = ?");
+                ps = con.prepareStatement("Update " + tableName + " set userId = ?, customerEmail = ?, date = ?, paymentId = ?, status = ? where id = ?");
                 ps.setString(1, sale.getUserId());
                 ps.setString(2, sale.getCustomerEmail());
                 ps.setTimestamp(3, sale.getDate());

@@ -13,6 +13,7 @@ import za.co.vzap.Customer.Repository.ReviewRepository;
 import za.co.vzap.Customer.Service.CustomerService;
 import za.co.vzap.Interface.Service.ICustomerService;
 import za.co.vzap.Interface.Service.IInventoryService;
+import za.co.vzap.Interface.Service.IPOSService;
 import za.co.vzap.Interface.Service.IUserService;
 import za.co.vzap.Inventory.Model.Category;
 import za.co.vzap.Inventory.Model.Inventory;
@@ -26,9 +27,17 @@ import za.co.vzap.Inventory.Repository.ProductCategoryRepository;
 import za.co.vzap.Inventory.Repository.ProductRepository;
 import za.co.vzap.Inventory.Repository.SizeRepository;
 import za.co.vzap.Inventory.Service.InventoryService;
+import za.co.vzap.POS.Service.POSService;
+import za.co.vzap.Sale.Model.IBT;
+import za.co.vzap.Sale.Model.IBTStatusEnum;
+import za.co.vzap.Sale.Model.Payment;
+import za.co.vzap.Sale.Model.PaymentTypeEnum;
+import za.co.vzap.Sale.Model.Refund;
+import za.co.vzap.Sale.Model.RefundItem;
 import za.co.vzap.Sale.Model.Sale;
 import za.co.vzap.Sale.Model.SaleStatusEnum;
 import za.co.vzap.Sale.Repository.IBTRepository;
+import za.co.vzap.Sale.Repository.PaymentRepository;
 import za.co.vzap.Sale.Repository.RefundItemRepository;
 import za.co.vzap.Sale.Repository.RefundRepository;
 import za.co.vzap.Sale.Repository.SaleLineItemRepository;
@@ -54,11 +63,13 @@ public class SeeIfWork {
     IRepository inventoryControlRepository = null;
     IRepository productCategoryRepository = null;
     IRepository sizeRepository = null;
+    IRepository paymentRepository = null;
     
     
     ICustomerService customerService = null;
     IUserService userService = null;
     IInventoryService inventoryService = null;
+    IPOSService posService = null;
     
     public SeeIfWork() {
         customerRepository = new CustomerRepository();
@@ -76,10 +87,13 @@ public class SeeIfWork {
         inventoryControlRepository = new InventoryControlRepository();
         productCategoryRepository = new ProductCategoryRepository();
         sizeRepository = new SizeRepository();
+        paymentRepository = new PaymentRepository();
         
         customerService = new CustomerService(reviewRepository, customerRepository);
         userService = new UserService(userRepository, branchRepository);
-        inventoryService = new InventoryService(productRepository, productCategoryRepository, inventoryControlRepository, inventoryRepository, sizeRepository, ibtRepository, saleRepository, categoryRepository, branchRepository);
+        inventoryService = new InventoryService(productRepository, productCategoryRepository, inventoryControlRepository, inventoryRepository, sizeRepository, saleRepository, categoryRepository, branchRepository);
+        posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository);
+        
     }
     
     public static void main(String[] args) {
@@ -88,6 +102,38 @@ public class SeeIfWork {
     
     public void run() {
         
+//        boolean reserved = posService.reserveSale("SL001");
+//        
+//        System.out.println("The sale is reserved is: " + reserved);
+        
+//        boolean voided = posService.voidSale("SL001");
+//        
+//        System.out.println("The sale was voided is :" + voided);
+        
+//          int id = paymentRepository.add(new Payment(PaymentTypeEnum.CASH, "", true));
+//          
+//          System.out.println("The payment ID is: " + id);
+        
+//        User user = userService.login(new User("US001", "password"));
+//        
+//        System.out.println(user.toString());
+        
+//        int id = refundRepository.add(new Refund("SL001", Timestamp.valueOf(LocalDateTime.now())));
+//        
+//        System.out.println("The refund Id is: " + id);
+        
+//        int id = refundItemRepository.add(new RefundItem(2, 1));
+//        
+//        System.out.println("The refundItem ID is: " + id);
+        
+//        int id = ibtRepository.add(new IBT("BR001", "BR002", "PR001", 1, "0798036817", IBTStatusEnum.REQUESTED));
+//        
+//        System.out.println("The ibt ID is: " + id);
+        
+//        IBT ibt = (IBT) ibtRepository.getById(1);
+//        
+//        System.out.println("The ibt returned is: " + ibt.toString());
+//        
 //        int id = inventoryRepository.add(new Inventory("BR001", 2, "PR021", "00212", 10));
 //        // branch id, size id, product id, barcode, quantity
 //        

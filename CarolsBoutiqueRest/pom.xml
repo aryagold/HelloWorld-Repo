@@ -28,7 +28,11 @@
             <version>5.4.0</version>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
+        </dependency>
         <dependency>
             <groupId>org.junit</groupId>
             <artifactId>junit5-engine</artifactId>
