@@ -43,7 +43,7 @@ import za.co.vzap.Sale.Repository.SaleRepository;
     private IRepository paymentRepository;
     private IRepository sizeRepository;
     private IRepository ibtRepository;
-     private IRepository branchRepository;
+    private IRepository branchRepository;
     
     public POSService(IRepository productRepository, IRepository saleRepository, IRepository refundRepository, IRepository refundItemRepository, IRepository inventoryRepository, IRepository saleLineItemRepository, IRepository paymentRepository, IRepository sizeRepository, IRepository ibtRepository, IRepository branchRepository) {
        this.productRepository = new ProductRepository();

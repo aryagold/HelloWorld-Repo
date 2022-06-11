@@ -4,8 +4,12 @@
  */
 package za.co.vzap.User.Service;
 
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import za.co.vzap.Branch.Model.Branch;
 import za.co.vzap.Branch.Repository.BranchRepository;
 import za.co.vzap.Interface.Repository.IRepository;
@@ -23,6 +27,8 @@ public class UserServiceTest {
     private IUserService userService;
     private IRepository userRepository;
     private IRepository branchRepository;
+
+    
     
     @Test
     public void testUpdateToTeller() {

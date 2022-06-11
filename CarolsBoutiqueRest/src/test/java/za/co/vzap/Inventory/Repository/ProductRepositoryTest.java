@@ -6,7 +6,6 @@ package za.co.vzap.Inventory.Repository;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.jupiter.api.BeforeEach;
 import za.co.vzap.Interface.Repository.IRepository;
 import za.co.vzap.Inventory.Model.Product;
 
@@ -17,27 +16,25 @@ import za.co.vzap.Inventory.Model.Product;
 public class ProductRepositoryTest {
     
     private IRepository productRepository;
-    
-    @BeforeEach
-    void ProductRepositoryTest() {
-        this.productRepository = new ProductRepository();
-    }
-
    
     @Test
     public void testAdd2() {
         
-        Product product = new Product("TestProd1", "TestProd1", 10.00);
+        productRepository = new ProductRepository();
         
-        Integer result = productRepository.add(product);
+        Product product = new Product("TestProd1", 10.00);
+        
+        String result = productRepository.add2(product);
        
-        assertEquals( Integer.class , result.getClass());
+        assertEquals( String.class , result.getClass());
         
     }
 
    
     @Test
     public void testUpdate() {
+        
+        productRepository = new ProductRepository();
         
         Product product = new Product("TestProd1", "TestProd1", 10.00);
         String ID = productRepository.add2(product);
@@ -53,14 +50,16 @@ public class ProductRepositoryTest {
 
     @Test
     public void testGetById_String() {
+        
+        productRepository = new ProductRepository();
        
-        Product product = new Product("TestProd1", "TestProd1", 10.00);
+        Product product = new Product("TestProd1", 10.00);
         String ID = productRepository.add2(product);
         
         product.productId = ID;
         
-        Product result = (Product) productRepository.getById("TestProd1");
-        
+        Product result = (Product) productRepository.getById(ID);
+        System.out.println(result);
         assertEquals(Product.class, result.getClass());
         
     }

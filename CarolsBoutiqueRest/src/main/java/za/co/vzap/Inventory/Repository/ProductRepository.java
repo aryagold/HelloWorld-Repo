@@ -17,7 +17,7 @@ public class ProductRepository  extends RepositoryBase<Product> {
     @Override
     public String add2(Product product) {
         String id = getNextCode();
-        
+         
         product.productId = id;
         
         if(con != null) {
