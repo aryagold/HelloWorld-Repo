@@ -12,66 +12,65 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import za.co.vzap.Branch.Repository.BranchRepository;
+import za.co.vzap.Common.Resource.ControllerBase;
 import za.co.vzap.Interface.Repository.IRepository;
 import za.co.vzap.Interface.Service.IInventoryService;
-import za.co.vzap.Inventory.Model.Category;
-import za.co.vzap.Inventory.Model.Inventory;
-import za.co.vzap.Inventory.Model.InventoryControl;
 import za.co.vzap.Inventory.Model.InventoryDto;
-import za.co.vzap.Inventory.Model.Product;
-import za.co.vzap.Inventory.Repository.CategoryRepository;
 import za.co.vzap.Inventory.Repository.InventoryControlRepository;
 import za.co.vzap.Inventory.Repository.InventoryRepository;
+import za.co.vzap.Inventory.Repository.ProductRepository;
 import za.co.vzap.Inventory.Repository.SizeRepository;
 import za.co.vzap.Inventory.Service.InventoryService;
-import za.co.vzap.Sale.Repository.SaleRepository;
+import za.co.vzap.User.Repository.UserRepository;
 
 @Path("inventory")
-public class InventoryRestController {
+public class InventoryRestController extends ControllerBase {
     private IRepository inventoryRepository = new InventoryRepository();
     private IRepository inventoryControlRepository = new InventoryControlRepository();
-    private IRepository productRepository = null;
-    private IRepository productCategoryRepository = null;
+    private IRepository productRepository = new ProductRepository();
     private IRepository sizeRepository = new SizeRepository();
-    private IRepository saleRepository = new SaleRepository();
-    private IRepository categoryRepository = new CategoryRepository();
     private IRepository branchRepository = new BranchRepository();
+    private IRepository userRepository = new UserRepository();
     
-    private IInventoryService inventoryService = new InventoryService(productRepository, productCategoryRepository, inventoryControlRepository, inventoryRepository, sizeRepository, saleRepository, categoryRepository, branchRepository);
+    private IInventoryService inventoryService = new InventoryService(productRepository, inventoryControlRepository, inventoryRepository, sizeRepository, branchRepository, userRepository);
     
-    
-    @POST
-    @Path("addproduct/{categoryid}")
+    @GET
+    @Path("")
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response addProduct(@PathParam("categoryid")List<String> categoryIds, Product product) {
-        return Response.status(Response.Status.OK).entity(inventoryService.addProduct(product, categoryIds)).build();
+    public List<InventoryDto> getBranchInventory() {
+        return inventoryService.getBranchInventory(userId);
     }
     
     @POST
-    @Path("addcategory")
+    @Path("add")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addCategory(Category category) {
-        return Response.status(Response.Status.OK).entity(inventoryService.addCategory(category)).build();
+    public Response addInventory(AddInventoryRequest request) {
+        return Response.status(Response.Status.OK).entity(inventoryService.addInventory(request.userId, request.productId, request.sizeId, request.barcode)).build();
     }
     
     @POST
-    @Path("addinventorycontrol/{userid}/{barcode}/{quantity}")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Path("capture")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addInventoryControl(@PathParam("userid")String userId, @PathParam("barcode")String barcode, @PathParam("quantity")int quantity) throws Exception {
-        return Response.status(Response.Status.OK).entity(inventoryService.addInventoryControl(userId, barcode, quantity)).build();
+    public Response captureInventory(CaptureInventoryRequest request) {
+        try {
+            return Response.status(Response.Status.OK).entity(inventoryService.captureInventory(request.userId, request.barcode, request.quantity)).build();
+        } catch (Exception ex) {
+            Logger.getLogger(InventoryRestController.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+            
+        }
     }
     
     @GET
-    @Path("findproductwithproductid/{productId}")
+    @Path("findstockwithproductid/{productId}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<InventoryDto> findProductWithProductId(@PathParam("productId")String productId) {
         List<InventoryDto> items = null; 
         
         try {
-            items = inventoryService.findProductWithProductId(productId);
+            items = inventoryService.findStockWithProductId(productId);
         } catch (Exception ex) {
             Logger.getLogger(InventoryRestController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -80,13 +79,13 @@ public class InventoryRestController {
     }
     
     @GET
-    @Path("findproductwithbarcode/{barcode}")
+    @Path("findstockwithbarcode/{barcode}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<InventoryDto> findProductWithBarcode(@PathParam("barcode")String barcode) {
         List<InventoryDto> items = null; 
         
         try {
-            items = inventoryService.findProductWithBarcode(barcode);
+            items = inventoryService.findStockWithBarcode(barcode);
         } catch (Exception ex) {
             Logger.getLogger(InventoryRestController.class.getName()).log(Level.SEVERE, null, ex);
         }

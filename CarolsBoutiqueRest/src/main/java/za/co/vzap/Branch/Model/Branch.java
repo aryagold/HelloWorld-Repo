@@ -1,6 +1,6 @@
 package za.co.vzap.Branch.Model;
 
-import za.co.vzap.Sale.Model.IEntity;
+import za.co.vzap.Interface.Model.IEntity;
 
 public class Branch implements IEntity {
     public String branchId;

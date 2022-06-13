@@ -19,12 +19,11 @@ import za.co.vzap.Inventory.Repository.InventoryRepository;
 import za.co.vzap.Inventory.Repository.ProductRepository;
 import za.co.vzap.Inventory.Repository.SizeRepository;
 import za.co.vzap.POS.Service.POSService;
-import za.co.vzap.Sale.Model.IBT;
+import za.co.vzap.Sale.Model.IbtDto;
 import za.co.vzap.Sale.Model.Payment;
 import za.co.vzap.Sale.Model.Refund;
 import za.co.vzap.Sale.Model.RefundItemDto;
 import za.co.vzap.Sale.Model.Sale;
-import za.co.vzap.Sale.Model.SaleLineItem;
 import za.co.vzap.Sale.Model.SaleLineItemDto;
 import za.co.vzap.Sale.Repository.IBTRepository;
 import za.co.vzap.Sale.Repository.PaymentRepository;
@@ -49,7 +48,7 @@ public class POSRestController {
     private IPOSService posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository);
     
     @POST
-    @Path("addsale")
+    @Path("sale")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addSale(Sale sale) {
@@ -102,13 +101,13 @@ public class POSRestController {
     }
     
     @POST
-    @Path("completesale/{saleid}")
+    @Path("sale/{saleid}/complete")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response confirmSale(@PathParam("saleid")String saleId, Payment payment) {
-        boolean updated = posService.completeSale(payment, saleId);
+        int paymentId = posService.completeSale(payment, saleId);
         
-        return Response.status(Response.Status.OK).entity(updated).build();
+        return Response.status(Response.Status.OK).entity(paymentId).build();
     }
     
     @POST
@@ -139,43 +138,45 @@ public class POSRestController {
     }
     
     @POST
-    @Path("requestibt/{phonenumber}/{branchidto}")
+    @Path("ibt")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public void requestIBT(InventoryDto dto, @PathParam("phonenumber")String phoneNumber, @PathParam("branchidto")String branchIdTo) throws Exception {
-        posService.requestIBT(dto, phoneNumber, branchIdTo);
+    public IbtDto requestIbt(IbtRequest request) throws Exception {
+        IbtDto dto = posService.requestIbt(request.inventoryIdFrom, request.branchIdTo, request.quantity, request.phoneNumber, request.emailAddress);
+        
+        return dto;
     }
 
     @POST
-    @Path("acceptibt/{id}")
+    @Path("ibt/{id}/approve")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public void acceptIBT(@PathParam("id")int id) throws Exception {
-        posService.acceptIBT(id);
+    public IbtDto acceptIbt(@PathParam("id")int id) throws Exception {
+        return posService.approveIbt(id);
     }
 
     @POST
-    @Path("declineibt/{id}")
+    @Path("ibt/{id}/decline")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public void declineIBT(@PathParam("id") int id) throws Exception {
-        posService.declineIBT(id);
+    public IbtDto declineIBT(@PathParam("id") int id) throws Exception {
+        return posService.declineIbt(id);
     }
 
     @POST
-    @Path("ibtreceived/{id}")
+    @Path("ibt/{id}/received")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public void IBTReceived(@PathParam("id") int id) throws Exception {
-        posService.IBTReceived(id);
+    public IbtDto IBTReceived(@PathParam("id") int id) throws Exception {
+        return posService.ibtReceived(id);
     }
     
-    @POST
-    @Path("payibt/{id}/{email}/{cardNumber}")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void payIBT(List<InventoryDto> dtos, @PathParam("id")int id, @PathParam("email")String email, @PathParam("cardNumber")String cardNumber) throws Exception {
-        posService.payIBT(dtos, id, email, cardNumber);
-    }
+//    @POST
+//    @Path("ibt/{id}/pay")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    public void payIBT(InventoryDto dto, @PathParam("id")int id, Sale sale, Payment payment) throws Exception {
+//        posService.payIBT(dto, id, sale, payment);
+//    }
     
 }

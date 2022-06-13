@@ -1,6 +1,6 @@
 package za.co.vzap.Customer.Model;
 
-import za.co.vzap.Sale.Model.IEntity;
+import za.co.vzap.Interface.Model.IEntity;
 
 public class Review implements IEntity {
     public int Id;

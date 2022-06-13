@@ -1,32 +1,34 @@
 package za.co.vzap.Sale.Model;
 
+import za.co.vzap.Interface.Model.IEntity;
+
 public class IBT implements IEntity {
     public int Id;
-    private String branchIdFrom;
+    private int inventoryIdFrom;
     private String branchIdTo;
-    private String productId;
     private int quantity;
     private String phoneNumber;
+    private String emailAddress;
     private IBTStatusEnum status;
 
-    public IBT(String branchIdFrom, String branchIdTo, String productId, int quantity, String phoneNumber, IBTStatusEnum status) {
-        this.branchIdFrom = branchIdFrom;
+    public IBT(int inventoryIdFrom, String branchIdTo, int quantity, String phoneNumber, String emailAddress, IBTStatusEnum status) {
+        this.inventoryIdFrom = inventoryIdFrom;
         this.branchIdTo = branchIdTo;
-        this.productId = productId;
         this.quantity = quantity;
         this.phoneNumber = phoneNumber;
+        this.emailAddress = emailAddress;
         this.status = status;
     }
 
     public IBT() {
     }
 
-    public String getBranchIdFrom() {
-        return branchIdFrom;
+    public int getInventoryIdFrom() {
+        return inventoryIdFrom;
     }
 
-    public void setBranchIdFrom(String branchIdFrom) {
-        this.branchIdFrom = branchIdFrom;
+    public void setInventoryIdFrom(int inventoryIdFrom) {
+        this.inventoryIdFrom = inventoryIdFrom;
     }
 
     public String getBranchIdTo() {
@@ -35,14 +37,6 @@ public class IBT implements IEntity {
 
     public void setBranchIdTo(String branchIdTo) {
         this.branchIdTo = branchIdTo;
-    }
-
-    public String getProductId() {
-        return productId;
-    }
-
-    public void setProductId(String productId) {
-        this.productId = productId;
     }
 
     public int getQuantity() {
@@ -61,18 +55,19 @@ public class IBT implements IEntity {
         this.phoneNumber = phoneNumber;
     }
 
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
     public IBTStatusEnum getStatus() {
         return status;
     }
 
     public void setStatus(IBTStatusEnum status) {
         this.status = status;
-    }
-
-    @Override
-    public String toString() {
-        return "IBT{" + "Id=" + Id + ", branchIdFrom=" + branchIdFrom + ", branchIdTo=" + branchIdTo + ", productId=" + productId + ", quantity=" + quantity + ", phoneNumber=" + phoneNumber + ", status=" + status + '}';
-    }
-    
-    
+    } 
 }
