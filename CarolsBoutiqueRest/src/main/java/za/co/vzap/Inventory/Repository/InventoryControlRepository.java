@@ -31,7 +31,7 @@ public class InventoryControlRepository extends RepositoryBase<InventoryControl>
                     
                     InventoryControl iv = new InventoryControl(
                             rs.getString("userId"),
-                            rs.getString("productId"),
+                            rs.getInt("inventoryId"),
                             rs.getTimestamp("date"),
                             rs.getInt("quantityBefore"),
                             rs.getInt("addedQuantity"),
@@ -57,9 +57,9 @@ public class InventoryControlRepository extends RepositoryBase<InventoryControl>
     public int add(InventoryControl entity) {
         if (con != null) {
             try {
-                ps = con.prepareStatement("INSERT INTO " + tableName + "(userId, productId, date, quantityBefore, addedQuantity, newQuantity, posted) values(?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                ps = con.prepareStatement("INSERT INTO " + tableName + "(userId, inventoryId, date, quantityBefore, addedQuantity, newQuantity, posted) values(?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
                 ps.setString(1, entity.getUserId());
-                ps.setString(2, entity.getProductId());
+                ps.setInt(2, entity.getInventoryId());
                 ps.setTimestamp(3, entity.getDate());
                 ps.setInt(4, entity.getQuantityBefore());
                 ps.setInt(5, entity.getIncomingQuantity());
@@ -89,9 +89,9 @@ public class InventoryControlRepository extends RepositoryBase<InventoryControl>
     public boolean update(InventoryControl entity) {
         if (con != null) {
             try {
-                ps = con.prepareStatement("UPDATE " + tableName + " SET userId = ?, productId = ?, date = ?, quantitybefore = ?, addedQuantity = ?, newquantity = ?, posted = ? where id = ?");
+                ps = con.prepareStatement("UPDATE " + tableName + " SET userId = ?, inventoryId = ?, date = ?, quantitybefore = ?, addedQuantity = ?, newquantity = ?, posted = ? where id = ?");
                 ps.setString(1, entity.getUserId());
-                ps.setString(2, entity.getProductId());
+                ps.setInt(2, entity.getInventoryId());
                 ps.setTimestamp(3, entity.getDate());
                 ps.setInt(4, entity.getQuantityBefore());
                 ps.setInt(5, entity.getIncomingQuantity());
@@ -125,7 +125,7 @@ public class InventoryControlRepository extends RepositoryBase<InventoryControl>
                 if (rs.next()) {
                     iv = new InventoryControl(
                             rs.getString("userId"),
-                            rs.getString("productId"),
+                            rs.getInt("inventoryId"),
                             rs.getTimestamp("date"),
                             rs.getInt("quantityBefore"),
                             rs.getInt("addedQuantity"),

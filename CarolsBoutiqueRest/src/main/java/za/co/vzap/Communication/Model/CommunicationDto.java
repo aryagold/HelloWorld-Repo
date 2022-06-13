@@ -14,6 +14,7 @@ public class CommunicationDto {
         parameters.put("saleId", "SL001");
         parameters.put("productName", "Jean");
         parameters.put("price", "R1000");
+        parameters.put("branchId", "BR001");
     }
     
 }

@@ -1,6 +1,6 @@
 package za.co.vzap.Communication.Model;
 
-import za.co.vzap.Sale.Model.IEntity;
+import za.co.vzap.Interface.Model.IEntity;
 
 public class EmailTemplate implements IEntity {
     public int Id;

@@ -1,6 +1,6 @@
 package za.co.vzap.User.Model;
 
-import za.co.vzap.Sale.Model.IEntity;
+import za.co.vzap.Interface.Model.IEntity;
 
 public class User implements IEntity {
     public String userId;

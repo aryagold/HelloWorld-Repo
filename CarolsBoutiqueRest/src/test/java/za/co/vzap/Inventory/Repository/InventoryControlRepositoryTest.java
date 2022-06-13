@@ -43,7 +43,7 @@ public class InventoryControlRepositoryTest {
         Product product = new Product("TestProduct1",12000);
         String productID = productDB.add2(product);
        
-        InventoryControl invenCtrl = new InventoryControl(userID, productID,Timestamp.valueOf(LocalDateTime.now()), 0, 10, 10, true);
+        InventoryControl invenCtrl = new InventoryControl(userID, 1,Timestamp.valueOf(LocalDateTime.now()), 0, 10, 10, true);
         
         Integer result = inventoryControlRepository.add(invenCtrl);
         
@@ -66,7 +66,7 @@ public class InventoryControlRepositoryTest {
         Product product = new Product("TestProduct1",12000);
         String productID = productDB.add2(product);
        
-        InventoryControl invenCtrl = new InventoryControl(userID, productID,Timestamp.valueOf(LocalDateTime.now()), 0, 10, 10, true);
+        InventoryControl invenCtrl = new InventoryControl(userID, 1,Timestamp.valueOf(LocalDateTime.now()), 0, 10, 10, true);
         
         Integer ID = inventoryControlRepository.add(invenCtrl);
         
@@ -94,7 +94,7 @@ public class InventoryControlRepositoryTest {
         Product product = new Product("TestProduct1",12000);
         String productID = productDB.add2(product);
         
-        InventoryControl invenCtrl = new InventoryControl(userID, productID,Timestamp.valueOf(LocalDateTime.now()), 0, 10, 10, true);
+        InventoryControl invenCtrl = new InventoryControl(userID, 1,Timestamp.valueOf(LocalDateTime.now()), 0, 10, 10, true);
         int ID = inventoryControlRepository.add(invenCtrl);
         System.out.println(ID);
         

@@ -1,26 +1,25 @@
 package za.co.vzap.Interface.Service;
 
 import za.co.vzap.Report.Model.CustomerReports;
-import za.co.vzap.Report.Model.DailySales;
 import za.co.vzap.Report.Model.LeastPerformingStores;
-import za.co.vzap.Report.Model.MonthlySales;
+import za.co.vzap.Report.Model.StoreSalesDto;
 import za.co.vzap.Report.Model.ProductSales;
-import za.co.vzap.Report.Model.TargetStores;
-import za.co.vzap.Report.Model.TopAchievingStores;
-import za.co.vzap.Report.Model.TopEmployees;
+import za.co.vzap.Report.Model.StoresAtTargetDto;
+import za.co.vzap.Report.Model.TopAchievingStoresDto;
+import za.co.vzap.Report.Model.TopEmployeesDto;
 import za.co.vzap.Report.Model.TopFourtyProducts;
-import za.co.vzap.Sale.Model.IEntity;
+import za.co.vzap.Interface.Model.IEntity;
 
 public interface IReportService {
-    TopAchievingStores getTopAchievingStores();
+    TopAchievingStoresDto topAchievingStores();
     
     CustomerReports getCustomerReport();
     
-    MonthlySales getMonthlySales();
+    StoreSalesDto storeSalesByMonth(String branchId, String month);
     
-    TopEmployees getTopEmployees();
+    TopEmployeesDto topSellingEmployees(String branchId);
     
-    TargetStores getStoresAtTarget();
+    StoresAtTargetDto storesAtTarget();
     
     TopFourtyProducts getTop40Products();
     
@@ -28,7 +27,7 @@ public interface IReportService {
     
     ProductSales getProductSales();
     
-    DailySales getDailySales();
+    StoreSalesDto storeDailySales(String branchId);
     
     String downloadCurrentReport();
 }

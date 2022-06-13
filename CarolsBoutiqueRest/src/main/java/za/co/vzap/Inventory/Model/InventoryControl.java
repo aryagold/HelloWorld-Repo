@@ -1,22 +1,22 @@
 package za.co.vzap.Inventory.Model;
 
-import za.co.vzap.Sale.Model.IEntity;
+import za.co.vzap.Interface.Model.IEntity;
 
 import java.sql.Timestamp;
 
 public class InventoryControl implements IEntity {
     public int Id;
     private String userId;
-    private String productId;
+    private int inventoryId;
     private Timestamp date;
     private int quantityBefore;
     private int incomingQuantity;
     private int newStockQuantity;
     private boolean posted;
 
-    public InventoryControl(String userId, String productId, Timestamp date, int quantityBefore, int incomingQuantity, int newStockQuantity, boolean posted) {
+    public InventoryControl(String userId, int inventoryId, Timestamp date, int quantityBefore, int incomingQuantity, int newStockQuantity, boolean posted) {
         this.userId = userId;
-        this.productId = productId;
+        this.inventoryId = inventoryId;
         this.date = date;
         this.quantityBefore = quantityBefore;
         this.incomingQuantity = incomingQuantity;
@@ -35,12 +35,12 @@ public class InventoryControl implements IEntity {
         this.userId = userId;
     }
 
-    public String getProductId() {
-        return productId;
+    public int getInventoryId() {
+        return inventoryId;
     }
 
-    public void setProductId(String productId) {
-        this.productId = productId;
+    public void setInventoryId(int inventoryId) {
+        this.inventoryId = inventoryId;
     }
 
     public Timestamp getDate() {

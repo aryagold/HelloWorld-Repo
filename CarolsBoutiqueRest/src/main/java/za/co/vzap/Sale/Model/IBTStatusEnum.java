@@ -6,7 +6,7 @@ import java.util.Map;
 public enum IBTStatusEnum {
     REQUESTED(0),
     APPROVED(1),
-    REJECTED(2),
+    DECLINED(2),
     COMPLETED(3);
 
     private int value;

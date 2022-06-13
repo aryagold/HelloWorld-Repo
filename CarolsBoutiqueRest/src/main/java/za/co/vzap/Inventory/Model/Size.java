@@ -1,6 +1,6 @@
 package za.co.vzap.Inventory.Model;
 
-import za.co.vzap.Sale.Model.IEntity;
+import za.co.vzap.Interface.Model.IEntity;
 
 public class Size implements IEntity { // created this model for LOOKUP purposes. CRUD only takes place database side.
     public int Id;

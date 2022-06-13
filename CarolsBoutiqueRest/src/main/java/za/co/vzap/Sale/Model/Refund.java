@@ -1,5 +1,6 @@
 package za.co.vzap.Sale.Model;
 
+import za.co.vzap.Interface.Model.IEntity;
 import java.sql.Timestamp;
 
 public class Refund implements IEntity {

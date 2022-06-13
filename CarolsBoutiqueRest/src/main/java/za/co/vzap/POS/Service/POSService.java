@@ -17,6 +17,7 @@ import za.co.vzap.Inventory.Repository.ProductRepository;
 import za.co.vzap.Inventory.Repository.SizeRepository;
 import za.co.vzap.Sale.Model.IBT;
 import za.co.vzap.Sale.Model.IBTStatusEnum;
+import za.co.vzap.Sale.Model.IbtDto;
 import za.co.vzap.Sale.Model.Payment;
 import za.co.vzap.Sale.Model.PaymentTypeEnum;
 import za.co.vzap.Sale.Model.Refund;
@@ -61,6 +62,7 @@ import za.co.vzap.Sale.Repository.SaleRepository;
     @Override
     public String addSale(Sale sale) {
         sale.setDate(Timestamp.valueOf(LocalDateTime.now()));
+        sale.setPaymentId(0);
         
         String id = saleRepository.add2(sale);
         
@@ -95,23 +97,6 @@ import za.co.vzap.Sale.Repository.SaleRepository;
        // build up receipt with sale line items
     }
     
-    private int addPayment(Payment payment) {
-        if(payment.getType() == PaymentTypeEnum.CASH) return paymentRepository.add(payment);
-            
-        if(randomizePayment()) {
-            
-            payment.setApproved(true);
-            
-        } else {
-        
-            payment.setApproved(false);
-        }
-        
-        return paymentRepository.add(payment);
-        
-        
-    }
-    
     private boolean randomizePayment(){
         int number = (int)(Math.random()+1)*5;
         
@@ -119,34 +104,42 @@ import za.co.vzap.Sale.Repository.SaleRepository;
     }
 
     @Override
-    public boolean completeSale(Payment payment, String saleId) {
+    public int completeSale(Payment payment, String saleId) {
         Sale sale = (Sale) saleRepository.getById(saleId);
+        int paymentId = 0;
+        
         
         if(payment.getType() == PaymentTypeEnum.CASH) {
+            payment.setCardNumber("Cash Payment");
             payment.setApproved(true);
-            addPayment(payment);
-        }
-        
-        if(randomizePayment()) {
             
             sale.setStatus(SaleStatusEnum.COMPLETED);
-            payment.setApproved(true);
-            
-            //email receipt to customer's provided email address on this sale object
+           
+            //email receipt 
             
         } else {
+        
+            if(randomizePayment()) {
+                sale.setStatus(SaleStatusEnum.COMPLETED);
+                
+                payment.setApproved(true);
             
-            sale.setStatus(SaleStatusEnum.NEW);
-            payment.setApproved(false);
+                //email receipt to customer's provided email address on this sale object
+            
+            } else {
+                sale.setStatus(SaleStatusEnum.NEW);
+                
+                payment.setApproved(false);
+            }
         }
         
-        int paymentId = addPayment(payment);
-        
+        paymentId = paymentRepository.add(payment);
         sale.setPaymentId(paymentId);
         
-        return saleRepository.update(sale);
+        saleRepository.update(sale);
         
-        
+        return paymentId;
+          
     }
     
     public List<SaleLineItemDto> getSaleLineItems(String saleId) {
@@ -211,6 +204,7 @@ import za.co.vzap.Sale.Repository.SaleRepository;
         
        Sale sale = (Sale) saleRepository.getById(saleID);
        sale.setStatus(SaleStatusEnum.RESERVED);
+       sale.setPaymentId(0);
        
        return saleRepository.update(sale);
        
@@ -218,85 +212,71 @@ import za.co.vzap.Sale.Repository.SaleRepository;
     }
     
      @Override
-     public void requestIBT(InventoryDto dto, String phoneNumber, String branchIdTo) {
+     public IbtDto requestIbt(int inventoryIdFrom, String branchIdTo, int quantity, String phoneNumber, String emailAddress) {
          IBT ibt = new IBT();
-         ibt.setBranchIdFrom(dto.branchId);
-         ibt.setProductId(dto.productId);
-         ibt.setQuantity(dto.quantity);
-         ibt.setPhoneNumber(phoneNumber);
-         ibt.setStatus(IBTStatusEnum.REQUESTED);
+         
+         ibt.setInventoryIdFrom(inventoryIdFrom);
          ibt.setBranchIdTo(branchIdTo);
+         ibt.setQuantity(quantity);
+         ibt.setPhoneNumber(phoneNumber);
+         ibt.setEmailAddress(emailAddress);
+         ibt.setStatus(IBTStatusEnum.REQUESTED);
          
-         List<Inventory> inventories = inventoryRepository.getWhere("barcode", dto.barcode);
+         ibtRepository.add(ibt);
          
-         Inventory inventory = inventories.get(0);
-         
-         inventory.setQuantity(inventory.getQuantity() - ibt.getQuantity());
-         
-         inventoryRepository.update(inventory);
-         
-         // possible change in ibt from productId to inventoryId, in order to control stock quantities and sales etc.
-         // above 4 lines of code not in correct place. Only after ibt accepted, but works.
-         
-         int id = ibtRepository.add(ibt);
+         return toIbtDto(ibt);
 
      }
     
      @Override
-     public void acceptIBT(int id) {
+     public IbtDto approveIbt(int id) {
          IBT ibt = (IBT) ibtRepository.getById(id);
          ibt.setStatus(IBTStatusEnum.APPROVED);
-         ibtRepository.update(ibt);
+         ibtRepository.update(ibt);     
+         
+         return toIbtDto(ibt);
 
      }
 
      @Override
-     public void declineIBT(int id) {
+     public IbtDto declineIbt(int id) {
          IBT ibt = (IBT) ibtRepository.getById(id);
-         ibt.setStatus(IBTStatusEnum.REJECTED);
+         ibt.setStatus(IBTStatusEnum.DECLINED);
          ibtRepository.update(ibt);
 
+         return toIbtDto(ibt);
      }
 
      @Override
-     public void IBTReceived(int id) {
+     public IbtDto ibtReceived(int id) {
          IBT ibt = (IBT) ibtRepository.getById(id);
          ibt.setStatus(IBTStatusEnum.COMPLETED);
          ibtRepository.update(ibt);
 
+         return toIbtDto(ibt);
+         
          // message must be sent to customer's phone to notfy them their product has arrived
      }
 
      @Override
-     public void payIBT(List<InventoryDto> dtos, int id, String email, String cardNumber) {
-         Payment payment = new Payment();
+     public void payIBT(InventoryDto dto, int id, Sale sale, Payment payment) {
+         LocalDateTime date = LocalDateTime.now();
          int paymentId = 0;
+         sale.setDate(Timestamp.valueOf(date));
+         sale.setPaymentId(paymentId);
+         sale.setStatus(SaleStatusEnum.NEW);
          
          IBT ibt = (IBT) ibtRepository.getById(id);
          
-         String branchId = ibt.getBranchIdFrom();
+//         String branchId = ibt.getBranchIdFrom();
+//         sale.setUserId(branchId);
          
-         Branch branch = (Branch) branchRepository.getById(branchId);
+         String saleId = addSale(sale);
          
-         if(cardNumber == null) {
-             payment.setType(PaymentTypeEnum.CASH);
-             payment.setApproved(true);
-             paymentId = addPayment(payment);
-         } else {
-             payment.setType(PaymentTypeEnum.CARD);
-             paymentId = addPayment(payment);
-         }
+         completeSale(payment, saleId);
          
-         LocalDateTime date = LocalDateTime.now();
+         saleLineItemRepository.add(new SaleLineItem(saleId, dto.Id));
          
-         if(payment.isApproved()) {
-            String saleId = saleRepository.add2(new Sale(branch.branchId, email, Timestamp.valueOf(date), paymentId, SaleStatusEnum.COMPLETED));
-         
-            for(InventoryDto item : dtos) {
-                saleLineItemRepository.add(new SaleLineItem(saleId, item.Id));
-            }
-         }
-
      }
           
 
@@ -320,6 +300,27 @@ import za.co.vzap.Sale.Repository.SaleRepository;
         return dto;
     }
     
+    private IbtDto toIbtDto(IBT ibt) {
+        IbtDto dto = new IbtDto();
+        
+        dto.inventoryIdFrom = ibt.getInventoryIdFrom();
+        dto.branchIdTo = ibt.getBranchIdTo();
+        dto.phoneNumber = ibt.getPhoneNumber();
+        dto.emailAddress = ibt.getEmailAddress();
+        dto.quantity = ibt.getQuantity();
+        dto.statusName = ibt.getStatus().name();
+        
+        Inventory inventoryFrom = (Inventory) inventoryRepository.getById(ibt.getInventoryIdFrom());
+        String branchIdFrom = inventoryFrom.getBranchId();
+        Branch branchFrom = (Branch) branchRepository.getById(branchIdFrom);
+        dto.branchNameFrom = branchFrom.getName();
+        
+        Branch branchTo = (Branch) branchRepository.getById(ibt.getBranchIdTo());
+        dto.branchNameTo = branchTo.getName();
+        
+        return dto;
+    }
+    
     private RefundItemDto toRefundItemDto(RefundItem refundItem) {
         RefundItemDto dto = new RefundItemDto();
         
@@ -338,6 +339,11 @@ import za.co.vzap.Sale.Repository.SaleRepository;
         dto.sizeName = size.getSize();
         
         return dto;
+    }
+
+    @Override
+    public List<IbtDto> viewIbt() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

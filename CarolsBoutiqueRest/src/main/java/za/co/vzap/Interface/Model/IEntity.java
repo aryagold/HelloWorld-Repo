@@ -1,5 +1,5 @@
 
-package za.co.vzap.Sale.Model;
+package za.co.vzap.Interface.Model;
 
 public interface IEntity {
     

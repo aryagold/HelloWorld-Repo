@@ -5,6 +5,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import za.co.vzap.Customer.Model.Review;
@@ -17,10 +18,10 @@ public class ReportRestController {
     private IReportService reportService = new ReportService();
     
     @GET
-    @Path("gettopachievingstores")
+    @Path("topachievingstores")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTopAchievingStores() {
-        return Response.status(Response.Status.OK).entity(reportService.getTopAchievingStores()).build();
+        return Response.status(Response.Status.OK).entity(reportService.topAchievingStores()).build();
     }
     
     @GET
@@ -31,24 +32,24 @@ public class ReportRestController {
     }
     
     @GET
-    @Path("getmonthlysales")
+    @Path("salesformonth")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getMonthlySales() {
-        return Response.status(Response.Status.OK).entity(reportService.getMonthlySales()).build();
+    public Response getSalesForMonth(@QueryParam("branchId")String branchId, @QueryParam("month")String month) {
+        return Response.status(Response.Status.OK).entity(reportService.storeSalesByMonth(branchId, month)).build();
     }
     
     @GET
-    @Path("gettopemployees")
+    @Path("topsellingemployees")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getTopEmployees() {
-        return Response.status(Response.Status.OK).entity(reportService.getTopEmployees()).build();
+    public Response getTopEmployees(@QueryParam("branchId")String branchId) {
+        return Response.status(Response.Status.OK).entity(reportService.topSellingEmployees(branchId)).build();
     }
     
     @GET
-    @Path("getstoresattarget")
+    @Path("storesattarget")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getStoresAtTarget() {
-        return Response.status(Response.Status.OK).entity(reportService.getStoresAtTarget()).build();
+        return Response.status(Response.Status.OK).entity(reportService.storesAtTarget()).build();
     }
     
     @GET
@@ -73,10 +74,10 @@ public class ReportRestController {
     }
     
     @GET
-    @Path("getdailysales")
+    @Path("storedailysales")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getDailySales() {
-        return Response.status(Response.Status.OK).entity(reportService.getDailySales()).build();
+    public Response getDailySales(@QueryParam("branchId")String branchId) {
+        return Response.status(Response.Status.OK).entity(reportService.storeDailySales(branchId)).build();
     }
     
     @GET
