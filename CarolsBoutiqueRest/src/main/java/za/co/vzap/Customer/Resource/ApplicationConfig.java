@@ -18,6 +18,7 @@ public class ApplicationConfig extends Application {
         resources.add(za.co.vzap.Customer.Resource.CustomerRestController.class);
         resources.add(za.co.vzap.Inventory.Resource.InventoryRestController.class);
         resources.add(za.co.vzap.POS.Resource.POSRestController.class);
+        resources.add(za.co.vzap.Product.Resource.ProductRestController.class);
         resources.add(za.co.vzap.Report.Resource.ReportRestController.class);
         resources.add(za.co.vzap.User.Resource.UserRestController.class);
     }

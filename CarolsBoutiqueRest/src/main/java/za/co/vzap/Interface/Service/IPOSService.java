@@ -2,14 +2,11 @@ package za.co.vzap.Interface.Service;
 
 import java.util.List;
 import za.co.vzap.Inventory.Model.InventoryDto;
-import za.co.vzap.Sale.Model.IBT;
-import za.co.vzap.Sale.Model.IEntity;
+import za.co.vzap.Sale.Model.IbtDto;
 import za.co.vzap.Sale.Model.Payment;
 import za.co.vzap.Sale.Model.Refund;
-import za.co.vzap.Sale.Model.RefundItem;
 import za.co.vzap.Sale.Model.RefundItemDto;
 import za.co.vzap.Sale.Model.Sale;
-import za.co.vzap.Sale.Model.SaleLineItem;
 import za.co.vzap.Sale.Model.SaleLineItemDto;
 
 public interface IPOSService {
@@ -25,19 +22,21 @@ public interface IPOSService {
     
     RefundItemDto addRefundItem(RefundItemDto dto);
     
-    boolean completeSale(Payment payment, String saleId);
+    int completeSale(Payment payment, String saleId);
     
     boolean deleteSaleLineItem(int saleLineItemId);
     
     boolean reserveSale(String saleID);
     
-    void requestIBT(InventoryDto dto, String phoneNumber, String branchIdTo);
+    IbtDto requestIbt(int inventoryIdFrom, String branchIdTo, int quantity, String phoneNumber, String emailAddress);
 
-    void acceptIBT(int id);
+    IbtDto approveIbt(int id);
 
-    void IBTReceived(int id);
+    IbtDto declineIbt(int id);
+    
+    IbtDto ibtReceived(int id);
 
-    void declineIBT(int id);
-
-    void payIBT(List<InventoryDto> dtos, int id, String email, String cardNumber);
+    void payIBT(InventoryDto dto, int id, Sale sale, Payment payment);
+    
+    List<IbtDto> viewIbt();
 }

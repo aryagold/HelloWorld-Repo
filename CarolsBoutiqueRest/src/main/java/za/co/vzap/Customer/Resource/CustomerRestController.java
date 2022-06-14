@@ -16,7 +16,7 @@ import za.co.vzap.Customer.Service.CustomerService;
 import za.co.vzap.Interface.Repository.IRepository;
 import za.co.vzap.Interface.Service.ICustomerService;
 import za.co.vzap.Report.Model.ItemAmount;
-import za.co.vzap.Report.Model.TopAchievingStores;
+import za.co.vzap.Report.Model.TopAchievingStoresDto;
 
 @Path("customer")
 public class CustomerRestController {
@@ -45,8 +45,8 @@ public class CustomerRestController {
     @GET
     @Path("test")
     @Produces(MediaType.APPLICATION_JSON)
-    public TopAchievingStores test() {
-        TopAchievingStores stores = new TopAchievingStores();
+    public TopAchievingStoresDto test() {
+        TopAchievingStoresDto stores = new TopAchievingStoresDto();
         stores.storeSales.add(new ItemAmount("store1", 1000000));
         return stores;
     }

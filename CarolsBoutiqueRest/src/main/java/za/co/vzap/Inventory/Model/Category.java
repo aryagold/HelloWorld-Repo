@@ -1,6 +1,6 @@
 package za.co.vzap.Inventory.Model;
 
-import za.co.vzap.Sale.Model.IEntity;
+import za.co.vzap.Interface.Model.IEntity;
 
 public class Category implements IEntity {
     public String categoryId;

@@ -1,14 +1,8 @@
 package za.co.vzap.Interface.Repository;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import za.co.vzap.Interface.Repository.IRepository;
 import java.sql.*;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public abstract class RepositoryBase<IEntity> implements IRepository<IEntity> {
     protected Connection con;
@@ -26,15 +20,15 @@ public abstract class RepositoryBase<IEntity> implements IRepository<IEntity> {
         this.prop = new Properties();
 
         try {
-            prop.load(new FileInputStream("src/Resources/MySQL.properties"));
+//            prop.load(new FileInputStream("MySQL.properties"));
 
-            Class.forName(prop.getProperty("driver"));
-        } catch (ClassNotFoundException | IOException e) {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
         try {
-            this.con = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("username"), prop.getProperty("password"));
+            this.con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/carolsboutique?useSSL=false", "root", "rootroot");
         } catch (SQLException e) {
             e.printStackTrace();
         }

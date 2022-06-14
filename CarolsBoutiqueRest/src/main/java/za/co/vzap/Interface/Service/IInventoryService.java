@@ -2,25 +2,18 @@
 package za.co.vzap.Interface.Service;
 
 import java.util.List;
-import za.co.vzap.Inventory.Model.Category;
-import za.co.vzap.Inventory.Model.Inventory;
-import za.co.vzap.Inventory.Model.InventoryControl;
+import za.co.vzap.Inventory.Model.InventoryControlDto;
 import za.co.vzap.Inventory.Model.InventoryDto;
-import za.co.vzap.Inventory.Model.Product;
-import za.co.vzap.Sale.Model.IBT;
-import za.co.vzap.Sale.Model.Sale;
 
 public interface IInventoryService {
-    InventoryDto addInventoryControl(String userId, String barcode, int quantity) throws Exception;
+    List<InventoryDto> getBranchInventory(String userId);
     
-    String addInventory(InventoryDto dto);
+    InventoryControlDto captureInventory(String userId, String barcode, int quantity) throws Exception;
     
-    String addProduct(Product product, List<String> categoryIds);
+    InventoryDto addInventory(String userId, String productId, int sizeId, String barcode);
     
-    String addCategory(Category category);
+    List<InventoryDto> findStockWithProductId(String productId) throws Exception;
     
-    List<InventoryDto> findProductWithProductId(String productId) throws Exception;
-    
-    List<InventoryDto> findProductWithBarcode(String barcode) throws Exception;
+    List<InventoryDto> findStockWithBarcode(String barcode) throws Exception;
     
 }

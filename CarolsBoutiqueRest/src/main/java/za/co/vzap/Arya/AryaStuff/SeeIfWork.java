@@ -3,8 +3,12 @@ package za.co.vzap.Arya.AryaStuff;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import za.co.vzap.Branch.Model.Branch;
 import za.co.vzap.Branch.Repository.BranchRepository;
+import za.co.vzap.Communication.Email.Email;
+import za.co.vzap.Communication.Model.CommunicationDto;
 import za.co.vzap.Customer.Model.Customer;
 import za.co.vzap.Customer.Model.Review;
 import za.co.vzap.Interface.Repository.IRepository;
@@ -18,6 +22,7 @@ import za.co.vzap.Interface.Service.IUserService;
 import za.co.vzap.Inventory.Model.Category;
 import za.co.vzap.Inventory.Model.Inventory;
 import za.co.vzap.Inventory.Model.InventoryControl;
+import za.co.vzap.Inventory.Model.InventoryDto;
 import za.co.vzap.Inventory.Model.Product;
 import za.co.vzap.Inventory.Model.Size;
 import za.co.vzap.Inventory.Repository.CategoryRepository;
@@ -91,7 +96,7 @@ public class SeeIfWork {
         
         customerService = new CustomerService(reviewRepository, customerRepository);
         userService = new UserService(userRepository, branchRepository);
-        inventoryService = new InventoryService(productRepository, productCategoryRepository, inventoryControlRepository, inventoryRepository, sizeRepository, saleRepository, categoryRepository, branchRepository);
+        inventoryService = new InventoryService(productRepository, inventoryControlRepository, inventoryRepository, sizeRepository, branchRepository, userRepository);
         posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository);
         
     }
@@ -102,6 +107,19 @@ public class SeeIfWork {
     
     public void run() {
         
+        try {
+            
+            
+//            int paymentId = posService.completeSale(new Payment(PaymentTypeEnum.CASH, "", false), "SL014");
+//            System.out.println("The payment ID is : " + paymentId);
+            
+//            String id = posService.addSale(new Sale("US050", "aryagoldridge@gmail.com", Timestamp.valueOf(LocalDateTime.now()), 0, SaleStatusEnum.NEW));
+//            
+//            System.out.println("The sale ID is: " + id);
+
+//            InventoryDto dto = inventoryService.addInventoryControl("US005", "00401", 2);
+//            System.out.println("The Dto returned is: " + dto);
+            
 //        boolean reserved = posService.reserveSale("SL001");
 //        
 //        System.out.println("The sale is reserved is: " + reserved);
@@ -138,9 +156,9 @@ public class SeeIfWork {
 //        // branch id, size id, product id, barcode, quantity
 //        
 //        System.out.println("The inventory ID is: " + id);
-        
-        
-        
+
+
+
 //        int id = inventoryControlRepository.add(new InventoryControl("US001", "PR001", Timestamp.valueOf(LocalDateTime.now()), 3, 2, 5, false));
 //        System.out.println("Inventory Control ID: " + id);
         
@@ -150,8 +168,8 @@ public class SeeIfWork {
 //      int id = customerRepository.add(new Customer("aryagoldtestdb", "0798036817"));
 //        
 //      System.out.println("The customer ID is: " + id);
-        
-        
+
+
 //      String id = userRepository.add2(new User("Kendall", "employee@gmail.com", "BR007", "password", RoleEnum.TELLER));
 //        
 //      System.out.println("The user ID is: " + id);
@@ -167,11 +185,11 @@ public class SeeIfWork {
 //          User user = userService.login(new User("US001", "password"));
 //          
 //          System.out.println("The returned user is: " + user.toString());
-      
-        
+
+
 //      String id = categoryRepository.add2(new Category("Womens Athleisure"));
 //      System.out.println("The category ID is: " + id);
-        
+
 
 //        String id = branchRepository.add2(new Branch("ParktownCarolsBoutique", 5435.5, 434.5));
 //        System.out.println(id);
@@ -187,7 +205,7 @@ public class SeeIfWork {
 //        
 //      System.out.println("The product ID is: " + id);
 
-//        String response = inventoryService.addProduct(new Product("", 500.00), Arrays.asList("CA005"));
+//        String response = inventoryService.addProduct(new Product("Leather Sneaker", 500.00), Arrays.asList("CA015"));
 //        
 //        System.out.println(response);
 
@@ -203,6 +221,9 @@ public class SeeIfWork {
 //        Review review = new Review("friendly", 9, "BR001");
 //        int id = customerService.addReview(review);
 //        System.out.println("Review ID is: " + id);
+        } catch (Exception ex) {
+            Logger.getLogger(SeeIfWork.class.getName()).log(Level.SEVERE, null, ex);
+        }
     
     }
 }
