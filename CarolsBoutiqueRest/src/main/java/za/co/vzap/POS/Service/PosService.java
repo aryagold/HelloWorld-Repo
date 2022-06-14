@@ -254,14 +254,12 @@ public class PosService implements IPosService {
         if(type == 1) {
             List<Inventory> inventoryItems = inventoryRepository.getWhere("branchId", branch.branchId);
             
-            ibts = ibtRepository.getAll();
-            
             for (IBT ibt : ibts) {
                 for(Inventory item : inventoryItems) {
-                    if(item.getBranchId().equals(item.getBranchId())) {
-                        dtos.add(toIbtDto(ibt));
-                    }
+                    
                 }
+                
+                dtos.add(toIbtDto(ibt));
             }
         }
        
