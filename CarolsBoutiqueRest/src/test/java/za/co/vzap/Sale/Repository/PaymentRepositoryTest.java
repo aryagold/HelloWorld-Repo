@@ -7,8 +7,8 @@ package za.co.vzap.Sale.Repository;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import za.co.vzap.Interface.Repository.IRepository;
-import za.co.vzap.Sale.Model.Payment;
-import za.co.vzap.Sale.Model.PaymentTypeEnum;
+import za.co.vzap.POS.Model.Payment;
+import za.co.vzap.POS.Model.PaymentTypeEnum;
 
 /**
  *

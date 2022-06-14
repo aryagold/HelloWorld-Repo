@@ -1,5 +1,8 @@
 package za.co.vzap.Customer.Service;
 
+import za.co.vzap.Communication.Email.Email;
+import za.co.vzap.Communication.Model.CommunicationDto;
+import za.co.vzap.Communication.Model.EmailTypeEnum;
 import za.co.vzap.Customer.Model.Customer;
 import za.co.vzap.Customer.Model.Review;
 import za.co.vzap.Customer.Repository.CustomerRepository;
@@ -31,10 +34,11 @@ public class CustomerService implements ICustomerService {
     public int addCustomer(Customer customer) {
         
         int id = customerRepository.add(customer);
+        CommunicationDto dto = new CommunicationDto();
+        dto.emailAddressTo = customer.getEmail();
+        dto.emailType = EmailTypeEnum.SUBSCRIPTIONNOTIFICATION;
         
-        // code to send the customer an email notifying them they have joined the newsletter.
-        // possibly substring the email to get a name from the customer and greet them with it in the email? 
-        // as a little something special frill vibe?
+        new Email(dto).start();
         
         return id;
     }

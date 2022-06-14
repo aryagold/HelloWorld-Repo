@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum EmailTypeEnum {
-    SALERECEIPT(0),
+    SALESRECEIPT(0),
     REFUNDRECEIPT(1),
     DEPLETEDSTOCK(2),
     RESERVENOTIFICATION(3),

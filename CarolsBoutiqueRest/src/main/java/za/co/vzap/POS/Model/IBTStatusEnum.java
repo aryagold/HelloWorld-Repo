@@ -1,4 +1,4 @@
-package za.co.vzap.Sale.Model;
+package za.co.vzap.POS.Model;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,7 +7,7 @@ public enum IBTStatusEnum {
     REQUESTED(0),
     APPROVED(1),
     DECLINED(2),
-    COMPLETED(3);
+    RECEIVED(3);
 
     private int value;
     private static Map map = new HashMap<>();

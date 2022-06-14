@@ -6,8 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import za.co.vzap.Sale.Model.IBT;
-import za.co.vzap.Sale.Model.IBTStatusEnum;
+import za.co.vzap.POS.Model.IBT;
+import za.co.vzap.POS.Model.IBTStatusEnum;
 
 public class IBTRepository extends RepositoryBase<IBT> {
     private static String tableName = "ibt";

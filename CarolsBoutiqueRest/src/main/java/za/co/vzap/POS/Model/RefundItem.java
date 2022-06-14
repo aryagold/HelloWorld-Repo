@@ -1,4 +1,4 @@
-package za.co.vzap.Sale.Model;
+package za.co.vzap.POS.Model;
 
 import za.co.vzap.Interface.Model.IEntity;
 

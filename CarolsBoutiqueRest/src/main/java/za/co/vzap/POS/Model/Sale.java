@@ -1,7 +1,9 @@
-package za.co.vzap.Sale.Model;
+package za.co.vzap.POS.Model;
 
 import za.co.vzap.Interface.Model.IEntity;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Sale implements IEntity {
     public String saleId;
@@ -10,6 +12,8 @@ public class Sale implements IEntity {
     private Timestamp date;
     private Integer paymentId;
     private SaleStatusEnum status;
+    
+    public List<SaleLineItem> items = new ArrayList<>();
 
     public Sale(String userId, String customerEmail, Timestamp date, Integer paymentId, SaleStatusEnum status) {
         this.userId = userId;
