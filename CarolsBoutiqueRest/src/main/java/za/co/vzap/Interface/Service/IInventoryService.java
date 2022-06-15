@@ -16,4 +16,6 @@ public interface IInventoryService {
     
     List<InventoryDto> findStockWithBarcode(String barcode) throws Exception;
     
+    InventoryDto getItem(String barcode);
+    
 }

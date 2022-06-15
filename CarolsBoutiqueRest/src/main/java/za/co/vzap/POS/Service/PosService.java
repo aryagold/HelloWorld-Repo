@@ -115,52 +115,38 @@ public class PosService implements IPosService {
     }
 
     @Override
-    public int addRefund(Refund refund) {
+    public RefundDto addRefund(RefundDto dto) {
+        Refund refund = PosMapper.toRefund(dto);
+        
         refund.setDate(Timestamp.valueOf(LocalDateTime.now()));
+        
+        int id = refundRepository.add(refund);
+        
+        for (RefundItemDto itemDto : dto.refundItems) {
+            itemDto.refundId = id;
 
-        return refundRepository.add(refund);
+            RefundItem item = PosMapper.toRefundItem(itemDto);
 
-    }
-
-    @Override
-    public RefundItemDto addRefundItem(RefundItemDto dto) {
-        List<Inventory> items = inventoryRepository.getWhere("barcode", dto.barcode);
-
-        Inventory inventory = items.get(0);
-
-        inventory.setQuantity(inventory.getQuantity() + 1);
-
-        inventoryRepository.update(inventory);
-
-        RefundItem refundItem = new RefundItem(inventory.Id, dto.refundId);
-
-        refundItemRepository.add(refundItem);
-
-        return toRefundItemDto(refundItem);
-
-    }
-
-    @Override
-    public RefundDto completeRefund(int refundId) {
-        Refund refund = (Refund) refundRepository.getById(refundId);
-        Sale sale = (Sale) saleRepository.getById(refund.getSaleId());
-
-        CommunicationDto dto = new CommunicationDto();
-
-        refund.setStatus(RefundStatusEnum.COMPLETED);
-
-        refundRepository.update(refund);
-
-        if (refund.getStatus() == RefundStatusEnum.COMPLETED) {
-
-            dto.emailType = EmailTypeEnum.REFUNDRECEIPT;
-            dto.emailAddressTo = sale.getCustomerEmail();
-            dto.data = toRefundDto(refund);
-
-            new Email(dto).start();
+            refundItemRepository.add(item);
         }
+        
+        dto = getRefund(id);
+        
+        sendRefundReceipt(dto);
 
-        return (RefundDto) dto.data;
+        return dto;
+
+    }
+    
+    @Override
+    public RefundDto getRefund(int id) {
+        Refund refund = (Refund) refundRepository.getById(id);
+        
+        refund.items = refundItemRepository.getWhere("refundId", id);
+        
+        RefundDto dto = PosMapper.toRefundDto(refund);
+        
+        return dto;
     }
 
     @Override
@@ -192,7 +178,7 @@ public class PosService implements IPosService {
 
         ibtRepository.add(ibt);
 
-        return toIbtDto(ibt);
+        return PosMapper.toIbtDto(ibt);
     }
     
     @Override
@@ -201,37 +187,11 @@ public class PosService implements IPosService {
         
         ibtRepository.update(ibt);
         
-        return toIbtDto(ibt);
-    }
-
-    @Override
-    public IbtDto approveIbt(int id) {
-        IBT ibt = (IBT) ibtRepository.getById(id);
-        ibt.setStatus(IBTStatusEnum.APPROVED);
-        ibtRepository.update(ibt);
-
-        return toIbtDto(ibt);
-
-    }
-
-    @Override
-    public IbtDto declineIbt(int id) {
-        IBT ibt = (IBT) ibtRepository.getById(id);
-        ibt.setStatus(IBTStatusEnum.DECLINED);
-        ibtRepository.update(ibt);
-
-        return toIbtDto(ibt);
-    }
-
-    @Override
-    public IbtDto ibtReceived(int id) {
-        IBT ibt = (IBT) ibtRepository.getById(id);
-        ibt.setStatus(IBTStatusEnum.RECEIVED);
-        ibtRepository.update(ibt);
-
-        return toIbtDto(ibt);
-
-        // message must be sent to customer's phone to notfy them their product has arrived
+        if(ibt.getStatus() == IBTStatusEnum.RECEIVED){
+            sendIbtNotification(dto);
+        }
+           
+        return PosMapper.toIbtDto(ibt);
     }
     
     @Override
@@ -242,90 +202,30 @@ public class PosService implements IPosService {
         Branch branch = (Branch) branchRepository.getById(user.getBranchId());
         
         List<IBT> ibts = new ArrayList<>();
+        List<IBT> ibt1 = new ArrayList<>();
         
         if(type == 0) {
             ibts = ibtRepository.getWhere("branchIdTo", branch.branchId);
             
             for (IBT ibt : ibts) {
-                dtos.add(toIbtDto(ibt));
+                dtos.add(PosMapper.toIbtDto(ibt));
             }
         }
         
         if(type == 1) {
             List<Inventory> inventoryItems = inventoryRepository.getWhere("branchId", branch.branchId);
             
-            for (IBT ibt : ibts) {
-                for(Inventory item : inventoryItems) {
-                    
-                }
-                
-                dtos.add(toIbtDto(ibt));
+            for(Inventory item : inventoryItems) {
+                ibts = ibtRepository.getWhere("inventoryIdFrom", item.Id);
+                for(IBT ibt : ibts) {
+                    dtos.add(PosMapper.toIbtDto(ibt));
+                } 
             }
         }
        
         
         return dtos;
     }
-
-
-    private RefundDto toRefundDto(Refund refund) {
-        RefundDto dto = new RefundDto();
-        List<RefundItem> items = refundItemRepository.getWhere("refundId", refund.Id);
-
-        dto.Id = refund.Id;
-        dto.saleId = refund.getSaleId();
-        dto.date = refund.getDate();
-
-        for (RefundItem item : items) {
-            dto.refundItems.add(toRefundItemDto(item));
-        }
-
-        return dto;
-    }
-
-    private IbtDto toIbtDto(IBT ibt) {
-        IbtDto dto = new IbtDto();
-
-        dto.Id = ibt.Id;
-        dto.inventoryIdFrom = ibt.getInventoryIdFrom();
-        dto.branchIdTo = ibt.getBranchIdTo();
-        dto.phoneNumber = ibt.getPhoneNumber();
-        dto.emailAddress = ibt.getEmailAddress();
-        dto.quantity = ibt.getQuantity();
-        dto.statusName = ibt.getStatus().name();
-
-        Inventory inventoryFrom = (Inventory) inventoryRepository.getById(ibt.getInventoryIdFrom());
-        String branchIdFrom = inventoryFrom.getBranchId();
-        Branch branchFrom = (Branch) branchRepository.getById(branchIdFrom);
-        dto.branchNameFrom = branchFrom.getName();
-
-        Branch branchTo = (Branch) branchRepository.getById(ibt.getBranchIdTo());
-        dto.branchNameTo = branchTo.getName();
-
-        return dto;
-    }
-
-    private RefundItemDto toRefundItemDto(RefundItem refundItem) {
-        RefundItemDto dto = new RefundItemDto();
-
-        dto.Id = refundItem.Id;
-        dto.inventoryId = refundItem.getInventoryId();
-        dto.refundId = refundItem.getRefundId();
-
-        Inventory inventory = (Inventory) inventoryRepository.getById(refundItem.getInventoryId());
-        dto.barcode = inventory.getBarcode();
-
-        Product product = (Product) productRepository.getById(inventory.getProductId());
-        dto.productName = product.getName();
-        dto.price = product.getPrice();
-
-        Size size = (Size) sizeRepository.getById(inventory.getSizeId());
-        dto.sizeName = size.getSize();
-
-        return dto;
-    }
-
-   
 
     private void sendSalesReceipt(SaleDto saleDto) {
         CommunicationDto dto = new CommunicationDto();
@@ -336,9 +236,20 @@ public class PosService implements IPosService {
 
         new Email(dto).start();
     }
-
     
+    private void sendRefundReceipt(RefundDto refundDto) {
+        CommunicationDto dto = new CommunicationDto();
+        
+        Sale sale = (Sale) saleRepository.getById(refundDto.saleId);
+        
+        dto.emailType = EmailTypeEnum.REFUNDRECEIPT;
+        dto.emailAddressTo = sale.getCustomerEmail();
+        dto.data = refundDto;
+        
+        new Email(dto).start();
+    }
 
-    
-
+    private void sendIbtNotification(IbtDto dto) {
+        // sms stuff goes here
+    }
 }

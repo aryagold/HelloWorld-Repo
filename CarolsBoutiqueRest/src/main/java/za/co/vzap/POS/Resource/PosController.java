@@ -25,8 +25,7 @@ import za.co.vzap.Sale.Repository.SaleLineItemRepository;
 import za.co.vzap.Sale.Repository.SaleRepository;
 import za.co.vzap.Interface.Service.IPosService;
 import za.co.vzap.POS.Model.IbtDto;
-import za.co.vzap.POS.Model.Refund;
-import za.co.vzap.POS.Model.RefundItemDto;
+import za.co.vzap.POS.Model.RefundDto;
 import za.co.vzap.POS.Model.SaleDto;
 import za.co.vzap.User.Repository.UserRepository;
 
@@ -64,21 +63,22 @@ public class PosController extends ControllerBase {
     }
     
     @POST
-    @Path("addrefund")
+    @Path("refund")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addRefund(Refund refund) {
+    public Response addRefund(RefundDto dto) {
+        dto = posService.addRefund(dto);
 
-        return Response.status(Response.Status.OK).entity(posService.addRefund(refund)).build();
+        return Response.status(Response.Status.OK).entity(dto).build();
     }
     
-    @POST
-    @Path("addrefunditem")
+    @GET
+    @Path("refund")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addRefundItem(RefundItemDto dto) {
+    public Response getRefund(@QueryParam("id")int id) {
 
-        return Response.status(Response.Status.OK).entity(posService.addRefundItem(dto)).build();
+        return Response.status(Response.Status.OK).entity(posService.getRefund(id)).build();
     }
     
     @POST

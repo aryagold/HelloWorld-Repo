@@ -16,23 +16,15 @@ public interface IPosService {
     
     SaleDto getSale(String id);
     
-    int addRefund(Refund refund);
+    RefundDto addRefund(RefundDto dto);
     
-    RefundItemDto addRefundItem(RefundItemDto dto);
-    
-    RefundDto completeRefund(int refundId);
+    RefundDto getRefund(int id);
     
     boolean reserveSale(String saleID);
     
     IbtDto addIbt(IbtDto dto);
     
     IbtDto updateIbt(IbtDto dto);
-
-    IbtDto approveIbt(int id);
-
-    IbtDto declineIbt(int id);
-    
-    IbtDto ibtReceived(int id);
     
     List<IbtDto> listIbt(String userId, int type);
     

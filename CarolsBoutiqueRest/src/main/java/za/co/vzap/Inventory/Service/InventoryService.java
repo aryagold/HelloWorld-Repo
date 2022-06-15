@@ -41,7 +41,7 @@ public class InventoryService implements IInventoryService {
         List<Inventory> inventoryItems = inventoryRepository.getWhere("branchId", user.getBranchId());
         
         for(Inventory item : inventoryItems) {
-            dtos.add(toInventoryDto(item));
+            dtos.add(InventoryMapper.toInventoryDto(item));
         }
         
         return dtos;
@@ -100,7 +100,7 @@ public class InventoryService implements IInventoryService {
             
         inventoryControlRepository.update(inventoryControl);
             
-        return toInventoryControlDto(inventoryControl);
+        return InventoryMapper.toInventoryControlDto(inventoryControl);
     }
     
     @Override
@@ -117,7 +117,7 @@ public class InventoryService implements IInventoryService {
         
         inventoryRepository.add(inventory);
         
-        return toInventoryDto(inventory);
+        return InventoryMapper.toInventoryDto(inventory);
     }
 
     @Override
@@ -126,7 +126,7 @@ public class InventoryService implements IInventoryService {
         List<Inventory> items = inventoryRepository.getWhere("productId", productId);
         
         for(Inventory item: items) {
-            InventoryDto dto = toInventoryDto(item);
+            InventoryDto dto = InventoryMapper.toInventoryDto(item);
             
             dtos.add(dto);
         }
@@ -145,7 +145,7 @@ public class InventoryService implements IInventoryService {
         List<Inventory> items = inventoryRepository.getWhere("productId", productId);
         
         for(Inventory item : items) {
-            InventoryDto dto = toInventoryDto(item);
+            InventoryDto dto = InventoryMapper.toInventoryDto(item);
             
             dtos.add(dto);
         }
@@ -153,50 +153,13 @@ public class InventoryService implements IInventoryService {
         return dtos;
     }
     
-    private InventoryDto toInventoryDto(Inventory inventory) {
-        InventoryDto dto = new InventoryDto();
+    @Override
+    public InventoryDto getItem(String barcode) {
+        List<Inventory> items = inventoryRepository.getWhere("barcode", barcode);
         
-        dto.Id = inventory.Id;
-        dto.branchId = inventory.getBranchId();
-        dto.sizeId = inventory.getSizeId();
-        dto.productId = inventory.getProductId();
-        dto.barcode = inventory.getBarcode();
-        dto.quantity = inventory.getQuantity();
+        InventoryDto dto = InventoryMapper.toInventoryDto(items.get(0));
         
-        Branch branch = (Branch) branchRepository.getById(inventory.getBranchId());
-        dto.branchName = branch.getName();
-        
-        Product product = (Product) productRepository.getById(inventory.getProductId());
-        dto.productName = product.getName();
-    
-        Size size = (Size) sizeRepository.getById(inventory.getSizeId());
-        dto.sizeName = size.getSize();
-    
         return dto;
-    }
+    }  
 
-    private InventoryControlDto toInventoryControlDto(InventoryControl inventoryControl) {
-        InventoryControlDto dto = new InventoryControlDto();
-        
-        dto.Id = inventoryControl.Id;
-        dto.userId = inventoryControl.getUserId();
-        dto.inventoryId = inventoryControl.getInventoryId();
-        dto.date = inventoryControl.getDate();
-        dto.quantityBefore = inventoryControl.getQuantityBefore();
-        dto.incomingQuantity = inventoryControl.getIncomingQuantity();
-        dto.newStockQuantity = inventoryControl.getNewStockQuantity();
-        dto.posted = inventoryControl.isPosted();
-        
-        Inventory inventory = (Inventory) inventoryRepository.getById(dto.inventoryId);
-        
-        Product product = (Product) productRepository.getById(inventory.getProductId());
-        dto.productName = product.getName();
-
-        Size size = (Size) sizeRepository.getById(inventory.getSizeId());
-        dto.sizeName = size.getSize();
-
-        return dto;
-    }   
-
-    
 }

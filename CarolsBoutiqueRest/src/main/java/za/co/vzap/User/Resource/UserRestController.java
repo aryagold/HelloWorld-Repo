@@ -31,11 +31,11 @@ public class UserRestController {
     }
     
     @POST
-    @Path("updatetoteller/{userId}")
+    @Path("updatetoteller")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateToTeller(@PathParam("userId")String userId) {
-        return Response.status(Response.Status.OK).entity(userService.updateToTeller(userId)).build();
+    public Response updateToTeller(TellerRequest request) {
+        return Response.status(Response.Status.OK).entity(userService.updateToTeller(request.userId)).build();
     }
     
     @POST

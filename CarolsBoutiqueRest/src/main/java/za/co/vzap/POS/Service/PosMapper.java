@@ -1,6 +1,8 @@
 package za.co.vzap.POS.Service;
 
 import java.util.List;
+import za.co.vzap.Branch.Model.Branch;
+import za.co.vzap.Branch.Repository.BranchRepository;
 import za.co.vzap.Interface.Repository.IRepository;
 import za.co.vzap.Inventory.Model.Inventory;
 import za.co.vzap.Inventory.Model.Product;
@@ -10,11 +12,17 @@ import za.co.vzap.Inventory.Repository.ProductRepository;
 import za.co.vzap.Inventory.Repository.SizeRepository;
 import za.co.vzap.POS.Model.IBT;
 import za.co.vzap.POS.Model.IbtDto;
+import za.co.vzap.POS.Model.Refund;
+import za.co.vzap.POS.Model.RefundDto;
+import za.co.vzap.POS.Model.RefundItem;
+import za.co.vzap.POS.Model.RefundItemDto;
+import za.co.vzap.POS.Model.RefundStatusEnum;
 import za.co.vzap.POS.Model.Sale;
 import za.co.vzap.POS.Model.SaleDto;
 import za.co.vzap.POS.Model.SaleLineItem;
 import za.co.vzap.POS.Model.SaleLineItemDto;
 import za.co.vzap.POS.Model.SaleStatusEnum;
+import za.co.vzap.Sale.Repository.RefundItemRepository;
 import za.co.vzap.Sale.Repository.SaleLineItemRepository;
 
 public class PosMapper {
@@ -22,6 +30,8 @@ public class PosMapper {
     private static IRepository inventoryRepository = new InventoryRepository();
     private static IRepository productRepository = new ProductRepository();
     private static IRepository sizeRepository = new SizeRepository();
+    private static IRepository branchRepository = new BranchRepository();
+    private static IRepository refundItemRepository = new RefundItemRepository();
     
     // Sale
     
@@ -85,6 +95,63 @@ public class PosMapper {
         return saleLineItem;
     }
     
+    // Refund
+    
+    public static Refund toRefund(RefundDto dto) {
+        Refund refund = new Refund();
+        
+        refund.setDate(dto.date);
+        refund.setSaleId(dto.saleId);
+        refund.setStatus(RefundStatusEnum.NEW);
+        
+        return refund;
+    }
+    
+    public static RefundItem toRefundItem(RefundItemDto dto) {
+        RefundItem item = new RefundItem();
+        
+        item.setInventoryId(dto.inventoryId);
+        item.setRefundId(dto.refundId);
+        
+        return item;
+    }
+    
+    
+    public static RefundDto toRefundDto(Refund refund) {
+        RefundDto dto = new RefundDto();
+        List<RefundItem> items = refundItemRepository.getWhere("refundId", refund.Id);
+
+        dto.Id = refund.Id;
+        dto.saleId = refund.getSaleId();
+        dto.date = refund.getDate();
+
+        for (RefundItem item : refund.items) {
+            dto.refundItems.add(toRefundItemDto(item));
+        }
+
+        return dto;
+    }
+    
+    public static RefundItemDto toRefundItemDto(RefundItem refundItem) {
+        RefundItemDto dto = new RefundItemDto();
+
+        dto.Id = refundItem.Id;
+        dto.inventoryId = refundItem.getInventoryId();
+        dto.refundId = refundItem.getRefundId();
+
+        Inventory inventory = (Inventory) inventoryRepository.getById(refundItem.getInventoryId());
+        dto.barcode = inventory.getBarcode();
+
+        Product product = (Product) productRepository.getById(inventory.getProductId());
+        dto.productName = product.getName();
+        dto.price = product.getPrice();
+
+        Size size = (Size) sizeRepository.getById(inventory.getSizeId());
+        dto.sizeName = size.getSize();
+
+        return dto;
+    }
+    
     // IBT
     
     public static IBT toIbt(IbtDto dto) {
@@ -99,5 +166,27 @@ public class PosMapper {
         ibt.setStatus(dto.status);
         
         return ibt;
+    }
+    
+    public static IbtDto toIbtDto(IBT ibt) {
+        IbtDto dto = new IbtDto();
+
+        dto.Id = ibt.Id;
+        dto.inventoryIdFrom = ibt.getInventoryIdFrom();
+        dto.branchIdTo = ibt.getBranchIdTo();
+        dto.phoneNumber = ibt.getPhoneNumber();
+        dto.emailAddress = ibt.getEmailAddress();
+        dto.quantity = ibt.getQuantity();
+        dto.statusName = ibt.getStatus().name();
+
+        Inventory inventoryFrom = (Inventory) inventoryRepository.getById(ibt.getInventoryIdFrom());
+        String branchIdFrom = inventoryFrom.getBranchId();
+        Branch branchFrom = (Branch) branchRepository.getById(branchIdFrom);
+        dto.branchNameFrom = branchFrom.getName();
+
+        Branch branchTo = (Branch) branchRepository.getById(ibt.getBranchIdTo());
+        dto.branchNameTo = branchTo.getName();
+
+        return dto;
     }
 }
