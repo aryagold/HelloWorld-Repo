@@ -4,6 +4,16 @@
  */
 package za.co.vzap.ClientService.User;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import za.co.vzap.Interface.Service.IUserService;
 import za.co.vzap.Model.Branch.Branch;
 import za.co.vzap.Model.User.User;
@@ -13,20 +23,78 @@ import za.co.vzap.Model.User.User;
  * @author macpe
  */
 public class UserService implements IUserService{
-
-    @Override
-    public boolean updateToTeller(String arg0) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    
+    private ObjectMapper om;
+    private String url;
+    private Client client;
+    private WebTarget target;
+    private Response response;
+    
+    public UserService (){
+        
+        this.om = new ObjectMapper();
+    
     }
 
     @Override
-    public String addBranch(Branch arg0) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean updateToTeller(String userID) {// the end point was changed to not take any path params.
+        
+        url = "http://localhost:8080/rest/user/updatetoteller";
+        client = ClientBuilder.newClient();
+        target = client.target(url);
+        
+        try {
+            
+            response = target.request(MediaType.APPLICATION_JSON).post(Entity.json(stringJson(userID)));
+            
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return response.readEntity(Boolean.class);
+    
     }
 
     @Override
-    public User login(User arg0) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String addBranch(Branch branch) {
+        
+        url = "http://localhost:8080/rest/user/addbranch";
+        client = ClientBuilder.newClient();
+        target = client.target(url);
+        
+        try {
+            
+            response = target.request(MediaType.APPLICATION_JSON).post(Entity.json(stringJson(branch)));
+            
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return response.readEntity(String.class);
+    
+    }
+
+    @Override
+    public User login(User user) {
+        
+        url = "http://localhost:8080/rest/user/login";
+        client = ClientBuilder.newClient();
+        target = client.target(url);
+        
+        try {
+            
+            response = target.request(MediaType.APPLICATION_JSON).post(Entity.json(stringJson(user)));
+            
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+        return response.readEntity(User.class);
+        
+    }
+    
+    private String stringJson(Object o) throws JsonProcessingException {
+        return new ObjectMapper().writeValueAsString(o);
     }
     
 }

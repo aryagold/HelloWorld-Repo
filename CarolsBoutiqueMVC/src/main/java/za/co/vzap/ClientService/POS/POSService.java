@@ -22,77 +22,107 @@ public class POSService implements IPOSService {
 
     @Override
     public String addSale(Sale arg0) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+     
+        return null;
+    
     }
 
     @Override
     public boolean voidSale(String arg0) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        return false;
+    
     }
 
     @Override
     public SaleLineItemDto addSaleLineItem(SaleLineItemDto arg0) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       
+        return null;
+    
     }
 
     @Override
     public List<SaleLineItemDto> getSaleLineItems(String arg0) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       
+        return null;
+    
     }
 
     @Override
     public int addRefund(Refund arg0) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        return 0;
+    
     }
 
     @Override
     public RefundItemDto addRefundItem(RefundItemDto arg0) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       
+        return null;
+    
     }
 
     @Override
     public int completeSale(Payment arg0, String arg1) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       
+        return 0;
+    
     }
 
     @Override
     public boolean deleteSaleLineItem(int arg0) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        return false;
+    
     }
 
     @Override
     public boolean reserveSale(String arg0) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       
+        return false;
+    
     }
 
     @Override
     public IbtDto requestIbt(int arg0, String arg1, int arg2, String arg3, String arg4) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       
+        return null;   
+    
     }
 
     @Override
     public IbtDto approveIbt(int arg0) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        return null;
+        
     }
 
     @Override
     public IbtDto declineIbt(int arg0) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+        
+        return null;
+    
+     }
 
     @Override
     public IbtDto ibtReceived(int arg0) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    
+        return null;
+    
     }
 
     @Override
     public void payIBT(InventoryDto arg0, int arg1, Sale arg2, Payment arg3) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+          
+    
+    
     }
 
     @Override
     public List<IbtDto> viewIbt() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+         return null;
+    
     }
     
 }
