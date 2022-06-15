@@ -42,14 +42,4 @@ public class CustomerRestController {
         return Response.status(Response.Status.OK).entity(customerService.addCustomer(customer)).build();
     }
     
-    @GET
-    @Path("test")
-    @Produces(MediaType.APPLICATION_JSON)
-    public TopAchievingStoresDto test() {
-        TopAchievingStoresDto stores = new TopAchievingStoresDto();
-        stores.storeSales.add(new ItemAmount("store1", 1000000));
-        return stores;
-    }
-    
-    
 }
