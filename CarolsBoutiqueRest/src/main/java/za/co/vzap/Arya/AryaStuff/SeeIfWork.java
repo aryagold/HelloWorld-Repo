@@ -31,7 +31,7 @@ import za.co.vzap.Inventory.Repository.ProductCategoryRepository;
 import za.co.vzap.Inventory.Repository.ProductRepository;
 import za.co.vzap.Inventory.Repository.SizeRepository;
 import za.co.vzap.Inventory.Service.InventoryService;
-import za.co.vzap.POS.Service.PosService;
+import za.co.vzap.POS.Service.POSService;
 import za.co.vzap.POS.Model.IBT;
 import za.co.vzap.POS.Model.IBTStatusEnum;
 import za.co.vzap.POS.Model.Payment;
@@ -50,7 +50,7 @@ import za.co.vzap.User.Model.RoleEnum;
 import za.co.vzap.User.Model.User;
 import za.co.vzap.User.Repository.UserRepository;
 import za.co.vzap.User.Service.UserService;
-import za.co.vzap.Interface.Service.IPosService;
+import za.co.vzap.Interface.Service.IPOSService;
 
 public class SeeIfWork {
     IRepository customerRepository = null;
@@ -74,7 +74,7 @@ public class SeeIfWork {
     ICustomerService customerService = null;
     IUserService userService = null;
     IInventoryService inventoryService = null;
-    IPosService posService = null;
+    IPOSService posService = null;
     
     public SeeIfWork() {
         customerRepository = new CustomerRepository();
@@ -97,7 +97,7 @@ public class SeeIfWork {
         customerService = new CustomerService(reviewRepository, customerRepository);
         userService = new UserService(userRepository, branchRepository);
         inventoryService = new InventoryService(productRepository, inventoryControlRepository, inventoryRepository, sizeRepository, branchRepository, userRepository);
-        posService = new PosService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
+        posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
         
     }
     

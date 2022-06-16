@@ -33,11 +33,11 @@ import za.co.vzap.Sale.Repository.RefundItemRepository;
 import za.co.vzap.Sale.Repository.RefundRepository;
 import za.co.vzap.Sale.Repository.SaleLineItemRepository;
 import za.co.vzap.Sale.Repository.SaleRepository;
-import za.co.vzap.Interface.Service.IPosService;
 import za.co.vzap.User.Model.User;
 import za.co.vzap.User.Repository.UserRepository;
+import za.co.vzap.Interface.Service.IPOSService;
 
-public class PosService implements IPosService {
+public class POSService implements IPOSService {
 
     private IRepository productRepository;
     private IRepository saleRepository;
@@ -51,7 +51,7 @@ public class PosService implements IPosService {
     private IRepository branchRepository;
     private IRepository userRepository;
 
-    public PosService(IRepository productRepository, IRepository saleRepository, IRepository refundRepository, IRepository refundItemRepository, IRepository inventoryRepository, IRepository saleLineItemRepository, IRepository paymentRepository, IRepository sizeRepository, IRepository ibtRepository, IRepository branchRepository, IRepository userRepository) {
+    public POSService(IRepository productRepository, IRepository saleRepository, IRepository refundRepository, IRepository refundItemRepository, IRepository inventoryRepository, IRepository saleLineItemRepository, IRepository paymentRepository, IRepository sizeRepository, IRepository ibtRepository, IRepository branchRepository, IRepository userRepository) {
         this.productRepository = new ProductRepository();
         this.saleRepository = new SaleRepository();
         this.refundRepository = new RefundRepository();

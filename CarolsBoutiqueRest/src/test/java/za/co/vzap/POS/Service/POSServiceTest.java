@@ -36,8 +36,8 @@ import za.co.vzap.Sale.Repository.SaleRepository;
 import za.co.vzap.User.Model.RoleEnum;
 import za.co.vzap.User.Model.User;
 import za.co.vzap.User.Repository.UserRepository;
-import za.co.vzap.Interface.Service.IPosService;
 import za.co.vzap.POS.Model.SaleDto;
+import za.co.vzap.Interface.Service.IPOSService;
 
 /**
  *
@@ -56,7 +56,7 @@ public class POSServiceTest {
         private IRepository ibtRepository;
         private IRepository branchRepository;
         private IRepository userRepository;
-        private IPosService posService;
+        private IPOSService posService;
 
     @Test
     public void testAddSale() {
@@ -73,7 +73,7 @@ public class POSServiceTest {
         branchRepository = new BranchRepository();
         userRepository = new UserRepository();
         
-        posService = new PosService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
+        posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
         
         Branch branch = new Branch("Testbranch", 10000, 1000);
         String branchId = branchRepository.add2(branch);
@@ -105,7 +105,7 @@ public class POSServiceTest {
         branchRepository = new BranchRepository();
         userRepository = new UserRepository();
 
-        posService = new PosService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
+        posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
 
         Branch branch = new Branch("Testbranch", 10000, 1000);
         String branchId = branchRepository.add2(branch);
@@ -138,7 +138,7 @@ public class POSServiceTest {
         branchRepository = new BranchRepository();
         userRepository = new UserRepository();
 
-        posService = new PosService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
+        posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
        
 //        SaleLineItemDto sliDto = new SaleLineItemDto();
 //        
@@ -161,7 +161,7 @@ public class POSServiceTest {
         branchRepository = new BranchRepository();
         userRepository = new UserRepository();
 
-        posService = new PosService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
+        posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
  
         Branch branch = new Branch("Testbranch", 10000, 1000);
         String branchId = branchRepository.add2(branch);
@@ -193,7 +193,7 @@ public class POSServiceTest {
         branchRepository = new BranchRepository();
         userRepository = new UserRepository();
 
-        posService = new PosService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
+        posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
 
         Branch branch = new Branch("Testbranch", 10000, 1000);
         String branchId = branchRepository.add2(branch);
@@ -225,7 +225,7 @@ public class POSServiceTest {
         branchRepository = new BranchRepository();
         userRepository = new UserRepository();
 
-        posService = new PosService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
+        posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
 
         Branch branch = new Branch("Testbranch", 10000, 1000);
         String branchId = branchRepository.add2(branch);
@@ -259,7 +259,7 @@ public class POSServiceTest {
         branchRepository = new BranchRepository();
         userRepository = new UserRepository();
 
-        posService = new PosService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
+        posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
 
        RefundItemDto rid = new RefundItemDto();
        
@@ -284,7 +284,7 @@ public class POSServiceTest {
         branchRepository = new BranchRepository();
         userRepository = new UserRepository();
 
-        posService = new PosService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
+        posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
 
         Branch branch = new Branch("Testbranch", 10000, 1000);
         String branchId = branchRepository.add2(branch);
@@ -326,7 +326,7 @@ public class POSServiceTest {
         branchRepository = new BranchRepository();
         userRepository = new UserRepository();
 
-        posService = new PosService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
+        posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
 
         Branch branch = new Branch("Testbranch", 10000, 1000);
         String branchId = branchRepository.add2(branch);
@@ -358,7 +358,7 @@ public class POSServiceTest {
         branchRepository = new BranchRepository();
         userRepository = new UserRepository();
 
-        posService = new PosService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
+        posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
 
         Branch branch = new Branch("Testbranch", 10000, 1000);
         String branchId = branchRepository.add2(branch);

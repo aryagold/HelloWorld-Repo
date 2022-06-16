@@ -16,18 +16,18 @@ import za.co.vzap.Interface.Repository.IRepository;
 import za.co.vzap.Inventory.Repository.InventoryRepository;
 import za.co.vzap.Inventory.Repository.ProductRepository;
 import za.co.vzap.Inventory.Repository.SizeRepository;
-import za.co.vzap.POS.Service.PosService;
+import za.co.vzap.POS.Service.POSService;
 import za.co.vzap.Sale.Repository.IBTRepository;
 import za.co.vzap.Sale.Repository.PaymentRepository;
 import za.co.vzap.Sale.Repository.RefundItemRepository;
 import za.co.vzap.Sale.Repository.RefundRepository;
 import za.co.vzap.Sale.Repository.SaleLineItemRepository;
 import za.co.vzap.Sale.Repository.SaleRepository;
-import za.co.vzap.Interface.Service.IPosService;
 import za.co.vzap.POS.Model.IbtDto;
 import za.co.vzap.POS.Model.RefundDto;
 import za.co.vzap.POS.Model.SaleDto;
 import za.co.vzap.User.Repository.UserRepository;
+import za.co.vzap.Interface.Service.IPOSService;
 
 @Path("pos")
 public class PosController extends ControllerBase {
@@ -43,7 +43,7 @@ public class PosController extends ControllerBase {
     private IRepository branchRepository = new BranchRepository();
     private IRepository userRepository = new UserRepository();
     
-    private IPosService posService = new PosService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
+    private IPOSService posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
     
     @POST
     @Path("sale")

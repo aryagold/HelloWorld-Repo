@@ -11,7 +11,7 @@ import za.co.vzap.POS.Model.Sale;
 import za.co.vzap.POS.Model.SaleDto;
 import za.co.vzap.POS.Model.SaleLineItemDto;
 
-public interface IPosService {
+public interface IPOSService {
     SaleDto addSale(SaleDto dto);
     
     SaleDto getSale(String id);
