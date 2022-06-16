@@ -12,6 +12,7 @@ import za.co.vzap.Model.Sale.Payment;
 import za.co.vzap.Model.Sale.Refund;
 import za.co.vzap.Model.Sale.RefundItemDto;
 import za.co.vzap.Model.Sale.Sale;
+import za.co.vzap.Model.Sale.SaleDto;
 import za.co.vzap.Model.Sale.SaleLineItemDto;
 
 /**
@@ -28,9 +29,9 @@ public class POSService implements IPOSService {
     }
 
     @Override
-    public boolean voidSale(String arg0) {
+    public SaleDto voidSale(String arg0) {
         
-        return false;
+        return null;
     
     }
 

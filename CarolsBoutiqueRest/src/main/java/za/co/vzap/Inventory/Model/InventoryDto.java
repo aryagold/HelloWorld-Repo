@@ -11,5 +11,6 @@ public class InventoryDto {
     public String branchName;
     public String productName;
     public String sizeName;
+    public double price;
     
 }

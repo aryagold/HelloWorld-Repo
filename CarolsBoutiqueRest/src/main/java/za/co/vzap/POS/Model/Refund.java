@@ -1,16 +1,22 @@
-package za.co.vzap.Sale.Model;
+package za.co.vzap.POS.Model;
 
 import za.co.vzap.Interface.Model.IEntity;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Refund implements IEntity {
    public int Id;
     private String saleId;
     private Timestamp date;
+    private RefundStatusEnum status;
+    
+    public List<RefundItem> items = new ArrayList<>();
 
-    public Refund(String saleId, Timestamp date) {
+    public Refund(String saleId, Timestamp date, RefundStatusEnum status) {
         this.saleId = saleId;
         this.date = date;
+        this.status = status;
     }
 
     public Refund() {
@@ -35,4 +41,14 @@ public class Refund implements IEntity {
     public String formattedDate() {
         return this.date.toString();
     }
+
+    public RefundStatusEnum getStatus() {
+        return status;
+    }
+
+    public void setStatus(RefundStatusEnum status) {
+        this.status = status;
+    }
+    
+    
 }

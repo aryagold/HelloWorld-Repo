@@ -5,14 +5,16 @@ import za.co.vzap.Model.Inventory.InventoryDto;
 import za.co.vzap.Model.Sale.IbtDto;
 import za.co.vzap.Model.Sale.Payment;
 import za.co.vzap.Model.Sale.Refund;
+import za.co.vzap.Model.Sale.RefundDto;
 import za.co.vzap.Model.Sale.RefundItemDto;
 import za.co.vzap.Model.Sale.Sale;
+import za.co.vzap.Model.Sale.SaleDto;
 import za.co.vzap.Model.Sale.SaleLineItemDto;
 
 public interface IPOSService {
     String addSale(Sale sale);
     
-    boolean voidSale(String saleId);
+    SaleDto voidSale(String saleId);
     
     SaleLineItemDto addSaleLineItem(SaleLineItemDto dto) throws Exception;
     

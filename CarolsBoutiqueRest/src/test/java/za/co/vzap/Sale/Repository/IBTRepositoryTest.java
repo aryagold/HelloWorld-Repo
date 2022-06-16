@@ -11,8 +11,8 @@ import za.co.vzap.Branch.Repository.BranchRepository;
 import za.co.vzap.Interface.Repository.IRepository;
 import za.co.vzap.Inventory.Model.Product;
 import za.co.vzap.Inventory.Repository.ProductRepository;
-import za.co.vzap.Sale.Model.IBT;
-import za.co.vzap.Sale.Model.IBTStatusEnum;
+import za.co.vzap.POS.Model.IBT;
+import za.co.vzap.POS.Model.IBTStatusEnum;
 
 /**
  *

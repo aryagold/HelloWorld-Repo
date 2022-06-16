@@ -1,13 +1,14 @@
 package za.co.vzap.Sale.Repository;
 
 import za.co.vzap.Interface.Repository.RepositoryBase;
-import za.co.vzap.Sale.Model.Refund;
+import za.co.vzap.POS.Model.Refund;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import java.util.List;
 import java.util.ArrayList;
+import za.co.vzap.POS.Model.RefundStatusEnum;
 
 public class RefundRepository extends RepositoryBase<Refund> {
     private static String tableName = "refund";
@@ -20,9 +21,10 @@ public class RefundRepository extends RepositoryBase<Refund> {
     public int add(Refund refund) {
         if(con != null) {
             try {
-                ps = con.prepareStatement("Insert Into " + tableName + "(saleId, date) values(?, ?)", Statement.RETURN_GENERATED_KEYS);
+                ps = con.prepareStatement("Insert Into " + tableName + "(saleId, date, status) values(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
                 ps.setString(1, refund.getSaleId());
                 ps.setTimestamp(2, refund.getDate());
+                ps.setInt(3, refund.getStatus().getValue());
                 
                 rowsAffected = ps.executeUpdate();
 
@@ -53,10 +55,11 @@ public class RefundRepository extends RepositoryBase<Refund> {
     public boolean update(Refund refund) {
         if(con != null) {
             try {
-                ps = con.prepareStatement("Update " + tableName + " set saleId = ?, date = ? where id = ?");
+                ps = con.prepareStatement("Update " + tableName + " set saleId = ?, date = ?, status = ? where id = ?");
                 ps.setString(1, refund.getSaleId());
                 ps.setTimestamp(2, refund.getDate());
-                ps.setInt(3, refund.Id);
+                ps.setInt(3, refund.getStatus().getValue());
+                ps.setInt(4, refund.Id);
 
                 rowsAffected = ps.executeUpdate();
 
@@ -90,7 +93,8 @@ public class RefundRepository extends RepositoryBase<Refund> {
                 if(rs.next()) {
                     refund = new Refund(
                             rs.getString("saleId"),
-                            rs.getTimestamp("date")
+                            rs.getTimestamp("date"),
+                            RefundStatusEnum.valueOf(rs.getInt("status"))
                     );
 
                     refund.Id = rs.getInt("id");
@@ -133,7 +137,8 @@ public class RefundRepository extends RepositoryBase<Refund> {
 
                     Refund refund = new Refund(
                             rs.getString("saleId"),
-                            rs.getTimestamp("date")
+                            rs.getTimestamp("date"),
+                            RefundStatusEnum.valueOf(rs.getInt("status"))
                     );
 
                     refund.Id = id;

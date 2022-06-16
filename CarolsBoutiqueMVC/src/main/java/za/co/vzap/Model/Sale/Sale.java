@@ -1,5 +1,7 @@
 package za.co.vzap.Model.Sale;
 
+import za.co.vzap.Interface.Model.IEntity;
+import java.sql.Timestamp;
 import java.sql.Timestamp;
 import za.co.vzap.Interface.Model.IEntity;
 

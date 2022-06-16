@@ -1,7 +1,8 @@
 package za.co.vzap.Model.Inventory;
 
-import java.sql.Timestamp;
 import za.co.vzap.Interface.Model.IEntity;
+
+import java.sql.Timestamp;
 
 public class InventoryControl implements IEntity {
     public int Id;

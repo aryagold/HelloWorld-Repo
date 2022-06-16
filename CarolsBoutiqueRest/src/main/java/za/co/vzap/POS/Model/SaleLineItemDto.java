@@ -1,4 +1,4 @@
-package za.co.vzap.Sale.Model;
+package za.co.vzap.POS.Model;
 
 public class SaleLineItemDto {
     public int Id;

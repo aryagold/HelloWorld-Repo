@@ -19,7 +19,7 @@ public class ProductService implements IProductService {
         this.productCategoryRepository = productCategoryRepository;
         this.categoryRepository = categoryRepository;
     }
-    
+
     @Override
     public ProductDto addProduct(String productName, double price, List<String> categoryIds) {
         Product product = new Product(productName, price);
@@ -44,7 +44,7 @@ public class ProductService implements IProductService {
 
         return dtos;
     }
-    
+
     @Override
     public List<Category> getAllCategories() {
         return categoryRepository.getAll();
@@ -56,7 +56,7 @@ public class ProductService implements IProductService {
 
         return id + " has been added to the category catalogue.";
     }
-    
+
     private ProductDto toProductDto(Product product) {
         ProductDto dto = new ProductDto();
 

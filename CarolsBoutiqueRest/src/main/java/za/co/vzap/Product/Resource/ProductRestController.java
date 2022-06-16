@@ -21,9 +21,9 @@ public class ProductRestController {
     private IRepository productCategoryRepository = new ProductCategoryRepository();
     private IRepository categoryRepository = new CategoryRepository();
     private IRepository productRepository = new ProductRepository();
-    
+
     private IProductService productService = new ProductService(productRepository, productCategoryRepository, categoryRepository);
-    
+
     @POST
     @Path("add")
     @Produces(MediaType.APPLICATION_JSON)
