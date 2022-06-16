@@ -33,9 +33,9 @@ import za.co.vzap.Sale.Repository.RefundItemRepository;
 import za.co.vzap.Sale.Repository.RefundRepository;
 import za.co.vzap.Sale.Repository.SaleLineItemRepository;
 import za.co.vzap.Sale.Repository.SaleRepository;
+import za.co.vzap.Interface.Service.IPOSService;
 import za.co.vzap.User.Model.User;
 import za.co.vzap.User.Repository.UserRepository;
-import za.co.vzap.Interface.Service.IPOSService;
 
 public class POSService implements IPOSService {
 
