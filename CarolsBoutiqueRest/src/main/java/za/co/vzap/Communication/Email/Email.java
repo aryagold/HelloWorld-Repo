@@ -1,6 +1,8 @@
 package za.co.vzap.Communication.Email;
 
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -13,21 +15,23 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import za.co.vzap.Communication.Model.CommunicationDto;
+import za.co.vzap.Inventory.Model.InventoryDto;
 import za.co.vzap.POS.Model.RefundDto;
 import za.co.vzap.POS.Model.RefundItemDto;
 import za.co.vzap.POS.Model.SaleDto;
 import za.co.vzap.POS.Model.SaleLineItemDto;
 
 public class Email extends Thread {
-    private CommunicationDto dto;
+    private CommunicationDto communicationDto;
 
     private Properties properties;
     private Session session;
-    private MimeMessage message;
     
     private String mailFrom = "vzapemail@gmail.com";
+    private String smtpUser = "aryagoldridge@gmail.com";
+    private String smtpPassword = "";
 
-    public Email(CommunicationDto dto) {
+    public Email(CommunicationDto communicationDto) {
 
         String host = "smtp.gmail.com";
 
@@ -36,103 +40,75 @@ public class Email extends Thread {
         properties.put("mail.smtp.host", host);
         properties.put("mail.smtp.port", "465");
         properties.put("mail.smtp.ssl.enable", "true");
-        properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.smtp.auth", "true");
-        properties.put("mail.smtp.ssl.trust", "*");
-        properties.put("mail.smtp.socketfactory.port", "465");
-        properties.put("mail.smtp.socketfactory.class", "javax.net.ssl.SSLSocketFactory");
-        properties.put("mail.smtp.socketfactory.fallback", "false");
 
         session = Session.getInstance(properties, new javax.mail.Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-
-                return new PasswordAuthentication("vzapemail@gmail.com", "Java@vzap");
-
+                return new PasswordAuthentication(smtpUser, smtpPassword);
             }
 
         });
 
         session.setDebug(true);
         
-        this.dto = dto;
+        this.communicationDto = communicationDto;
+    }
+    
+    @Override
+    public void run() {
+        sendEmail();
+    }
+    
+    public void sendEmail() {
+        switch (communicationDto.emailType.getValue()) {
+            case 0:
+                sendSalesReceipt();
+                break;
+            case 1:
+                sendRefundReceipt();
+                break;
+            case 2:
+                sendDepletedStock();
+                break;
+            case 3:
+                sendReserved();
+                break;
+            case 4:
+                sendSubscribed();
+        }
     }
 
     public void sendSalesReceipt() {
-        try {
-            SaleDto sale = (SaleDto) dto.data;
+            SaleDto sale = (SaleDto) communicationDto.data;
             
-            message = new MimeMessage(session);
-            Multipart multipart = new MimeMultipart();
+            String subject = "Carol's Boutique Receipt - " + sale.saleId;
             
-            message.setFrom(new InternetAddress(this.mailFrom));
-            
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(dto.emailAddressTo));
-            message.setSubject("Carol's Boutique Receipt - " + sale.saleId);
-            
-            BodyPart body = new MimeBodyPart();
-            
-            String htmlBody = "<p>";
+            String htmlBody = "<div>";
             htmlBody += "<div>Sale ID; " + sale.saleId + "</div>";
             htmlBody += "<div>Date; " + sale.date + "</div>";
             htmlBody += "<table>";
             
-            double total = 0;
-            
             for(SaleLineItemDto item : sale.lineitems) {
                 htmlBody += "<tr><td>" + item.productName + "</td><td>" + item.sizeName + "</td><td>" + item.price + "</td></tr>";
-                
-                total += item.price;
             }
             
             htmlBody += "</table>";
-            htmlBody += "<div>Total; " + total + "</div>";
+            htmlBody += "<div>Total; " + sale.getTotal() + "</div>";
             
-            htmlBody += "</p>";
-           
-//            String text = "this is the database zip file, please test it out and see if it works fine, let me know if i have to resend or something";
-//            String htmlText = "<a href='this is where our review website goes'>Please leave a review to let us know about your experience with our store</a>";
-            body.setContent(htmlBody, "text/html");
-            
-            multipart.addBodyPart(body);
-          
-//            MimeBodyPart messageBodyPartAttach = new MimeBodyPart();
-//
-//
-//            messageBodyPartAttach.setContentID("<file>");
-//
-//            multipart.addBodyPart(messageBodyPartAttach);
-
-            message.setContent(multipart);
-
-//            message.setContent(multipart);
-
-            System.out.println("sending...");
-
-            Transport.send(message);
-            System.out.println("Sent message successfully....");
-        } catch (MessagingException mex) {
-            
-        }
-
+            htmlBody += "<a href='review.jsp'>Please leave a review to let us know about your experience with our store</a>";
+            htmlBody += "<div style=\"font-size=0.5em; font-weight:bold; margin-top:10px;\">All returns are to be performed within 10 calendar days from purchase</div>";
+            htmlBody += "</div>";
+        
+            doSend(communicationDto.emailAddressTo, subject, htmlBody);
     }
 
     public void sendRefundReceipt() {
+            RefundDto refund = (RefundDto) communicationDto.data;
+            
+            String subject = "Carol's Boutique Refund Receipt - Refund " + refund.Id;
 
-        try {
-            RefundDto refund = (RefundDto) dto.data;
-            
-            message = new MimeMessage(session);
-            Multipart multipart = new MimeMultipart();
-            
-            message.setFrom(new InternetAddress(this.mailFrom));
-            
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(dto.emailAddressTo));
-            message.setSubject("Carol's Boutique Refund Receipt - Refund " + refund.Id);
-            
-            BodyPart body = new MimeBodyPart();
-
-            String htmlBody = "<p>";
+            String htmlBody = "<div>";
             htmlBody += "<div>Refund ID; " + refund.Id + "</div>";
             htmlBody += "<div>Date; " + refund.date + "</div>";
             htmlBody += "<table>";
@@ -148,52 +124,33 @@ public class Email extends Thread {
             htmlBody += "</table>";
             htmlBody += "<div>Refund Total; " + total + "</div>";
 
-            htmlBody += "</p>";
-
-//            String text = "this is the database zip file, please test it out and see if it works fine, let me know if i have to resend or something";
-//            String htmlText = "<a href='this is where our review website goes'>Please leave a review to let us know about your experience with our store</a>";
-            body.setContent(htmlBody, "text/html");
-
-            multipart.addBodyPart(body);
-
-//            MimeBodyPart messageBodyPartAttach = new MimeBodyPart();
-//
-//
-//            messageBodyPartAttach.setContentID("<file>");
-//
-//            multipart.addBodyPart(messageBodyPartAttach);
-            message.setContent(multipart);
-
-//            message.setContent(multipart);
-            System.out.println("sending...");
-
-            Transport.send(message);
-            System.out.println("Sent message successfully....");
-        } catch (MessagingException mex) {
-
-        }
-
+            htmlBody += "</div>";
+            
+            doSend(communicationDto.emailAddressTo, subject, htmlBody);
     }
     
     public void sendDepletedStock() {
-    
+        InventoryDto inventory = (InventoryDto) communicationDto.data;
+        
+        String subject = "Low Stock on " + inventory.productName;
+        
+        String htmlBody = "<div>";
+        
+        htmlBody += "<div>Stock for " + inventory.productName + " Size " + inventory.sizeName + " is low</div>";
+        htmlBody += "<div>Quantity on hand; " + inventory.quantity + "</div>";
+        
+        htmlBody += "</div>";
+        
+        doSend(communicationDto.emailAddressTo, subject, htmlBody);
     }
     
-    public void sendReserve() {
-        try {
-            SaleDto sale = (SaleDto) dto.data;
+    public void sendReserved() {
+            SaleDto sale = (SaleDto) communicationDto.data;
 
-            message = new MimeMessage(session);
-            Multipart multipart = new MimeMultipart();
+            String subject = "Carol's Boutique Reserve Notification for Sale - " + sale.saleId;
 
-            message.setFrom(new InternetAddress(this.mailFrom));
-
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(dto.emailAddressTo));
-            message.setSubject("Carol's Boutique Reserve Notification for Sale - " + sale.saleId);
-
-            BodyPart body = new MimeBodyPart();
-
-            String htmlBody = "<p>";
+            String htmlBody = "<div>";
+            htmlBody += "<div>Collection due in 24 hours</div>";
             htmlBody += "<div>Sale ID; " + sale.saleId + "</div>";
             htmlBody += "<div>Date; " + sale.date + "</div>";
             htmlBody += "<table>";
@@ -209,92 +166,38 @@ public class Email extends Thread {
             htmlBody += "</table>";
             htmlBody += "<div>Total; " + total + "</div>";
 
-            htmlBody += "</p>";
+            htmlBody += "</div>";
 
-//            String text = "this is the database zip file, please test it out and see if it works fine, let me know if i have to resend or something";
-//            String htmlText = "<a href='this is where our review website goes'>Please leave a review to let us know about your experience with our store</a>";
-            body.setContent(htmlBody, "text/html");
-
-            multipart.addBodyPart(body);
-
-//            MimeBodyPart messageBodyPartAttach = new MimeBodyPart();
-//
-//
-//            messageBodyPartAttach.setContentID("<file>");
-//
-//            multipart.addBodyPart(messageBodyPartAttach);
-            message.setContent(multipart);
-
-//            message.setContent(multipart);
-            System.out.println("sending...");
-
-            Transport.send(message);
-            System.out.println("Sent message successfully....");
-        } catch (MessagingException mex) {
-
-        }
+            doSend(communicationDto.emailAddressTo, subject, htmlBody);
+            
     }
     
-    public void sendSubscription() {
+    public void sendSubscribed() {
+            String subject = "Carol's Boutique Subscription";
+
+            String htmlBody = "<div>Hi. Thank you for subscribing to Carol's Boutique newsletter</div>";
+            
+            doSend(communicationDto.emailAddressTo, subject, htmlBody);
+    }
+    
+    private void doSend(String to, String subject, String html) {
         try {
-
-            message = new MimeMessage(session);
-            Multipart multipart = new MimeMultipart();
-
-            message.setFrom(new InternetAddress(this.mailFrom));
-
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(dto.emailAddressTo));
-            message.setSubject("Carol's Boutique Subscription");
-
-            BodyPart body = new MimeBodyPart();
-
-            String htmlBody = "<p>Hi, " + dto.emailAddressTo.substring(0, dto.emailAddressTo.length() - 10) + ". Thank you for subscribing to Carol's Boutique newsletter";
-
-//            String text = "this is the database zip file, please test it out and see if it works fine, let me know if i have to resend or something";
-//            String htmlText = "<a href='this is where our review website goes'>Please leave a review to let us know about your experience with our store</a>";
-            body.setContent(htmlBody, "text/html");
-
-            multipart.addBodyPart(body);
-
-//            MimeBodyPart messageBodyPartAttach = new MimeBodyPart();
-//
-//
-//            messageBodyPartAttach.setContentID("<file>");
-//
-//            multipart.addBodyPart(messageBodyPartAttach);
-            message.setContent(multipart);
-
-//            message.setContent(multipart);
+            MimeMessage mimeMessage = new MimeMessage(session);
+           
+            mimeMessage.setFrom(new InternetAddress(this.mailFrom));
+            mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+            
+            mimeMessage.setSubject(subject);
+         
+            mimeMessage.setContent(html, "text/html");
+            
             System.out.println("sending...");
-
-            Transport.send(message);
+            
+            Transport.send(mimeMessage);
+            
             System.out.println("Sent message successfully....");
-        } catch (MessagingException mex) {
-
+        } catch (MessagingException ex) {
+            Logger.getLogger(Email.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    public void sendEmail() { 
-        switch (dto.emailType.getValue()) {
-            case 0:
-                sendSalesReceipt();
-                break;
-            case 1:
-                sendRefundReceipt();
-                break;
-            case 2:
-                sendDepletedStock();
-                break;
-            case 3:
-                sendReserve();
-                break;
-            case 4:
-                sendSubscription();
-        }
-    }
-
-    @Override
-    public void run() {
-        sendEmail();
     }
 }

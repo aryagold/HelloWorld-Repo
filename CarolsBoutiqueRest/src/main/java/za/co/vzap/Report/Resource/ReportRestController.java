@@ -10,6 +10,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import za.co.vzap.Customer.Model.Review;
 import za.co.vzap.Interface.Service.IReportService;
+import za.co.vzap.Report.Model.StatementDto;
 import za.co.vzap.Report.Service.ReportService;
 
 @Path("report")
@@ -25,10 +26,10 @@ public class ReportRestController {
     }
     
     @GET
-    @Path("getcustomerreport")
+    @Path("customerreport")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getCustomerReport() {
-        return Response.status(Response.Status.OK).entity(reportService.getCustomerReport()).build();
+    public Response getCustomerReport(@QueryParam("month")String month, @QueryParam("resultAmount")int resultAmount) {
+        return Response.status(Response.Status.OK).entity(reportService.getCustomerReport(month, resultAmount)).build();
     }
     
     @GET
@@ -60,10 +61,10 @@ public class ReportRestController {
     }
     
     @GET
-    @Path("getleastperforming")
+    @Path("leastperforming")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getLeastPerforming() {
-        return Response.status(Response.Status.OK).entity(reportService.getLeastPerforming()).build();
+    public Response getLeastPerforming(@QueryParam("interval")int interval) {
+        return Response.status(Response.Status.OK).entity(reportService.getLeastPerforming(interval)).build();
     }
     
     @GET
@@ -83,7 +84,7 @@ public class ReportRestController {
     @GET
     @Path("downloadreport")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response downloadReport() {
-        return Response.status(Response.Status.OK).entity(reportService.downloadCurrentReport()).build();
+    public Response downloadReport(StatementDto dto) {
+        return Response.status(Response.Status.OK).entity(reportService.downloadCurrentReport(dto)).build();
     }
 }

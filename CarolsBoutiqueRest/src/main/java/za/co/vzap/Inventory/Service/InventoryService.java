@@ -162,4 +162,18 @@ public class InventoryService implements IInventoryService {
         return dto;
     }  
 
+    @Override
+    public List<InventoryDto> getLowStockQuantity(int threshold) {
+         List<Inventory> items = inventoryRepository.getAll();
+         List<InventoryDto> dtos = new ArrayList<>();
+         
+         for(Inventory item : items) {
+             if(item.getQuantity() > threshold) continue;
+             
+             dtos.add(InventoryMapper.toInventoryDto(item));
+         }
+         
+         return dtos;
+    }
+
 }

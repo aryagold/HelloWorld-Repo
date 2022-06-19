@@ -5,6 +5,7 @@ import java.util.List;
 
 public class TopEmployeesDto extends ReportBase {
     public String branchName;
+    
     public List<ItemAmount> employeeSales = new ArrayList<>();
     
 }

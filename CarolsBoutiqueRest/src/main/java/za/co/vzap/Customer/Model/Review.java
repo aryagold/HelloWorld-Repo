@@ -1,5 +1,6 @@
 package za.co.vzap.Customer.Model;
 
+import java.sql.Timestamp;
 import za.co.vzap.Interface.Model.IEntity;
 
 public class Review implements IEntity {
@@ -7,11 +8,13 @@ public class Review implements IEntity {
     private String comment;
     private int rating;
     private String branchId;
+    private Timestamp date;
 
-    public Review(String comment, int rating, String branchId) {
+    public Review(String comment, int rating, String branchId, Timestamp date) {
         this.comment = comment;
         this.rating = rating;
         this.branchId = branchId;
+        this.date = date;
     }
 
     public Review() {
@@ -40,4 +43,14 @@ public class Review implements IEntity {
     public void setBranchId(String branchId) {
         this.branchId = branchId;
     }
+
+    public Timestamp getDate() {
+        return date;
+    }
+
+    public void setDate(Timestamp date) {
+        this.date = date;
+    }
+    
+    
 }
