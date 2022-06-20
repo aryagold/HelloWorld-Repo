@@ -5,5 +5,5 @@ import java.util.List;
 
 public class StatementDto {
     public String content;
-    public List<String> fields = new ArrayList<>();
+    public List<String> columnNames = new ArrayList<>();
 }

@@ -1,19 +1,16 @@
 package za.co.vzap.Communication.Email;
 
+import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 import za.co.vzap.Communication.Model.CommunicationDto;
 import za.co.vzap.Inventory.Model.InventoryDto;
 import za.co.vzap.POS.Model.RefundDto;
@@ -28,8 +25,8 @@ public class Email extends Thread {
     private Session session;
     
     private String mailFrom = "vzapemail@gmail.com";
-    private String smtpUser = "aryagoldridge@gmail.com";
-    private String smtpPassword = "";
+    private String smtpUser = "vzapemail@gmail.com";
+    private String smtpPassword = "cqtazrgweajbacwn";
 
     public Email(CommunicationDto communicationDto) {
 
@@ -146,11 +143,13 @@ public class Email extends Thread {
     
     public void sendReserved() {
             SaleDto sale = (SaleDto) communicationDto.data;
+            
+            Timestamp expiry = new Timestamp(sale.date.getTime() + (1000 * 60 * 60 * 24));
 
             String subject = "Carol's Boutique Reserve Notification for Sale - " + sale.saleId;
 
             String htmlBody = "<div>";
-            htmlBody += "<div>Collection due in 24 hours</div>";
+            htmlBody += "<div>Collection due before " + expiry + "</div>";
             htmlBody += "<div>Sale ID; " + sale.saleId + "</div>";
             htmlBody += "<div>Date; " + sale.date + "</div>";
             htmlBody += "<table>";

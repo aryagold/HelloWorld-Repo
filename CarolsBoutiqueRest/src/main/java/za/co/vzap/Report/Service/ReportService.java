@@ -1,10 +1,11 @@
 package za.co.vzap.Report.Service;
 
-//import com.itextpdf.text.Document;
-//import com.itextpdf.text.Phrase;
-//import com.itextpdf.text.pdf.PdfPCell;
-//import com.itextpdf.text.pdf.PdfPTable;
-//import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileNotFoundException;
 
 import java.sql.Connection;
@@ -79,8 +80,7 @@ public class ReportService implements IReportService {
                 "join branch on inventory.branchId = branch.id " +
                 "group by branch.name " +
                 "order by sum(product.price) DESC";
-        
-        dto.statement = statement;
+       
         
         if (con != null) {
             try {
@@ -130,7 +130,6 @@ public class ReportService implements IReportService {
                 + "order by rating desc "
                 + "limit 0," + resultAmount;
         
-        dto.statement = statement;
         
         if (con != null) {
             try {
@@ -185,7 +184,7 @@ public class ReportService implements IReportService {
                 + "group by sale.id, sale.date, sale.userId "
                 + "order by sale.date";
         
-        dto.statement = statement;
+        dto.pdfData = createPdfData();
 
         if (con != null) {
             try {
@@ -253,7 +252,6 @@ public class ReportService implements IReportService {
                 + "group by user.id, user.name\n"
                 + "order by total desc";
         
-        dto.statement = statement;
 
         if (con != null) {
             try {
@@ -303,7 +301,6 @@ public class ReportService implements IReportService {
                 + "having total >= branch.monthlyTarget\n"
                 + "order by total desc";
         
-        dto.statement = statement;
 
         if (con != null) {
             try {
@@ -355,8 +352,7 @@ public class ReportService implements IReportService {
                 + "                where sale.date > DATE_SUB(now(), INTERVAL " + interval + " MONTH)\n"
                 + "                group by branch.name \n"
                 + "                order by total ";
-        
-        dto.statement = statement;
+    
         
         if (con != null) {
             try {
@@ -421,7 +417,7 @@ public class ReportService implements IReportService {
                 + "group by sale.id, sale.date, sale.userId "
                 + "order by sale.date";
         
-        dto.statement = statement;
+        
 
         if (con != null) {
             try {
@@ -459,50 +455,63 @@ public class ReportService implements IReportService {
 
         return dto;
     }
+    
+    private byte[] createPdfData() {
+        return null;
+    }
 
     @Override
     public String downloadCurrentReport(StatementDto dto) {
-//        try {
-//            Statement stmt = con.createStatement();
-//            ResultSet query_set = stmt.executeQuery(dto.content);
-//           
-//            Document my_pdf_report = new Document();
-//            
-//            try {
-//                PdfWriter.getInstance(my_pdf_report, new FileOutputStream("pdfexport.pdf"));
-//            } catch (FileNotFoundException ex) {
-//                Logger.getLogger(ReportService.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            
-//            my_pdf_report.open();
-//            PdfPTable my_report_table = new PdfPTable(4);
-//            PdfPCell table_cell;
-//            
-//            while (query_set.next()) {
-//                String dept_id = query_set.getString("name");
-//                table_cell = new PdfPCell(new Phrase(dept_id));
-//                my_report_table.addCell(table_cell);
-//                String dept_name = query_set.getString("surname");
-//                table_cell = new PdfPCell(new Phrase(dept_name));
-//                my_report_table.addCell(table_cell);
-//                int manager_id = query_set.getInt("id");
-//                table_cell = new PdfPCell(new Phrase(String.valueOf(manager_id)));
-//                my_report_table.addCell(table_cell);
-//                int location_id = query_set.getInt("phonenumber");
-//                table_cell = new PdfPCell(new Phrase(String.valueOf(location_id)));
-//                my_report_table.addCell(table_cell);
-//            }
-//            my_pdf_report.add(my_report_table);
-//            my_pdf_report.close();
-//            
-//            query_set.close();
-//            stmt.close();
-//            con.close();
-//            
-//            
-//        } catch (SQLException ex) {
-//            Logger.getLogger(ReportService.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet query_set = stmt.executeQuery(dto.content);
+           
+            Document my_pdf_report = new Document();
+            
+            try {
+                try {
+                    PdfWriter.getInstance(my_pdf_report, new FileOutputStream("pdfexport.pdf"));
+                } catch (DocumentException ex) {
+                    Logger.getLogger(ReportService.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(ReportService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            my_pdf_report.open();
+            PdfPTable my_report_table = new PdfPTable(4);
+            PdfPCell table_cell;
+            
+            while (query_set.next()) {
+                String dept_id = query_set.getString("name");
+                table_cell = new PdfPCell(new Phrase(dept_id));
+                my_report_table.addCell(table_cell);
+                String dept_name = query_set.getString("surname");
+                table_cell = new PdfPCell(new Phrase(dept_name));
+                my_report_table.addCell(table_cell);
+                int manager_id = query_set.getInt("id");
+                table_cell = new PdfPCell(new Phrase(String.valueOf(manager_id)));
+                my_report_table.addCell(table_cell);
+                int location_id = query_set.getInt("phonenumber");
+                table_cell = new PdfPCell(new Phrase(String.valueOf(location_id)));
+                my_report_table.addCell(table_cell);
+            }
+            
+            try {
+                my_pdf_report.add(my_report_table);
+            } catch (DocumentException ex) {
+                Logger.getLogger(ReportService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            my_pdf_report.close();
+            
+            query_set.close();
+            stmt.close();
+            con.close();
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ReportService.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         return "Download successful.";
     }

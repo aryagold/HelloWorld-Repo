@@ -82,8 +82,14 @@ public class POSService implements IPOSService {
         }
 
         dto = getSale(id);
+        
+        if(sale.getStatus() == SaleStatusEnum.COMPLETED) {
+            sendSalesReceipt(dto);
+        }
 
-        sendSalesReceipt(dto);
+        if (sale.getStatus() == SaleStatusEnum.RESERVED) {
+            sendReserveNotification(dto);
+        }
 
         return dto;
     }
@@ -144,26 +150,33 @@ public class POSService implements IPOSService {
         return dto;
     }
 
-    @Override
-    public boolean reserveSale(String saleID) {
-
-        Sale sale = (Sale) saleRepository.getById(saleID);
-        sale.setStatus(SaleStatusEnum.RESERVED);
-        sale.setPaymentId(0);
-
-        if (sale.getStatus() == SaleStatusEnum.RESERVED) {
-            CommunicationDto dto = new CommunicationDto();
-
-            dto.emailType = EmailTypeEnum.RESERVENOTIFICATION;
-            dto.emailAddressTo = sale.getCustomerEmail();
-            dto.data = PosMapper.toSaleDto(sale);
-
-            new Email(dto).start();
-        }
-
-        return saleRepository.update(sale);
-
-    }
+//    @Override
+//    public boolean reserveSale(String saleID) {
+//
+//        Sale sale = (Sale) saleRepository.getById(saleID);
+//        sale.setStatus(SaleStatusEnum.RESERVED);
+//        sale.setPaymentId(0);
+//        
+//        List<SaleLineItem> lineItems = saleLineItemRepository.getWhere("saleId", saleID);
+//        
+//        for(SaleLineItem item : lineItems) {
+//            sale.items.add(item);
+//        }
+//
+//        if (sale.getStatus() == SaleStatusEnum.RESERVED) {
+//            CommunicationDto dto = new CommunicationDto();
+//
+//            dto.emailType = EmailTypeEnum.RESERVENOTIFICATION;
+//            dto.emailAddressTo = sale.getCustomerEmail();
+//            dto.data = PosMapper.toSaleDto(sale);
+//           
+//
+//            new Email(dto).start();
+//        }
+//
+//        return saleRepository.update(sale);
+//
+//    }
 
     @Override
     public IbtDto addIbt(IbtDto dto) {
@@ -232,6 +245,16 @@ public class POSService implements IPOSService {
         new Email(dto).start();
     }
     
+    private void sendReserveNotification(SaleDto saleDto) {
+        CommunicationDto dto = new CommunicationDto();
+
+        dto.emailType = EmailTypeEnum.RESERVENOTIFICATION;
+        dto.emailAddressTo = saleDto.customerEmail;
+        dto.data = saleDto;
+
+        new Email(dto).start();
+    }
+    
     private void sendRefundReceipt(RefundDto refundDto) {
         CommunicationDto dto = new CommunicationDto();
         
@@ -246,5 +269,19 @@ public class POSService implements IPOSService {
 
     private void sendIbtNotification(IbtDto dto) {
         // sms stuff goes here
+    }
+
+    @Override
+    public List<SaleDto> getReserved() {
+        List<SaleDto> reserves = new ArrayList<>();
+        
+        List<Sale> reservedSales = saleRepository.getWhere("status", 1);
+        
+        for(Sale sale :reservedSales) {
+            sale.items = saleLineItemRepository.getWhere("saleId", sale.saleId);
+            reserves.add(PosMapper.toSaleDto(sale));
+        }
+        
+        return reserves;
     }
 }

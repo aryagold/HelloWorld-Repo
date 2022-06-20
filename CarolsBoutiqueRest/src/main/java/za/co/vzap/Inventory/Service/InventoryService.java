@@ -7,6 +7,7 @@ import java.util.List;
 import za.co.vzap.Branch.Model.Branch;
 import za.co.vzap.Interface.Repository.IRepository;
 import za.co.vzap.Interface.Service.IInventoryService;
+import za.co.vzap.Inventory.Model.Category;
 import za.co.vzap.Inventory.Model.Inventory;
 import za.co.vzap.Inventory.Model.InventoryControl;
 import za.co.vzap.Inventory.Model.InventoryControlDto;
@@ -22,14 +23,16 @@ public class InventoryService implements IInventoryService {
     private IRepository sizeRepository = null;
     private IRepository branchRepository = null;
     private IRepository userRepository = null;
+    private IRepository categoryRepository = null;
     
-    public InventoryService(IRepository productRepository, IRepository inventoryControlRepository, IRepository inventoryRepository, IRepository sizeRepository, IRepository branchRepository, IRepository userRepository) {
+    public InventoryService(IRepository productRepository, IRepository inventoryControlRepository, IRepository inventoryRepository, IRepository sizeRepository, IRepository branchRepository, IRepository userRepository, IRepository categoryRepository) {
         this.productRepository = productRepository;
         this.inventoryControlRepository = inventoryControlRepository;
         this.inventoryRepository = inventoryRepository;
         this.sizeRepository = sizeRepository;
         this.branchRepository = branchRepository;
         this.userRepository = userRepository;
+        this.categoryRepository = categoryRepository;
     }
     
     @Override
@@ -121,9 +124,18 @@ public class InventoryService implements IInventoryService {
     }
 
     @Override
-    public List<InventoryDto> findStockWithProductId(String productId) throws Exception {
+    public List<InventoryDto> findInventory(String searchTerm) throws Exception {
         List<InventoryDto> dtos = new ArrayList<>();
-        List<Inventory> items = inventoryRepository.getWhere("productId", productId);
+        
+        List<Inventory> items = inventoryRepository.getWhere("productId", searchTerm);
+        
+        if(items.size() == 0) {
+            items = inventoryRepository.getWhere("barcode", searchTerm);
+            
+            String productId = items.get(0).getProductId();
+        
+            items = inventoryRepository.getWhere("productId", productId);
+        }
         
         for(Inventory item: items) {
             InventoryDto dto = InventoryMapper.toInventoryDto(item);
@@ -136,24 +148,6 @@ public class InventoryService implements IInventoryService {
     }
     
     @Override
-    public List<InventoryDto> findStockWithBarcode(String barcode) throws Exception {
-        List<InventoryDto> dtos = new ArrayList<>();
-        
-        List<Inventory> inventoryItem = inventoryRepository.getWhere("barcode", barcode);
-        String productId = inventoryItem.get(0).getProductId();
-        
-        List<Inventory> items = inventoryRepository.getWhere("productId", productId);
-        
-        for(Inventory item : items) {
-            InventoryDto dto = InventoryMapper.toInventoryDto(item);
-            
-            dtos.add(dto);
-        }
-        
-        return dtos;
-    }
-    
-    @Override
     public InventoryDto getItem(String barcode) {
         List<Inventory> items = inventoryRepository.getWhere("barcode", barcode);
         
@@ -161,6 +155,11 @@ public class InventoryService implements IInventoryService {
         
         return dto;
     }  
+    
+    @Override
+    public List<Category> getAllCategories() {
+        return categoryRepository.getAll();
+    }
 
     @Override
     public List<InventoryDto> getLowStockQuantity(int threshold) {
@@ -175,5 +174,7 @@ public class InventoryService implements IInventoryService {
          
          return dtos;
     }
+
+    
 
 }

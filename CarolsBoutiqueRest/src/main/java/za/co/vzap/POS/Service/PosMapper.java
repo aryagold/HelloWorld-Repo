@@ -80,7 +80,7 @@ public class PosMapper {
         sale.setPaymentId(dto.paymentId);
         sale.setSaleId(dto.saleId);
         sale.setUserId(dto.userId);
-        sale.setStatus(SaleStatusEnum.NEW);
+        sale.setStatus(dto.status);
         
         return sale;
         
