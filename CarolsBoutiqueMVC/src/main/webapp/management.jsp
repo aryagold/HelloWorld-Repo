@@ -1,4 +1,9 @@
-<%@page import="za.co.vzap.Model.Inventory.InventoryDto"%>
+<%-- 
+    Document   : management
+    Created on : 20 Jun 2022, 17:18:48
+    Author     : aryagoldridge
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +17,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap" rel="stylesheet"> 
-        <title>Transfer Request</title>
+        <title>Management</title>
     </head>
     <body>
         <div>
@@ -30,18 +35,10 @@
                 </div>
 
                 <div class="col-sm">
-                    <form action="POSServlet" method="post">
-                        <div class="d-flex justify-content-center"><h2>Request Inter Branch Transfer for Item/s</h2></div>
-                        <label>Customer Phone Number:</label>
-                        <input type="text" class="checkboxstyle" name="phoneNumber"/>
-                        <br>
-                        <label>Customer Email:</label>
-                        <input type="text" class="checkboxstyle" name="customerEmail"/>
-                        <br>
-
-                        <div class="d-flex justify-content-center"><button class="barcodegen" name="submit" value="addIbt">Send Request</button></div>
-                        <img src="Caol_s_Botique-removebg-preview.png"/>
-                    </form>   
+                    <div class="d-flex justify-content-center">
+                        <a href="addbranch.jsp"><button id="addstore">Add A Store</button></a>
+                        <a href="updatetoteller.jsp"><button id="addstore">Register A Teller</button></a>
+                    </div>
 
 
 
