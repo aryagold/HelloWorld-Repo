@@ -30,10 +30,11 @@ public class ReviewRepository extends RepositoryBase<Review> {
     @Override
     public int add(Review review) {
         try {
-            ps = con.prepareStatement("INSERT INTO " + tableName + "(comment, rating, branchId) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            ps = con.prepareStatement("INSERT INTO " + tableName + "(comment, rating, branchId, date) VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1,review.getComment());
             ps.setInt(2,review.getRating());
             ps.setString(3,review.getBranchId());
+            ps.setTimestamp(4, review.getDate());
 
             rowsAffected = ps.executeUpdate();
 
@@ -59,11 +60,12 @@ public class ReviewRepository extends RepositoryBase<Review> {
     @Override
     public boolean update(Review review) {
         try {
-            ps = con.prepareStatement("Update " + tableName + " set comment = ?, rating = ?, branchId = ? WHERE id = ?");
+            ps = con.prepareStatement("Update " + tableName + " set comment = ?, rating = ?, branchId = ?, date = ? WHERE id = ?");
             ps.setString(1,review.getComment());
             ps.setInt(2,review.getRating());
             ps.setString(3,review.getBranchId());
-            ps.setInt(4,review.Id);
+            ps.setTimestamp(4, review.getDate());
+            ps.setInt(5,review.Id);
 
             rowsAffected = ps.executeUpdate();
 
@@ -93,7 +95,8 @@ public class ReviewRepository extends RepositoryBase<Review> {
                 review = new Review(
                         rs.getString("comment"),
                         rs.getInt("rating"),
-                        rs.getString("branchId")
+                        rs.getString("branchId"),
+                        rs.getTimestamp("date")
                 );
                 
                 review.Id = rs.getInt("id");
@@ -138,7 +141,8 @@ public class ReviewRepository extends RepositoryBase<Review> {
                     Review review = new Review(
                             rs.getString("comment"),
                             rs.getInt("rating"),
-                            rs.getString("branchId")
+                            rs.getString("branchId"),
+                            rs.getTimestamp("date")
                     );
                     
                     review.Id = id;

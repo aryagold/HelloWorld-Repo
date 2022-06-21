@@ -1,4 +1,9 @@
-<%@page import="za.co.vzap.Model.User.User"%>
+<%-- 
+    Document   : updatetoteller
+    Created on : 20 Jun 2022, 17:20:32
+    Author     : aryagoldridge
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,11 +17,10 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap" rel="stylesheet"> 
-        <title>Stock Taking</title>
+        <title>Register Teller</title>
     </head>
     <body>
         <div>
-            <header><h1>Parktown</h1></header>
 
             <div class="row">
                 <div class="col-sm">
@@ -24,21 +28,23 @@
                         <a href="management.jsp"><li><button>Management</button></li></a>
                         <a href="stockhome.jsp"><li><button>Stock</button></li></a>
                         <li><button>Point of sale till</button></li>
-                        <a href="transferhome.jsp"><li><button>transfers</button></li>
+                        <a href="transferhome.jsp"><li><button>Inter Branch Transfers</button></li>
 
                     </ul>
                 </div>
 
                 <div class="col-sm">
-                    <div class="d-flex justify-content-center">
-                        <a href="captureinventory.jsp"><button class="stock">Replenish</button></a>
-                        <a href="addinventory.jsp"><button class="stock">New Inventory</button></a>
-                    </div>
+
+                    <form action="UserServlet" method="post">
+                        <div class="d-flex justify-content-center"><h2>Register Teller</h2></div>
+                        <label>Employee ID:</label>
+                        <input type="text" class="checkboxstyle" name="userId"/>
+                        <br>
+                        <div class="d-flex justify-content-center"><button class="barcodegen" id="submit" name="submit" value="updateToTeller">Register</button></div>
+                        <img src="Caol_s_Botique-removebg-preview.png"/> 
+                    </form>
 
 
-
-
-                    <img id="logo" src="Caol_s_Botique-removebg-preview.png" alt="Logo">
 
 
 

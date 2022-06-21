@@ -17,6 +17,7 @@ import za.co.vzap.Common.Resource.ControllerBase;
 import za.co.vzap.Interface.Repository.IRepository;
 import za.co.vzap.Interface.Service.IInventoryService;
 import za.co.vzap.Inventory.Model.InventoryDto;
+import za.co.vzap.Inventory.Repository.CategoryRepository;
 import za.co.vzap.Inventory.Repository.InventoryControlRepository;
 import za.co.vzap.Inventory.Repository.InventoryRepository;
 import za.co.vzap.Inventory.Repository.ProductRepository;
@@ -32,8 +33,9 @@ public class InventoryRestController extends ControllerBase {
     private IRepository sizeRepository = new SizeRepository();
     private IRepository branchRepository = new BranchRepository();
     private IRepository userRepository = new UserRepository();
+    private IRepository categoryRepository = new CategoryRepository();
     
-    private IInventoryService inventoryService = new InventoryService(productRepository, inventoryControlRepository, inventoryRepository, sizeRepository, branchRepository, userRepository);
+    private IInventoryService inventoryService = new InventoryService(productRepository, inventoryControlRepository, inventoryRepository, sizeRepository, branchRepository, userRepository, categoryRepository);
     
     @GET
     @Path("")
@@ -65,28 +67,13 @@ public class InventoryRestController extends ControllerBase {
     }
     
     @GET
-    @Path("findstockwithproductid/{productId}")
+    @Path("find")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<InventoryDto> findProductWithProductId(@PathParam("productId")String productId) {
+    public List<InventoryDto> findProductWithProductId(@QueryParam("searchTerm")String searchTerm) {
         List<InventoryDto> items = null; 
         
         try {
-            items = inventoryService.findStockWithProductId(productId);
-        } catch (Exception ex) {
-            Logger.getLogger(InventoryRestController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return items;
-    }
-    
-    @GET
-    @Path("findstockwithbarcode/{barcode}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<InventoryDto> findProductWithBarcode(@PathParam("barcode")String barcode) {
-        List<InventoryDto> items = null; 
-        
-        try {
-            items = inventoryService.findStockWithBarcode(barcode);
+            items = inventoryService.findInventory(searchTerm);
         } catch (Exception ex) {
             Logger.getLogger(InventoryRestController.class.getName()).log(Level.SEVERE, null, ex);
         }

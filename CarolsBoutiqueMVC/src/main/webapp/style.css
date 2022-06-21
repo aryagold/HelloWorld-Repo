@@ -1,0 +1,92 @@
+@import url("https://fonts.google.com/css?family=Inter:400,500");
+
+.desktop {
+align-items: flex-start;
+background-color: var(--white);
+display: flex;
+height: 1024px;
+overflow: hidden;
+width: 1440px;
+}
+.hidden,
+.hidden *{
+pointer-events: none;
+visibility: hidden;
+}
+
+.frame-container {
+align-items: center;
+background-size: 100% 100%;
+display: flex;
+flex-direction: column;
+margin-left: -10px;
+min-height: 1197px;
+padding: 175.5px 421.1px;
+width: 1796px;
+}
+
+.frame-7 {
+align-items: center;
+display: flex;
+flex-direction: column;
+margin-left: 159.5px;
+min-height: 139px;
+width: 301px;
+}
+
+.title {
+letter-spacing: 0;
+margin-left: 4px;
+margin-top: -1px;
+min-height: 107px;
+}
+
+.inter-medium-white-88px {
+color: var(--white);
+font-family: var(--font-family-inter);
+font-size: 88px;
+font-weight: 500;
+font-style: normal;
+}
+
+.logo {
+height: 248px;
+width: 243px;
+left: 143px;
+top: 40px;
+position: center;
+}
+
+.frame-8 {
+-webkit-backdrop-filter: blur(4px) brightness(100%);
+align-items: center;
+background: linear-gradient(180deg, rgb(255,255,255)0%,rgba(255,255,255,0)100%);
+backdrop-filter: blur(4px) brightness(100%);
+border-radius: 12px;
+display: flex;
+flex-direction: column;
+margin-top: 44px;
+min-height: 490px;
+padding: 44px 0;
+width: 620px;
+
+}
+
+.frame-3 {
+align-items: center;
+display: flex;
+flex-direction: column;
+margin-right: 1px;
+min-height: 125px;
+width: 531px;
+}
+
+.frame-4 {
+align-items: center;
+display: flex;
+flex-direction: column;
+margin-right: 1px;
+margin-top: 32px;
+min-height: 125px;
+width: 531px;
+}

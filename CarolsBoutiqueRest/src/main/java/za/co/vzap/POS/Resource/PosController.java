@@ -81,14 +81,14 @@ public class PosController extends ControllerBase {
         return Response.status(Response.Status.OK).entity(posService.getRefund(id)).build();
     }
     
-    @POST
-    @Path("reservesale/{saleid}")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response reserveSale(@PathParam("saleid")String saleId) {
-
-        return Response.status(Response.Status.OK).entity(posService.reserveSale(saleId)).build();
-    }
+//    @POST
+//    @Path("reservesale/{saleid}")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    public Response reserveSale(@PathParam("saleid")String saleId) {
+//
+//        return Response.status(Response.Status.OK).entity(posService.reserveSale(saleId)).build();
+//    }
     
     @POST
     @Path("ibt")

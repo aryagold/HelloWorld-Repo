@@ -1,11 +1,13 @@
 package za.co.vzap.User.Service;
 
+import java.util.List;
 import za.co.vzap.Branch.Model.Branch;
 import za.co.vzap.Branch.Repository.BranchRepository;
 import za.co.vzap.Interface.Repository.IRepository;
 import za.co.vzap.Interface.Service.IUserService;
 import za.co.vzap.User.Model.RoleEnum;
 import za.co.vzap.User.Model.User;
+import za.co.vzap.User.Model.UserDto;
 import za.co.vzap.User.Repository.UserRepository;
 
 public class UserService implements IUserService {
@@ -40,13 +42,20 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User login(User user) {
+    public UserDto login(User user) {
         User userRet = (User) userRepository.getById(user.userId);
         
         if (userRet.getPassword().equals(user.getPassword())) {
-            return userRet;
+            return UserMapper.toUserDto(userRet);
         }
                 
         return null;
     }   
+
+    @Override
+    public List<Branch> getAllBranches() {
+        return branchRepository.getAll();
+    }
+    
+    
 }

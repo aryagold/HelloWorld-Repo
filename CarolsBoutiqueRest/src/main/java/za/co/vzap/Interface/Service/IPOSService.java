@@ -14,7 +14,7 @@ public interface IPOSService {
     
     RefundDto getRefund(int id);
     
-    boolean reserveSale(String saleID);
+//    boolean reserveSale(String saleID);
     
     IbtDto addIbt(IbtDto dto);
     
@@ -22,5 +22,6 @@ public interface IPOSService {
     
     List<IbtDto> listIbt(String userId, int type);
     
+    List<SaleDto> getReserved(); // this method does NOT hit an endpoint, no servlet/client methods.
    
 }

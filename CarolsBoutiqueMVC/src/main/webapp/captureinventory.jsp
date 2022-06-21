@@ -1,31 +1,65 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Replenish Stock Home</title>
+        <link rel="stylesheet" href="styles.css" />
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" 
+              rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap" rel="stylesheet"> 
+        <script src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>
+        <title>Replenish</title>
     </head>
-    <body style="background-color:#f5f5dc;">
-        <h1>Capture Stock</h1>
-        <form action="InventoryServlet" method ="post">
-            <label>Bar code: <input type="text" name="barcode" ></label><br>
-            <input list="quantities" name="quantity">
-            <datalist id="quantity">
-                
-                <option value="1"></option>  
-                <option value="2"></option>  
-                <option value="3"></option>  
-                <option value="4"></option>  
-                <option value="5"></option>  
-                <option value="6"></option>  
-                <option value="7"></option>  
-                <option value="8"></option>  
-                <option value="9"></option>  
-                <option value="10"></option>  
-                <option value="11"></option>  
-                
-            </datalist>
-            <input type="submit" name="submit" value="captureinventory" >
-        </form> 
+    <body>
+        <div>
+            <header><h1>Parktown</h1></header>
+
+            <div class="row">
+                <div class="col-sm">
+                    
+                </div>
+
+                <form action="InventoryServlet" method="post">
+                <div class="col-sm">
+                    <label>Replenish Stock</label>
+                    <div id="qr-reader" style="width: 600px"></div>
+                    <label>Barcode: </label>
+                    <input type="text" id="barcode" name="barcode">
+                    <br>
+                    <label>Quantity: </label>
+                    <select>
+                        <option name="quantity" value="1">1</option>
+                        <option name="quantity" value="2">2</option>
+                        <option name="quantity" value="3">3</option>
+                        <option name="quantity" value="4">4</option>
+                        <option name="quantity" value="5">5</option>
+                        <option name="quantity" value="6">6</option>
+                        <option name="quantity" value="7">7</option>
+                        <option name="quantity" value="8">8</option>
+                        <option name="quantity" value="9">9</option>
+                        <option name="quantity" value="10">10</option>
+                    </select>
+                    <br>
+                    <div class="d-flex justify-content-center"><button class="add" type="submit" name="submit" value="captureInventory">Add</button></div>
+
+                </form>
+
+
+
+
+                </div>
+                <div class="col-sm">
+                    
+
+                </div>
+            </div>
+        </div>
+
+        <script src= "webcam.js"></script>
+
     </body>
 </html>

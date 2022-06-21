@@ -1,5 +1,7 @@
 package za.co.vzap.Customer.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import za.co.vzap.Communication.Email.Email;
 import za.co.vzap.Communication.Model.CommunicationDto;
 import za.co.vzap.Communication.Model.EmailTypeEnum;
@@ -23,6 +25,7 @@ public class CustomerService implements ICustomerService {
     public int addReview(Review review) {
         
         if(review.getComment().isEmpty()) review.setComment("No comment");
+        review.setDate(Timestamp.valueOf(LocalDateTime.now()));
         
         int id = reviewRepository.add(review);
         
@@ -32,11 +35,12 @@ public class CustomerService implements ICustomerService {
     
     @Override
     public int addCustomer(Customer customer) {
-        
         int id = customerRepository.add(customer);
+        
         CommunicationDto dto = new CommunicationDto();
-        dto.emailAddressTo = customer.getEmail();
+        
         dto.emailType = EmailTypeEnum.SUBSCRIPTIONNOTIFICATION;
+        dto.emailAddressTo = customer.getEmail();
         
         new Email(dto).start();
         

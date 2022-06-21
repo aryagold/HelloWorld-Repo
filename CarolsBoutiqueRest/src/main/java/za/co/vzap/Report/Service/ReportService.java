@@ -1,26 +1,40 @@
 package za.co.vzap.Report.Service;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileNotFoundException;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
+import java.io.FileOutputStream;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import za.co.vzap.Branch.Model.Branch;
 import za.co.vzap.Branch.Repository.BranchRepository;
 import za.co.vzap.Interface.Repository.IRepository;
 import za.co.vzap.Interface.Service.IReportService;
-import za.co.vzap.Report.Model.CustomerReports;
+import za.co.vzap.Report.Model.CustomerReportsDto;
 import za.co.vzap.Report.Model.ItemAmount;
-import za.co.vzap.Report.Model.LeastPerformingStores;
+import za.co.vzap.Report.Model.LeastPerformingStoresDto;
 import za.co.vzap.Report.Model.StoreSalesDto;
-import za.co.vzap.Report.Model.ProductSales;
+import za.co.vzap.Report.Model.ProductSalesDto;
 import za.co.vzap.Report.Model.SaleSummaryDto;
+import za.co.vzap.Report.Model.StatementDto;
 import za.co.vzap.Report.Model.StoresAtTargetDto;
 import za.co.vzap.Report.Model.TopAchievingStoresDto;
 import za.co.vzap.Report.Model.TopEmployeesDto;
-import za.co.vzap.Report.Model.TopFourtyProducts;
+import za.co.vzap.Report.Model.TopFourtyProductsDto;
 import za.co.vzap.User.Model.User;
 import za.co.vzap.User.Repository.UserRepository;
 
@@ -66,6 +80,7 @@ public class ReportService implements IReportService {
                 "join branch on inventory.branchId = branch.id " +
                 "group by branch.name " +
                 "order by sum(product.price) DESC";
+       
         
         if (con != null) {
             try {
@@ -99,8 +114,54 @@ public class ReportService implements IReportService {
     }
     
     @Override
-    public CustomerReports getCustomerReport() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public CustomerReportsDto getCustomerReport(String month, int resultAmount) {
+        CustomerReportsDto dto = new CustomerReportsDto();
+        dto.title = "Customer Reports";
+        
+        dto.date = month;
+        dto.resultAmount = resultAmount;
+        
+        String statement
+                = "select rating, comment, date, branch.name "
+                + "from review "
+                + "join branch on review.branchId = branch.id "
+                + "where MONTHNAME(review.date) = '" + month + "' "
+                + "group by rating, comment, date, branch.name "
+                + "order by rating desc "
+                + "limit 0," + resultAmount;
+        
+        
+        if (con != null) {
+            try {
+                ps = con.prepareStatement(statement);
+
+                rs = ps.executeQuery();
+
+                while (rs.next()) {
+                    ItemAmount customerReport = new ItemAmount();
+
+                    customerReport.description = rs.getString("branch.name");
+                    customerReport.amount = rs.getInt("rating");
+                       
+                    dto.branchName = customerReport.description;
+
+                    dto.storeRatings.add(customerReport);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                if (ps != null) {
+                    try {
+                        ps.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
+        return dto;
     }
 
     @Override
@@ -122,6 +183,8 @@ public class ReportService implements IReportService {
                 + "where branchId = '" + branchId + "' and MONTHNAME(sale.date) = '" + month + "' "
                 + "group by sale.id, sale.date, sale.userId "
                 + "order by sale.date";
+        
+        dto.pdfData = createPdfData();
 
         if (con != null) {
             try {
@@ -188,6 +251,7 @@ public class ReportService implements IReportService {
         statement = statement 
                 + "group by user.id, user.name\n"
                 + "order by total desc";
+        
 
         if (con != null) {
             try {
@@ -236,6 +300,7 @@ public class ReportService implements IReportService {
                 + "group by branch.id, branch.name, branch.monthlyTarget\n"
                 + "having total >= branch.monthlyTarget\n"
                 + "order by total desc";
+        
 
         if (con != null) {
             try {
@@ -269,17 +334,61 @@ public class ReportService implements IReportService {
     }
 
     @Override
-    public TopFourtyProducts getTop40Products() {
+    public TopFourtyProductsDto getTop40Products() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public LeastPerformingStores getLeastPerforming() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public LeastPerformingStoresDto getLeastPerforming(int interval) {
+        LeastPerformingStoresDto dto = new LeastPerformingStoresDto();
+        dto.title = "Least Performing Stores";
+        
+        String statement = "select branch.name, sum(product.price) as total \n"
+                + "                 from sale \n"
+                + "                join salelineitem on sale.id = salelineitem.saleId \n"
+                + "                join inventory on salelineitem.inventoryId = inventory.id \n"
+                + "                join product on inventory.productId = product.id \n"
+                + "                join branch on inventory.branchId = branch.id \n"
+                + "                where sale.date > DATE_SUB(now(), INTERVAL " + interval + " MONTH)\n"
+                + "                group by branch.name \n"
+                + "                order by total ";
+    
+        
+        if (con != null) {
+            try {
+                ps = con.prepareStatement(statement);
+
+                rs = ps.executeQuery();
+
+                while (rs.next()) {
+                    ItemAmount storeSale = new ItemAmount();
+
+                    storeSale.description = rs.getString("branch.name");
+                    storeSale.amount = rs.getDouble("total");
+
+                    dto.storeSales.add(storeSale);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                if (ps != null) {
+                    try {
+                        ps.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
+        return dto;
+        
+        
     }
 
     @Override
-    public ProductSales getProductSales() {
+    public ProductSalesDto getProductSales() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -307,6 +416,8 @@ public class ReportService implements IReportService {
                 + "where branchId = '" + branchId + "' and date(sale.date) = current_date "
                 + "group by sale.id, sale.date, sale.userId "
                 + "order by sale.date";
+        
+        
 
         if (con != null) {
             try {
@@ -344,10 +455,65 @@ public class ReportService implements IReportService {
 
         return dto;
     }
+    
+    private byte[] createPdfData() {
+        return null;
+    }
 
     @Override
-    public String downloadCurrentReport() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String downloadCurrentReport(StatementDto dto) {
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet query_set = stmt.executeQuery(dto.content);
+           
+            Document my_pdf_report = new Document();
+            
+            try {
+                try {
+                    PdfWriter.getInstance(my_pdf_report, new FileOutputStream("pdfexport.pdf"));
+                } catch (DocumentException ex) {
+                    Logger.getLogger(ReportService.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(ReportService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            my_pdf_report.open();
+            PdfPTable my_report_table = new PdfPTable(4);
+            PdfPCell table_cell;
+            
+            while (query_set.next()) {
+                String dept_id = query_set.getString("name");
+                table_cell = new PdfPCell(new Phrase(dept_id));
+                my_report_table.addCell(table_cell);
+                String dept_name = query_set.getString("surname");
+                table_cell = new PdfPCell(new Phrase(dept_name));
+                my_report_table.addCell(table_cell);
+                int manager_id = query_set.getInt("id");
+                table_cell = new PdfPCell(new Phrase(String.valueOf(manager_id)));
+                my_report_table.addCell(table_cell);
+                int location_id = query_set.getInt("phonenumber");
+                table_cell = new PdfPCell(new Phrase(String.valueOf(location_id)));
+                my_report_table.addCell(table_cell);
+            }
+            
+            try {
+                my_pdf_report.add(my_report_table);
+            } catch (DocumentException ex) {
+                Logger.getLogger(ReportService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            my_pdf_report.close();
+            
+            query_set.close();
+            stmt.close();
+            con.close();
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ReportService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return "Download successful.";
     }
 
 }

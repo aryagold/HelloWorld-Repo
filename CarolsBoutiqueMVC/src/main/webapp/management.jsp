@@ -1,4 +1,9 @@
-<%@page import="za.co.vzap.Model.User.User"%>
+<%-- 
+    Document   : management
+    Created on : 20 Jun 2022, 17:18:48
+    Author     : aryagoldridge
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +17,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap" rel="stylesheet"> 
-        <title>Stock Taking</title>
+        <title>Management</title>
     </head>
     <body>
         <div>
@@ -31,14 +36,12 @@
 
                 <div class="col-sm">
                     <div class="d-flex justify-content-center">
-                        <a href="captureinventory.jsp"><button class="stock">Replenish</button></a>
-                        <a href="addinventory.jsp"><button class="stock">New Inventory</button></a>
+                        <a href="addbranch.jsp"><button id="addstore">Add A Store</button></a>
+                        <a href="updatetoteller.jsp"><button id="addstore">Register A Teller</button></a>
                     </div>
 
 
 
-
-                    <img id="logo" src="Caol_s_Botique-removebg-preview.png" alt="Logo">
 
 
 
