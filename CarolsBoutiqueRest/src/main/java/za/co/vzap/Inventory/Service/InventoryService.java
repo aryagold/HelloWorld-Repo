@@ -156,10 +156,6 @@ public class InventoryService implements IInventoryService {
         return dto;
     }  
     
-    @Override
-    public List<Category> getAllCategories() {
-        return categoryRepository.getAll();
-    }
 
     @Override
     public List<InventoryDto> getLowStockQuantity(int threshold) {

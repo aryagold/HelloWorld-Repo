@@ -337,9 +337,9 @@ public class POSServiceTest {
         Sale sale = new Sale(userID, "TestCustomerEmail", Timestamp.valueOf(LocalDateTime.now()), paymentID, SaleStatusEnum.NEW);
         String saleID = saleRepository.add2(sale);
         
-        Boolean result = posService.reserveSale(saleID);
-        
-        assertEquals( Boolean.class , result.getClass() );
+//        Boolean result = posService.reserveSale(saleID);
+//        
+//        assertEquals( Boolean.class , result.getClass() );
         
     }
 

@@ -56,7 +56,7 @@ public class InventoryServiceTest {
         saleDB = new SaleRepository();
         categoryDB = new CategoryRepository();
         branchDB = new BranchRepository();
-        inventoryService = new InventoryService(productDB, inventoryControlDB, inventoryDB, sizeDB, categoryDB, branchDB);
+//        inventoryService = new InventoryService(productDB, inventoryControlDB, inventoryDB, sizeDB, categoryDB, branchDB);
 
         Product product = new Product("TestProduct", 100);
         product.productId = productDB.add2(product);
@@ -83,7 +83,7 @@ public class InventoryServiceTest {
         saleDB = new SaleRepository();
         categoryDB = new CategoryRepository();
         branchDB = new BranchRepository();
-        inventoryService = new InventoryService(productDB, inventoryControlDB, inventoryDB, sizeDB, categoryDB, branchDB);
+//        inventoryService = new InventoryService(productDB, inventoryControlDB, inventoryDB, sizeDB, categoryDB, branchDB);
 
         Category category = new Category("TestCategory");
         
@@ -104,7 +104,7 @@ public class InventoryServiceTest {
         saleDB = new SaleRepository();
         categoryDB = new CategoryRepository();
         branchDB = new BranchRepository();
-        inventoryService = new InventoryService(productDB, inventoryControlDB, inventoryDB, sizeDB, categoryDB, branchDB);
+//        inventoryService = new InventoryService(productDB, inventoryControlDB, inventoryDB, sizeDB, categoryDB, branchDB);
 
         userDB = new UserRepository();
         Branch branch = new Branch("TestBranch", 10000, 1000);
@@ -129,7 +129,7 @@ public class InventoryServiceTest {
         saleDB = new SaleRepository();
         categoryDB = new CategoryRepository();
         branchDB = new BranchRepository();
-        inventoryService = new InventoryService(productDB, inventoryControlDB, inventoryDB, sizeDB, categoryDB, branchDB);
+//        inventoryService = new InventoryService(productDB, inventoryControlDB, inventoryDB, sizeDB, categoryDB, branchDB);
        
         InventoryDto dto = new InventoryDto();
         
@@ -150,7 +150,7 @@ public class InventoryServiceTest {
         saleDB = new SaleRepository();
         categoryDB = new CategoryRepository();
         branchDB = new BranchRepository();
-        inventoryService = new InventoryService(productDB, inventoryControlDB, inventoryDB, sizeDB, categoryDB, branchDB);
+//        inventoryService = new InventoryService(productDB, inventoryControlDB, inventoryDB, sizeDB, categoryDB, branchDB);
          
         Product product = new Product("TestProduct1", 20 );
         product.productId = productDB.add2(product);
@@ -172,7 +172,7 @@ public class InventoryServiceTest {
         saleDB = new SaleRepository();
         categoryDB = new CategoryRepository();
         branchDB = new BranchRepository();
-        inventoryService = new InventoryService(productDB, inventoryControlDB, inventoryDB, sizeDB, categoryDB, branchDB);
+//        inventoryService = new InventoryService(productDB, inventoryControlDB, inventoryDB, sizeDB, categoryDB, branchDB);
        
         String barcode = "TestBarcode";
         

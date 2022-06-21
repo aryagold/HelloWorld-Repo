@@ -17,8 +17,6 @@ public interface IInventoryService {
     
     InventoryDto getItem(String barcode);
     
-    List<Category> getAllCategories();
-    
     List<InventoryDto> getLowStockQuantity(int threshold); // this is not a remotely accessed method. do not place in servlets.
     
 }
