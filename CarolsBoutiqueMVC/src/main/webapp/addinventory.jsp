@@ -17,17 +17,11 @@
     </head>
     <body>
         <div>
-            <header><h1>Parktown</h1></header>
+            <header><h1></h1></header>
 
             <div class="row">
                 <div class="col-sm">
-                    <ul>
-                        <a href="/aryatest/Management.html"><li><button>Management</button></li></a>
-                        <a href="/aryatest/stock.html"><li><button>Stock</button></li></a>
-                        <li><button>Point of sale till</button></li>
-                        <li><button>transfers</button></li>
-
-                    </ul>
+                    
                 </div>
 
                 <div class="col-sm">
@@ -63,6 +57,7 @@
                         </div>
                         <br>
                         <div class="d-flex justify-content-center"><button type="submit" name="submit" value="addInventory" class="barcodegen">Add Inventory</button> </div>
+                        <img src="Caol_s_Botique-removebg-preview.png"/>
                     </form>
 
 
@@ -74,12 +69,7 @@
 
                 </div>
                 <div class="col-sm">
-                    <ul>
-                        <li><button>Reports</button></li>
-                        <a href="/aryatest/search.html"><li><button>Search</button></li></a>
-                        <a href="/aryatest/addToCatalogue.html"><li><button>Add to catalogue</button></li></a> 
-                        <li><button>Logout </button></li>
-                    </ul>
+                   
 
                 </div>
             </div>

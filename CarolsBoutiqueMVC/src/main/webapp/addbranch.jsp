@@ -21,15 +21,14 @@
     </head>
     <body>
         <div>
-            <header><h1>Parktown</h1></header>
 
             <div class="row">
                 <div class="col-sm">
                     <ul>
-                        <a href="/aryatest/Management.html"><li><button>Management</button></li></a>
-                        <a href="/aryatest/stock.html"><li><button>Stock</button></li></a>
+                        <a href="management.jsp"><li><button>Management</button></li></a>
+                        <a href="stockhome.jsp"><li><button>Stock</button></li></a>
                         <li><button>Point of sale till</button></li>
-                        <li><button>transfers</button></li>
+                        <a href="transferhome.jsp"><li><button>Inter Branch Transfers</button></li>
 
                     </ul>
                 </div>
@@ -60,10 +59,10 @@
                 </div>
                 <div class="col-sm">
                     <ul>
-                        <li><button>Reports</button></li>
-                        <a href="/aryatest/search.html"><li><button>Search</button></li></a>
-                        <a href="/aryatest/addToCatalogue.html"><li><button>Add to catalogue</button></li></a> 
-                        <li><button>Logout </button></li>
+                        <a href="reporthome.jsp"><li><button>Reports</button></li>
+                        <a href="findinventory.jsp"><li><button>Search</button></li></a>
+                        <a href="addtocatalogue.jsp"><li><button>Add to catalogue</button></li></a> 
+                        <a href="index.jsp"><li><button>Logout </button></li>
                     </ul>
 
                 </div>

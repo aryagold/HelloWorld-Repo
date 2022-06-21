@@ -1,6 +1,6 @@
 <%-- 
-    Document   : management
-    Created on : 20 Jun 2022, 17:18:48
+    Document   : transferhome
+    Created on : 21 Jun 2022, 09:42:12
     Author     : aryagoldridge
 --%>
 
@@ -17,28 +17,26 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap" rel="stylesheet"> 
-        <title>Management</title>
+        <title>Transfers</title>
     </head>
     <body>
         <div>
-            <header><h1>Parktown</h1></header>
 
             <div class="row">
                 <div class="col-sm">
                     <ul>
-                        <a href="management.jsp"><li><button>Management</button></li></a>
-                        <a href="stockhome.jsp"><li><button>Stock</button></li></a>
-                        <li><button>Point of sale till</button></li>
-                        <a href="transferhome.jsp"><li><button>transfers</button></li>
+                        <form action="POSServlet" method="get"></form>
+                            <div><button name="submit" value="ibt/1">New Requests Received</button></div>
+                            <div><button name="submit" value="ibt/0">Status On Requests</button></div>
+                            <a href="transferrequest.jsp"><button>Request a Transfer</button></a>
+                        </form>
+
 
                     </ul>
                 </div>
 
                 <div class="col-sm">
-                    <div class="d-flex justify-content-center">
-                        <a href="addbranch.jsp"><button id="addstore">Add A Store</button></a>
-                        <a href="updatetoteller.jsp"><button id="addstore">Register A Teller</button></a>
-                    </div>
+
 
 
 
@@ -47,12 +45,7 @@
 
                 </div>
                 <div class="col-sm">
-                    <ul>
-                        <a href="reporthome.jsp"><li><button>Reports</button></li>
-                        <a href="findinventory.jsp"><li><button>Search</button></li></a>
-                        <a href="addtocatalogue.jsp"><li><button>Add to catalogue</button></li></a> 
-                        <a href="index.jsp"><li><button>Logout </button></li>
-                    </ul>
+
 
                 </div>
             </div>

@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@page import="za.co.vzap.Model.Inventory.InventoryDto"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -14,54 +15,52 @@
         <link href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap" rel="stylesheet"> 
         <title>Transfer Request</title>
     </head>
+    <% 
+        List<InventoryDto> foundItems = null;
+        List<InventoryDto> returnedItems;
+    
+    %>
+
     <body>
         <div>
-            <header><h1>Parktown</h1></header>
 
-            <div class="row">
-                <div class="col-sm">
-                    <ul>
-                        <a href="/aryatest/Management.html"><li><button>Management</button></li></a>
-                        <a href="/aryatest/stock.html"><li><button>Stock</button></li></a>
-                        <li><button>Point of sale till</button></li>
-                        <li><button>transfers</button></li>
-
-                    </ul>
-                </div>
-
-                <div class="col-sm">
-                    <form action="POSServlet" method="post">
-                        <div class="d-flex justify-content-center"><h2>Request Inter Branch Transfer for Item/s</h2></div>
-                        <label>Customer Phone Number:</label>
-                        <input type="text" class="checkboxstyle" name="phoneNumber"/>
+            <form action="POSServlet" method="get">
+                <div class="row">
+                    <div class="col-sm">
+                        <label>Product ID:</label>
+                        <input type="text" class="checkboxstyle" name="productId"/>
+                        <div class="d-flex justify-content-center"><button class="barcodegen" name="submit" value="findInventory">Search</button></div>
                         <br>
-                        <label>Customer Email:</label>
-                        <input type="text" class="checkboxstyle" name="customerEmail"/>
-                        <br>
+                    </div>
+            </form> 
 
-                        <div class="d-flex justify-content-center"><button class="barcodegen" name="submit" value="addIbt">Send Request</button></div>
-                        <img src="Caol_s_Botique-removebg-preview.png"/>
-                    </form>   
+            <form action="POSServlet" method="post"></form>
+            <div class="col-sm">
+                
+                <% if(foundItems != null) {%>
+                    <%for(InventoryDto item : foundItems) {%>
+                        <input type="checkbox" name="inventoryIdFrom" value="<%=item.Id%>"><%=item.productName%></input>
+                    <%}%>
+                <%}%>
+                          
+                <label>Customer Email:</label>
+                <input type="text" class="checkboxstyle" name="customerEmail"/>
+                <br>
+
+            </div>
+            <div class="col-sm">
+                <label>Customer Phone Number:</label>
+                <input type="text" class="checkboxstyle" name="phoneNumber"/>
+                <div class="d-flex justify-content-center"><button class="barcodegen" name="submit" value="addIbt">Send Request</button></div>
+                <br>
+                </form>
 
 
-
-
-
-
-                </div>
-                <div class="col-sm">
-                    <ul>
-                        <li><button>Reports</button></li>
-                        <a href="/aryatest/search.html"><li><button>Search</button></li></a>
-                        <a href="/aryatest/addToCatalogue.html"><li><button>Add to catalogue</button></li></a> 
-                        <li><button>Logout </button></li>
-                    </ul>
-
-                </div>
             </div>
         </div>
+    </div>
 
-        <script src= "name"></script>
+    <script src= "name"></script>
 
-    </body>
+</body>
 </html>

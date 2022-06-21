@@ -20,13 +20,7 @@
 
             <div class="row">
                 <div class="col-sm">
-                    <ul>
-                        <a href="/aryatest/Management.html"><li><button>Management</button></li></a>
-                        <a href="/aryatest/stock.html"><li><button>Stock</button></li></a>
-                        <li><button>Point of sale till</button></li>
-                        <li><button>transfers</button></li>
-
-                    </ul>
+                    
                 </div>
 
                 <form action="InventoryServlet" method="post">
@@ -59,12 +53,7 @@
 
                 </div>
                 <div class="col-sm">
-                    <ul>
-                        <li><button>Reports</button></li>
-                        <a href="/aryatest/search.html"><li><button>Search</button></li></a>
-                        <a href="/aryatest/addToCatalogue.html"><li><button>Add to catalogue</button></li></a> 
-                        <li><button>Logout </button></li>
-                    </ul>
+                    
 
                 </div>
             </div>

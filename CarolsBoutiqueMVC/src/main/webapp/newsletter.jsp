@@ -30,7 +30,7 @@
             <div class="d-flex justify-content-center"><label>Phone Number:</label></div>
             <div class="d-flex justify-content-center"><input type="text" name="phoneNumber"/></div>
             <br>
-            <div class="d-flex justify-content-center"><button id="submit" name="submit" value="submit">Join</button></div>
+            <div class="d-flex justify-content-center"><button id="submit" name="submit" value="addCustomer">Join</button></div>
             <div class="d-flex justify-content-center"><img src="Caol_s_Botique-removebg-preview.png"/></div>
         </form>
     </body>

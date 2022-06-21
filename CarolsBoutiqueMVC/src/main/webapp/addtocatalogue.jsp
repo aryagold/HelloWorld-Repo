@@ -19,15 +19,14 @@
     </head>
     <body>
         <div>
-            <header><h1>Parktown</h1></header>
 
             <div class="row">
                 <div class="col-sm">
                     <ul>
-                        <a href="/aryatest/Management.html"><li><button>Management</button></li></a>
-                        <a href="/aryatest/stock.html"><li><button>Stock</button></li></a>
-                        <li><button>Point of sale till</button></li>
-                        <li><button>Transfers</button></li>
+                        <a href="management.jsp"><li><button>Management</button></li></a>
+                        <a href="stockhome.jsp"><li><button>Stock</button></li></a>
+                        <a href="/aryatest/stock.html"><li><button>Point of sale till</button></li>
+                        <a href="transferhome.jsp"><li><button>Transfers</button></li>
 
                     </ul>
                 </div>
@@ -38,7 +37,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col">
-                                <form action="InventoryServlet" method="post">
+                                <form action="ProductServlet" method="post">
                                 <div class="d-flex justify-content-center"><label class="labels">Full product name:</label><br></div>
 
                                 <input type="text" class="price" name="name"><br>
@@ -60,32 +59,32 @@
                                 <div class="col"></div>
 
                                 <label>Women's Shoes</label>       
-                                <input type="checkbox"  class="checkboxstyle">
+                                <input type="checkbox"  name="categoryId" value="CA006" class="checkboxstyle">
                                 <label>Women's Accessories</label>
-                                <input type="checkbox" class="checkboxstyle">
+                                <input type="checkbox" name="categoryId" value="CA004" class="checkboxstyle">
                                 <label>Women's Athleisure Tops</label>
-                                <input type="checkbox" class="checkboxstyle">
+                                <input type="checkbox" name="categoryId" value="CA002" class="checkboxstyle">
                                 <label>Women's Athleisure Bottoms</label>
-                                <input type="checkbox" class="checkboxstyle">
+                                <input type="checkbox" name="categoryId" value="CA003" class="checkboxstyle">
                                 <label>Women's Casual Bottoms</label>
-                                <input type="checkbox" class="checkboxstyle">
+                                <input type="checkbox" name="categoryId" value="CA009" class="checkboxstyle">
                                 <label>Women's Casual Tops</label>
-                                <input type="checkbox" class="checkboxstyle">
+                                <input type="checkbox" name="categoryId" value="CA005" class="checkboxstyle">
 
                             </div>
                             <div class="col">
                                 <label>Men's Athleisure Bottoms</label>
-                                <input type="checkbox" class="checkboxstyle">
+                                <input type="checkbox" name="categoryId" value="CA011" class="checkboxstyle">
                                 <label>Men's Athleisure Tops</label>
-                                <input type="checkbox" class="checkboxstyle" >
+                                <input type="checkbox" name="categoryId" value="CA010" class="checkboxstyle" >
                                 <label>Men's Casual Tops</label>
-                                <input type="checkbox" class="checkboxstyle" >
+                                <input type="checkbox" name="categoryId" value="CA012" class="checkboxstyle" >
                                 <label>Men's Casual Bottoms</label>
-                                <input type="checkbox" class="checkboxstyle" >
+                                <input type="checkbox" name="categoryId" value="CA013" class="checkboxstyle" >
                                 <label>Men's Accessories</label>
-                                <input type="checkbox" class="checkboxstyle" >
+                                <input type="checkbox" name="categoryId" value="CA014" class="checkboxstyle" >
                                 <label>Men's Shoes</label>
-                                <input type="checkbox" class="checkboxstyle" >
+                                <input type="checkbox" name="categoryId" value="CA015" class="checkboxstyle" >
 
                             </div>
 
@@ -98,10 +97,10 @@
                 </div>
                 <div class="col-sm">
                     <ul>
-                        <li><button>Reports</button></li>
-                        <a href="/aryatest/search.html"><li><button>Search</button></li></a>
-                        <a href="/aryatest/addToCatalogue.html"><li><button>Add to catalogue</button></li></a> 
-                        <li><button>Logout </button></li>
+                        <a href="reporthome.jsp"><li><button>Reports</button></li>
+                        <a href="findinventory,jsp"><li><button>Search</button></li></a>
+                        <a href="addtocatalogue.jsp"><li><button>Add to catalogue</button></li></a> 
+                        <a href="index.jsp"><li><button>Logout </button></li>
                     </ul>
 
                 </div>
