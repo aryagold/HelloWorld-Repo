@@ -3,6 +3,7 @@ package za.co.vzap.Model.Communication;
 import za.co.vzap.Interface.Model.IEntity;
 
 public class EmailTemplate implements IEntity {
+
     public int Id;
     private EmailTypeEnum type;
     private String bodyTemplate;
@@ -53,5 +54,5 @@ public class EmailTemplate implements IEntity {
     public String toString() {
         return "EmailTemplate{" + "Id=" + Id + ", type=" + type + ", bodyTemplate=" + bodyTemplate + ", subjectTemplate=" + subjectTemplate + '}';
     }
-    
+
 }

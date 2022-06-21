@@ -3,6 +3,7 @@ package za.co.vzap.Model.Sale;
 import za.co.vzap.Interface.Model.IEntity;
 
 public class SaleLineItem implements IEntity {
+
     public int Id;
     private int inventoryId;
     private String saleId;
@@ -10,7 +11,7 @@ public class SaleLineItem implements IEntity {
     public SaleLineItem(String saleId, int inventoryId) {
         this.saleId = saleId;
         this.inventoryId = inventoryId;
-        
+
     }
 
     public SaleLineItem() {
@@ -36,8 +37,5 @@ public class SaleLineItem implements IEntity {
     public String toString() {
         return "SaleLineItem{" + "Id=" + Id + ", inventoryId=" + inventoryId + ", saleId=" + saleId + '}';
     }
-    
-    
 
-   
 }

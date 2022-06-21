@@ -5,6 +5,7 @@ import za.co.vzap.Interface.Model.IEntity;
 import java.sql.Timestamp;
 
 public class InventoryControl implements IEntity {
+
     public int Id;
     private String userId;
     private int inventoryId;

@@ -8,7 +8,7 @@ public enum SaleStatusEnum {
     RESERVED(1),
     COMPLETED(2),
     CANCELLED(3);
-    
+
     private int value;
     private static Map map = new HashMap<>();
 
@@ -19,7 +19,7 @@ public enum SaleStatusEnum {
     public int getValue() {
         return this.value;
     }
-    
+
     static {
         for (SaleStatusEnum status : SaleStatusEnum.values()) {
             map.put(status.value, status);

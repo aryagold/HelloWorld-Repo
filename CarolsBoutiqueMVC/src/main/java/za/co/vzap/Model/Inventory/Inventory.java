@@ -3,6 +3,7 @@ package za.co.vzap.Model.Inventory;
 import za.co.vzap.Interface.Model.IEntity;
 
 public class Inventory implements IEntity {
+
     public int Id;
     private String branchId;
     private int sizeId;

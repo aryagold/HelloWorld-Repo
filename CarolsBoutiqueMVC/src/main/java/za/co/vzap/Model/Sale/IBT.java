@@ -3,6 +3,7 @@ package za.co.vzap.Model.Sale;
 import za.co.vzap.Interface.Model.IEntity;
 
 public class IBT implements IEntity {
+
     public int Id;
     private int inventoryIdFrom;
     private String branchIdTo;
@@ -69,5 +70,5 @@ public class IBT implements IEntity {
 
     public void setStatus(IBTStatusEnum status) {
         this.status = status;
-    } 
+    }
 }

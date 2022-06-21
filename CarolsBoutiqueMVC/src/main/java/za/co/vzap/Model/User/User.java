@@ -3,6 +3,7 @@ package za.co.vzap.Model.User;
 import za.co.vzap.Interface.Model.IEntity;
 
 public class User implements IEntity {
+
     public String userId;
     private String name;
     private String email;
@@ -31,7 +32,6 @@ public class User implements IEntity {
         this.userId = userId;
         this.password = password;
     }
-    
 
     public User() {
     }
@@ -43,7 +43,6 @@ public class User implements IEntity {
     public void setUserId(String userId) {
         this.userId = userId;
     }
-    
 
     public String getName() {
         return name;
@@ -89,6 +88,5 @@ public class User implements IEntity {
     public String toString() {
         return "User{" + "userId=" + userId + ", name=" + name + ", email=" + email + ", branchId=" + branchId + ", password=" + password + ", role=" + role + '}';
     }
-    
-    
+
 }

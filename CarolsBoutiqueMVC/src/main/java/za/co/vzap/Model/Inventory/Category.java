@@ -3,6 +3,7 @@ package za.co.vzap.Model.Inventory;
 import za.co.vzap.Interface.Model.IEntity;
 
 public class Category implements IEntity {
+
     public String categoryId;
     private String name;
 

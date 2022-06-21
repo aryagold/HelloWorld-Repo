@@ -7,7 +7,7 @@ public enum IBTStatusEnum {
     REQUESTED(0),
     APPROVED(1),
     DECLINED(2),
-    COMPLETED(3);
+    RECEIVED(3);
 
     private int value;
     private static Map map = new HashMap<>();
@@ -19,7 +19,7 @@ public enum IBTStatusEnum {
     public int getValue() {
         return this.value;
     }
-    
+
     static {
         for (IBTStatusEnum status : IBTStatusEnum.values()) {
             map.put(status.value, status);
@@ -29,6 +29,5 @@ public enum IBTStatusEnum {
     public static IBTStatusEnum valueOf(int status) {
         return (IBTStatusEnum) map.get(status);
     }
-     
-     
+
 }

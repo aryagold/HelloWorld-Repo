@@ -3,6 +3,7 @@ package za.co.vzap.Model.Customer;
 import za.co.vzap.Interface.Model.IEntity;
 
 public class Customer implements IEntity {
+
     public int Id;
     private String email;
     private String phoneNumber;
@@ -14,8 +15,6 @@ public class Customer implements IEntity {
 
     public Customer() {
     }
-    
-    
 
     public String getEmail() {
         return email;

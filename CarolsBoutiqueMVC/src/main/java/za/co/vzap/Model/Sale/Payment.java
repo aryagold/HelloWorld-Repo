@@ -3,6 +3,7 @@ package za.co.vzap.Model.Sale;
 import za.co.vzap.Interface.Model.IEntity;
 
 public class Payment implements IEntity {
+
     public int Id;
     private PaymentTypeEnum type;
     private String cardNumber;

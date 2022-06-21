@@ -2,16 +2,20 @@ package za.co.vzap.Model.Sale;
 
 import za.co.vzap.Interface.Model.IEntity;
 import java.sql.Timestamp;
-import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import za.co.vzap.Interface.Model.IEntity;
 
 public class Sale implements IEntity {
+
     public String saleId;
     private String userId;
     private String customerEmail;
     private Timestamp date;
     private Integer paymentId;
     private SaleStatusEnum status;
+
+    public List<SaleLineItem> items = new ArrayList<>();
 
     public Sale(String userId, String customerEmail, Timestamp date, Integer paymentId, SaleStatusEnum status) {
         this.userId = userId;
@@ -29,8 +33,6 @@ public class Sale implements IEntity {
         this.paymentId = paymentId;
         this.status = status;
     }
-    
-    
 
     public Sale() {
     }
@@ -87,6 +89,5 @@ public class Sale implements IEntity {
     public String toString() {
         return "Sale{" + "saleId=" + saleId + ", userId=" + userId + ", customerEmail=" + customerEmail + ", date=" + date + ", paymentId=" + paymentId + ", status=" + status + '}';
     }
-    
-    
+
 }

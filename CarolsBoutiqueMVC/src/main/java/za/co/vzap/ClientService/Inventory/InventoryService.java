@@ -132,5 +132,26 @@ public class InventoryService implements IInventoryService{
         return list;
         
     }
+
+    @Override
+    public InventoryDto getItem(String barcode) {
+        
+        url = "http://localhost:8080/rest/inventory/getitem?barcode=barcode";
+        client = ClientBuilder.newClient();
+        target = client.target(url);
+        
+        InventoryDto invenDto = null;
+        
+        try {
+            
+             invenDto = om.readValue(target.request().accept(MediaType.APPLICATION_JSON).get(String.class), InventoryDto.class);
+        
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(InventoryService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return invenDto;
+        
+    }
     
 }

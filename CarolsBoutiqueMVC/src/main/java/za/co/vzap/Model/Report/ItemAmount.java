@@ -1,6 +1,7 @@
 package za.co.vzap.Model.Report;
 
 public class ItemAmount {
+
     public String description;
     public double amount;
 
@@ -11,8 +12,5 @@ public class ItemAmount {
 
     public ItemAmount() {
     }
-    
-    
-    
-    
+
 }

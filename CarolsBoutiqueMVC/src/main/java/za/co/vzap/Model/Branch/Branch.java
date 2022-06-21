@@ -3,12 +3,12 @@ package za.co.vzap.Model.Branch;
 import za.co.vzap.Interface.Model.IEntity;
 
 public class Branch implements IEntity {
+
     public String branchId;
     private String name;
     private double monthlyTarget;
     private double dailyTarget;
 
-    
     public Branch(String name, double monthlyTarget, double dailyTarget) {
         this.name = name;
         this.monthlyTarget = monthlyTarget;
@@ -21,8 +21,7 @@ public class Branch implements IEntity {
         this.monthlyTarget = monthlyTarget;
         this.dailyTarget = dailyTarget;
     }
-    
-    
+
     public Branch() {
     }
 
@@ -33,7 +32,7 @@ public class Branch implements IEntity {
     public void setBranchId(String branchId) {
         this.branchId = branchId;
     }
-    
+
     public String getName() {
         return name;
     }

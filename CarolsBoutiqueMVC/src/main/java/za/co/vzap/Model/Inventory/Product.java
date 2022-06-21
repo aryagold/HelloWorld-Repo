@@ -3,6 +3,7 @@ package za.co.vzap.Model.Inventory;
 import za.co.vzap.Interface.Model.IEntity;
 
 public class Product implements IEntity {
+
     public String productId;
     private String name;
     private double price;
@@ -28,7 +29,6 @@ public class Product implements IEntity {
     public void setProductId(String productId) {
         this.productId = productId;
     }
-    
 
     public String getName() {
         return name;

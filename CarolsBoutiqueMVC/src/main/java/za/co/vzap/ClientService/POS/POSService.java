@@ -4,126 +4,181 @@
  */
 package za.co.vzap.ClientService.POS;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import za.co.vzap.Interface.Service.IPOSService;
-import za.co.vzap.Model.Inventory.InventoryDto;
 import za.co.vzap.Model.Sale.IbtDto;
-import za.co.vzap.Model.Sale.Payment;
-import za.co.vzap.Model.Sale.Refund;
-import za.co.vzap.Model.Sale.RefundItemDto;
-import za.co.vzap.Model.Sale.Sale;
+import za.co.vzap.Model.Sale.RefundDto;
 import za.co.vzap.Model.Sale.SaleDto;
-import za.co.vzap.Model.Sale.SaleLineItemDto;
 
 /**
  *
  * @author macpe
  */
 public class POSService implements IPOSService {
+    private ObjectMapper om;
+    private String url;
+    private Client client;
+    private WebTarget target;
+    private Response response;
 
-    @Override
-    public String addSale(Sale arg0) {
-     
-        return null;
-    
+    public POSService() {
+
+        this.om = new ObjectMapper();
+
+    }
+
+    private String stringJson(Object o) throws JsonProcessingException {
+        return new ObjectMapper().writeValueAsString(o);
     }
 
     @Override
-    public SaleDto voidSale(String arg0) {
+    public SaleDto addSale(SaleDto dto) {
+
+        url = "http://localhost:8080/rest/pos/sale";
+        client = ClientBuilder.newClient();
+        target = client.target(url);
         
-        return null;
-    
-    }
-
-    @Override
-    public SaleLineItemDto addSaleLineItem(SaleLineItemDto arg0) throws Exception {
-       
-        return null;
-    
-    }
-
-    @Override
-    public List<SaleLineItemDto> getSaleLineItems(String arg0) {
-       
-        return null;
-    
-    }
-
-    @Override
-    public int addRefund(Refund arg0) {
+        try {
+            
+            response = target.request(MediaType.APPLICATION_JSON).post(Entity.json(stringJson(dto)));
         
-        return 0;
-    
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(POSService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return response.readEntity(SaleDto.class);
+        
     }
 
     @Override
-    public RefundItemDto addRefundItem(RefundItemDto arg0) {
-       
-        return null;
-    
+    public SaleDto getSale(String id) {
+        
+        url = "http://localhost:8080/rest/pos/sale?id=id";
+        client = ClientBuilder.newClient();
+        target = client.target(url);
+        
+        SaleDto dto = null;
+        
+        try {
+            
+            dto = om.readValue( target.request().accept(MediaType.APPLICATION_JSON).get(String.class) , SaleDto.class);
+        
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(POSService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return dto ;
+        
     }
 
     @Override
-    public int completeSale(Payment arg0, String arg1) {
-       
-        return 0;
-    
+    public RefundDto addRefund(RefundDto dto) {
+        
+        url = "http://localhost:8080/rest/pos/refund";
+        client = ClientBuilder.newClient();
+        target = client.target(url);
+        
+        try {
+            
+            response = target.request(MediaType.APPLICATION_JSON).post(Entity.json(stringJson(dto)));
+        
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(POSService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return response.readEntity(RefundDto.class);
+        
     }
 
     @Override
-    public boolean deleteSaleLineItem(int arg0) {
+    public RefundDto getRefund(int id) {
+        
+        url = "http://localhost:8080/rest/pos/refund?id=id";
+        client = ClientBuilder.newClient();
+        target = client.target(url);
+        
+        RefundDto refundDto = null;
+        
+        try {
+            
+            refundDto = om.readValue( target.request().accept(MediaType.APPLICATION_JSON).get(String.class) , RefundDto.class);
+        
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(POSService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return refundDto;
+        
+    }
+
+    @Override
+    public boolean reserveSale(String saleID) {//removed
         
         return false;
-    
+        
     }
 
     @Override
-    public boolean reserveSale(String arg0) {
+    public IbtDto addIbt(IbtDto dto) {
        
-        return false;
-    
-    }
-
-    @Override
-    public IbtDto requestIbt(int arg0, String arg1, int arg2, String arg3, String arg4) {
+        url = "http://localhost:8080/rest/pos/ibt";
+        client = ClientBuilder.newClient();
+        target = client.target(url);
+        
+        response = target.request(MediaType.APPLICATION_JSON).post(Entity.json(dto));
+        
+        return response.readEntity(IbtDto.class);
        
-        return null;   
-    
     }
 
     @Override
-    public IbtDto approveIbt(int arg0) {
+    public IbtDto updateIbt(IbtDto dto) {
         
-        return null;
+        url = "http://localhost:8080/rest/pos/ibt/update";
+        client = ClientBuilder.newClient();
+        target = client.target(url);
+        
+        try {
+            
+            response = target.request(MediaType.APPLICATION_JSON).post(Entity.json(stringJson(dto)));
+        
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(POSService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+        return response.readEntity(IbtDto.class);
+       
+    }
+
+    @Override
+    public List<IbtDto> listIbt(String userId, int type) {
+        
+        url = "http://localhost:8080/rest/pos/ibt?type=type";
+        client = ClientBuilder.newClient();
+        target = client.target(url);
+        
+        try {
+            
+            response = om.readValue( target.request().accept(MediaType.APPLICATION_JSON).get(String.class) , Response.class);
+        
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(POSService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return response.readEntity(List.class);
         
     }
 
-    @Override
-    public IbtDto declineIbt(int arg0) {
-        
-        return null;
-    
-     }
-
-    @Override
-    public IbtDto ibtReceived(int arg0) {
-    
-        return null;
-    
-    }
-
-    @Override
-    public void payIBT(InventoryDto arg0, int arg1, Sale arg2, Payment arg3) {
-          
-    
-    
-    }
-
-    @Override
-    public List<IbtDto> viewIbt() {
-        
-         return null;
-    
-    }
+   
     
 }

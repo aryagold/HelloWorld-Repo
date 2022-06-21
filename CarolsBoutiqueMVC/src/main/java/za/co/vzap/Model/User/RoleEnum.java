@@ -19,7 +19,7 @@ public enum RoleEnum {
     public int getValue() {
         return this.value;
     }
-    
+
     static {
         for (RoleEnum role : RoleEnum.values()) {
             map.put(role.value, role);

@@ -11,6 +11,7 @@ import java.sql.Timestamp;
  * @author aryagoldridge
  */
 public class InventoryControlDto {
+
     public int Id;
     public String userId;
     public int inventoryId;
@@ -19,7 +20,7 @@ public class InventoryControlDto {
     public int incomingQuantity;
     public int newStockQuantity;
     public boolean posted;
-    
+
     public String productName;
     public String sizeName;
 }

@@ -7,7 +7,7 @@ public enum RefundStatusEnum {
     NEW(0),
     COMPLETED(1),
     CANCELLED(2);
-    
+
     private int value;
     private static Map map = new HashMap<>();
 

@@ -3,6 +3,7 @@ package za.co.vzap.Model.Inventory;
 import za.co.vzap.Interface.Model.IEntity;
 
 public class ProductCategory implements IEntity {
+
     public int Id;
     private String productId;
     private String categoryId;
@@ -30,6 +31,5 @@ public class ProductCategory implements IEntity {
     public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
     }
-    
-    
+
 }
