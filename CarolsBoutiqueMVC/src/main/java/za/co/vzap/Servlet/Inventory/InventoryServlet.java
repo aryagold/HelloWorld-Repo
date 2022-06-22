@@ -85,11 +85,11 @@ public class InventoryServlet extends HttpServlet {
                 try {
                     if (barcode_2.equals("none")) {
 
-                        dtos = inventoryService.findStockWithProductId(productID_2);
+                        dtos = inventoryService.findInventory(productID_2);
 
                     } else {
 
-                        dtos = inventoryService.findStockWithBarcode(barcode_2);
+                        dtos = inventoryService.findInventory(barcode_2);
 
                     }
 
@@ -179,6 +179,7 @@ public class InventoryServlet extends HttpServlet {
                 break;
 
             
+
 
         }
 

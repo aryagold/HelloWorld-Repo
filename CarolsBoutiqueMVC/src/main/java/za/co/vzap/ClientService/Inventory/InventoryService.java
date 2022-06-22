@@ -102,38 +102,6 @@ public class InventoryService implements IInventoryService{
     }
 
     @Override
-    public List<InventoryDto> findStockWithProductId(String productId) throws Exception {
-        
-        Map map = new HashMap<>();
-        map.put("productId", productId);
-        
-        url = "http://localhost:8080/rest/inventory/find?searchTerm={productId}"; // example of query param
-        client = ClientBuilder.newClient();
-        target = client.target(url).resolveTemplates(map);
-        
-        List<InventoryDto> list = om.readValue(target.request().accept(MediaType.APPLICATION_JSON).get(String.class), List.class);
-        
-        return list;
-        
-    }
-
-    @Override
-    public List<InventoryDto> findStockWithBarcode(String barcode) throws Exception {
-        
-        Map map = new HashMap<>();
-        map.put("barcode", barcode );
-        
-        url = "http://localhost:8080/rest/inventory/findstockwithbarcode";
-        client = ClientBuilder.newClient();
-        target = client.target(url).resolveTemplates(map);
-        
-        List<InventoryDto> list = om.readValue( target.request().accept(MediaType.APPLICATION_JSON).get(String.class) , List.class);
-        
-        return list;
-        
-    }
-
-    @Override
     public InventoryDto getItem(String barcode) {
         
         url = "http://localhost:8080/rest/inventory/getitem?barcode=barcode";
@@ -151,6 +119,27 @@ public class InventoryService implements IInventoryService{
         }
         
         return invenDto;
+        
+    }
+
+    @Override
+    public List<InventoryDto> findInventory(String searchTerm) throws Exception {
+       
+        url = "http://localhost:8080/rest/inventory/find?searchTerm=searchTerm";
+        client = ClientBuilder.newClient();
+        target = client.target(url);
+
+        List<InventoryDto> invenDtos = null;
+
+        try {
+
+            invenDtos = om.readValue(target.request().accept(MediaType.APPLICATION_JSON).get(String.class), List.class);
+
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(InventoryService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return invenDtos;
         
     }
     

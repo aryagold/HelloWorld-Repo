@@ -24,6 +24,10 @@ import za.co.vzap.Model.User.UserDto;
 public class UserServlet extends HttpServlet {
 
     private IUserService userService;
+    
+    public UserServlet(){
+        userService = new UserService();
+    }
 
     public UserServlet(IUserService userService) {
         this.userService = new UserService();
@@ -70,9 +74,13 @@ public class UserServlet extends HttpServlet {
                 String password = request.getParameter("password");
 
                 User user = new User(userId_2, password);
-                System.out.println("User " + user.toString());
+                
+                System.out.println("User : "+user);
+                System.out.println("here1");
                 UserDto loggedInUser = userService.login(user);
-                System.out.println("Dto " + loggedInUser.userId);
+
+                System.out.println("UserDto : "+loggedInUser);
+                
                 request.getSession().setAttribute("loggedInUser", loggedInUser);
                 request.getRequestDispatcher("index.jsp").forward(request, response);
 

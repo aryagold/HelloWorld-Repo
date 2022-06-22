@@ -122,13 +122,6 @@ public class POSService implements IPOSService {
     }
 
     @Override
-    public boolean reserveSale(String saleID) {//removed
-        
-        return false;
-        
-    }
-
-    @Override
     public IbtDto addIbt(IbtDto dto) {
        
         url = "http://localhost:8080/rest/pos/ibt";

@@ -14,8 +14,6 @@ public interface IPOSService {
     
     RefundDto getRefund(int id);
     
-//    boolean reserveSale(String saleID);
-    
     IbtDto addIbt(IbtDto dto);
     
     IbtDto updateIbt(IbtDto dto);
