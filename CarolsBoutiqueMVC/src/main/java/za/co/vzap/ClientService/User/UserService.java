@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response;
 import za.co.vzap.Interface.Service.IUserService;
 import za.co.vzap.Model.Branch.Branch;
 import za.co.vzap.Model.User.User;
+import za.co.vzap.Model.User.UserDto;
 
 /**
  *
@@ -75,21 +76,25 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public User login(User user) {
+    public UserDto login(User user) {
         
-        url = "http://localhost:8080/rest/user/login";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/user/login";
         client = ClientBuilder.newClient();
         target = client.target(url);
+        
+        UserDto dto = new UserDto();
         
         try {
             
             response = target.request(MediaType.APPLICATION_JSON).post(Entity.json(stringJson(user)));
             
+            dto = om.readValue(response.readEntity(String.class), UserDto.class);
+            System.out.println("Response " + response);
         } catch (JsonProcessingException ex) {
             Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
         }
        
-        return response.readEntity(User.class);
+        return dto;
         
     }
     

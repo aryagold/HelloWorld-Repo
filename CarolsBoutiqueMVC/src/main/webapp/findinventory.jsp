@@ -44,7 +44,7 @@
 
                 </div>
                 <div class="col-sm">
-                    <button class="stock" name="submit" value="findStock">Search</button>
+                    <button class="stock" name="submit" value="findInventory">Search</button>
                     <a href="home.html"><button class="stock">Home</button></a>
 
                 </div>

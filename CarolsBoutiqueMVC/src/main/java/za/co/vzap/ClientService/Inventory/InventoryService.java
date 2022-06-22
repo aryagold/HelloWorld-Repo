@@ -107,7 +107,7 @@ public class InventoryService implements IInventoryService{
         Map map = new HashMap<>();
         map.put("productId", productId);
         
-        url = "http://localhost:8080/rest/inventory/findstockwithproductid/{productId}";
+        url = "http://localhost:8080/rest/inventory/find?searchTerm={productId}"; // example of query param
         client = ClientBuilder.newClient();
         target = client.target(url).resolveTemplates(map);
         

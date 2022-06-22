@@ -1,3 +1,4 @@
+<%@page import="za.co.vzap.Model.User.UserDto"%>
 <%@page import="za.co.vzap.Model.User.User"%>
 <!DOCTYPE html>
 <html>
@@ -10,11 +11,11 @@
     </head>
     <body>
         <%
-            User user = (User) request.getSession(false).getAttribute("user");%>
+            UserDto user = (UserDto) request.getSession(false).getAttribute("loggedInUser");%>
             
           <%  if(user != null) {%>
                <% String redirectURL = "home.jsp"; %>
-               <% response.sendRedirect(redirectURL); %>
+               <% response.sendRedirect(redirectURL); %> 
            <% } %>
         %>
         <div class ="desktop">

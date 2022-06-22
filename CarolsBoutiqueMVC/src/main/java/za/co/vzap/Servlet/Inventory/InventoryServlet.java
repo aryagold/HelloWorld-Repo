@@ -74,7 +74,33 @@ public class InventoryServlet extends HttpServlet {
                 request.getRequestDispatcher("addinventory.jsp").forward(request, response);
 
                 break;
+            
+            case "findInventory":
 
+                String productID_2 = request.getParameter("productId");
+                String barcode_2 = request.getParameter("barcode");
+
+                List<InventoryDto> dtos = null;
+
+                try {
+                    if (barcode_2.equals("none")) {
+
+                        dtos = inventoryService.findStockWithProductId(productID_2);
+
+                    } else {
+
+                        dtos = inventoryService.findStockWithBarcode(barcode_2);
+
+                    }
+
+                } catch (Exception ex) {
+                    Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                request.setAttribute("dtos", dtos);
+                request.getRequestDispatcher("findinventory.jsp").forward(request, response);
+
+                break;
         }
 
     }
@@ -152,32 +178,7 @@ public class InventoryServlet extends HttpServlet {
 
                 break;
 
-            case "findInventory":
-
-                String productID_2 = request.getParameter("productId");
-                String barcode_2 = request.getParameter("barcode");
-
-                List<InventoryDto> dtos = null;
-
-                try {
-                    if (barcode_2.equals("none")) {
-
-                        dtos = inventoryService.findStockWithProductId(productID_2);
-
-                    } else {
-
-                        dtos = inventoryService.findStockWithBarcode(barcode_2);
-
-                    }
-
-                } catch (Exception ex) {
-                    Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                request.setAttribute("dtos", dtos);
-                request.getRequestDispatcher("findinventory.jsp").forward(request, response);
-
-                break;
+            
 
         }
 

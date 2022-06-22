@@ -21,7 +21,9 @@
     </head>
     <body>
         <div>
-
+            <% String userId = request.getHeader("userId"); %>
+            
+            <h1></h1>
             <div class="row">
                 <div class="col-sm">
                     <ul>
