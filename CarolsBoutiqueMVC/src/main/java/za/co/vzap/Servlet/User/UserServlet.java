@@ -10,9 +10,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import za.co.vzap.ClientService.User.UserService;
 import za.co.vzap.Interface.Service.IUserService;
 import za.co.vzap.Model.Branch.Branch;
 import za.co.vzap.Model.User.User;
+import za.co.vzap.Model.User.UserDto;
 
 /**
  *
@@ -22,6 +24,10 @@ import za.co.vzap.Model.User.User;
 public class UserServlet extends HttpServlet {
 
     private IUserService userService;
+    
+    public UserServlet(){
+        userService = new UserService();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -63,10 +69,14 @@ public class UserServlet extends HttpServlet {
 
                 User user = new User(userId_2, password);
                 
-                User loggedInUser = userService.login(user);
+                System.out.println("User : "+user);
+                System.out.println("here1");
+                UserDto loggedInUser = userService.login(user);
 
+                System.out.println("UserDto : "+loggedInUser);
+                
                 request.getSession().setAttribute("loggedInUser", loggedInUser);
-                request.getRequestDispatcher("home.jsp").forward(request, response);
+                request.getRequestDispatcher("index.jsp").forward(request, response);
 
             break;
 

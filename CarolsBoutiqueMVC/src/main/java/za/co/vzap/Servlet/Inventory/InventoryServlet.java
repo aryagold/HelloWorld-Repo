@@ -154,22 +154,12 @@ public class InventoryServlet extends HttpServlet {
 
             case "findInventory":
 
-                String productID_2 = request.getParameter("productId");
-                String barcode_2 = request.getParameter("barcode");
+                String searchTerm = request.getParameter("searchTerm");
 
                 List<InventoryDto> dtos = null;
 
                 try {
-                    if (barcode_2.equals("none")) {
-
-                        dtos = inventoryService.findStockWithProductId(productID_2);
-
-                    } else {
-
-                        dtos = inventoryService.findStockWithBarcode(barcode_2);
-
-                    }
-
+                    dtos = inventoryService.findInventory(searchTerm);
                 } catch (Exception ex) {
                     Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -178,6 +168,7 @@ public class InventoryServlet extends HttpServlet {
                 request.getRequestDispatcher("findinventory.jsp").forward(request, response);
 
                 break;
+
 
         }
 
