@@ -1,6 +1,8 @@
 package za.co.vzap.User.Resource;
 
+import java.util.List;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -44,5 +46,12 @@ public class UserRestController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addBranch(Branch branch) {
         return Response.status(Response.Status.OK).entity(userService.addBranch(branch)).build();
+    }
+    
+    @GET
+    @Path("branches")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Branch> getAllBranches() {
+        return userService.getAllBranches();
     }
 }
