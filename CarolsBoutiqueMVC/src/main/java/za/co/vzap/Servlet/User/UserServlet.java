@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import za.co.vzap.ClientService.User.UserService;
 import za.co.vzap.Interface.Service.IUserService;
 import za.co.vzap.Model.Branch.Branch;
@@ -49,8 +50,9 @@ public class UserServlet extends HttpServlet {
 
                 String branchName = request.getParameter("branchName");
                 Double monthlyTarget = Double.parseDouble(request.getParameter("monthlyTarget"));
+                Double dailyTarget = Double.parseDouble(request.getParameter("dailyTarget"));
 
-                Branch branch = new Branch(branchName, monthlyTarget, monthlyTarget / 30);
+                Branch branch = new Branch(branchName, monthlyTarget, dailyTarget);
                 String responseTo = userService.addBranch(branch);
 
                 request.setAttribute("response", responseTo);
@@ -75,15 +77,16 @@ public class UserServlet extends HttpServlet {
 
                 User user = new User(userId_2, password);
                 
-                System.out.println("User : "+user);
-                System.out.println("here1");
                 UserDto loggedInUser = userService.login(user);
 
-                System.out.println("UserDto : "+loggedInUser);
-                
-                request.getSession().setAttribute("loggedInUser", loggedInUser);
-                request.getRequestDispatcher("index.jsp").forward(request, response);
+                if (loggedInUser != null) {
 
+                    HttpSession session = request.getSession();
+
+                    request.getSession().setAttribute("loggedInUser", loggedInUser);
+                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                }
+               
             break;
 
         }

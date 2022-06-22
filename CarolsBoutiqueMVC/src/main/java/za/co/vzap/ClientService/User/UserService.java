@@ -61,7 +61,7 @@ public class UserService implements IUserService{
     @Override
     public String addBranch(Branch branch) {
         
-        url = "http://localhost:8080/rest/user/addbranch";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/user/addbranch";
         client = ClientBuilder.newClient();
         target = client.target(url);
         
@@ -80,7 +80,7 @@ public class UserService implements IUserService{
     @Override
     public UserDto login(User user) {
         System.out.println("here2");
-        url = "http://localhost:8080/rest/user/login";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/user/login";
         client = ClientBuilder.newClient();
         target = client.target(url);
         
@@ -90,13 +90,10 @@ public class UserService implements IUserService{
             
             response = target.request().post(Entity.json(stringJson(user)));
 
-            
             dto = om.readValue(response.readEntity(String.class), UserDto.class);
              
             System.out.println("response : "+response);
             
-            dto = om.readValue(response.readEntity(String.class), UserDto.class);
-            System.out.println("Response " + response);
         } catch (JsonProcessingException ex) {
             Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
         }

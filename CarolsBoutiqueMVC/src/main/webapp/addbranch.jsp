@@ -24,13 +24,7 @@
 
             <div class="row">
                 <div class="col-sm">
-                    <ul>
-                        <a href="management.jsp"><li><button>Management</button></li></a>
-                        <a href="stockhome.jsp"><li><button>Stock</button></li></a>
-                        <li><button>Point of sale till</button></li>
-                        <a href="transferhome.jsp"><li><button>Inter Branch Transfers</button></li>
-
-                    </ul>
+                    
                 </div>
 
                 <div class="col-sm">
@@ -38,7 +32,7 @@
                     <form action="UserServlet" method="post">    
                         <div class="d-flex justify-content-center"><h2>Add Store</h2></div>
                         <label>Store Name:</label>
-                        <input type="text" class="checkboxstyle" name="name"/>
+                        <input type="text" class="checkboxstyle" name="branchName"/>
                         <br>
                         <label>Input Monthly Target:</label>
                         <input type="number" class="checkboxstyle" name="monthlyTarget"/>
@@ -49,23 +43,8 @@
                         <div class="d-flex justify-content-center"><button class="barcodegen" id="submit" name="submit" value="addBranch">Add</button></div>
                         <img src="Caol_s_Botique-removebg-preview.png"/>
                     </form>
-
-
-
-
-
-
-
                 </div>
-                <div class="col-sm">
-                    <ul>
-                        <a href="reporthome.jsp"><li><button>Reports</button></li>
-                        <a href="findinventory.jsp"><li><button>Search</button></li></a>
-                        <a href="addtocatalogue.jsp"><li><button>Add to catalogue</button></li></a> 
-                        <a href="index.jsp"><li><button>Logout </button></li>
-                    </ul>
-
-                </div>
+                
             </div>
         </div>
 

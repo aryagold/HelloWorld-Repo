@@ -18,14 +18,23 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap" rel="stylesheet"> 
+        <style>
+           body {
+             background-image: url('istockphoto-184640309-612x612.jpg');
+             background-repeat: no-repeat;
+             background-attachment: fixed;
+             background-size: cover;
+           }
+        </style>
     </head>
     <body>
+        
         <div>
             <% String userId = request.getHeader("userId"); %>
             
             <h1></h1>
             <div class="row">
-                <div class="col-sm">
+                <div class="col-lg">
                     <ul>
                         <a href="management.jsp"><li><button>Management</button></li></a>
                         <a href="stockhome.jsp"><li><button>Stock</button></li></a>
@@ -35,7 +44,7 @@
                     </ul>
                 </div>
 
-                <div class="col-sm">
+                <div class="col-lg">
 
 
 
@@ -44,7 +53,7 @@
 
 
                 </div>
-                <div class="col-sm">
+                <div class="col-lg">
                     <ul>
                         <a href="reporthome.jsp"><li><button>Reports</button></li>
                         <a href="findinventory.jsp"><li><button>Search</button></li></a>

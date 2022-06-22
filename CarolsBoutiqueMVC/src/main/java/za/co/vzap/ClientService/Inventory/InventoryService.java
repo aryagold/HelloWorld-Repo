@@ -70,6 +70,7 @@ public class InventoryService implements IInventoryService{
         
         url = "http://localhost:8080/rest/inventory/capture";
         client = ClientBuilder.newClient();
+        
         target = client.target(url);
         
         CaptureInventoryRequest request = new CaptureInventoryRequest(userId, barcode, quantity);
