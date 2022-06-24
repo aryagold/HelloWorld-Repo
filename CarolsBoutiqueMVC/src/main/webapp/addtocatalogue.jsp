@@ -22,13 +22,7 @@
 
             <div class="row">
                 <div class="col-sm">
-                    <ul>
-                        <a href="management.jsp"><li><button>Management</button></li></a>
-                        <a href="stockhome.jsp"><li><button>Stock</button></li></a>
-                        <a href="/aryatest/stock.html"><li><button>Point of sale till</button></li>
-                        <a href="transferhome.jsp"><li><button>Transfers</button></li>
-
-                    </ul>
+                    
                 </div>
 
                 <div class="col-sm">
@@ -89,19 +83,15 @@
                             </div>
 
                         </div>
-                        <div class="d-flex justify-content-center" ><button class="interaction" name="submit" value="addProduct">Add</button></div>
+                        <div class="d-flex justify-content-center" ><button class="interaction" id="submit" name="submit" value="addProduct">Add</button></div>
+</form>
                     </div>
                     <img src="Caol_s_Botique-removebg-preview.png"/>
-</form>
+
 
                 </div>
                 <div class="col-sm">
-                    <ul>
-                        <a href="reporthome.jsp"><li><button>Reports</button></li>
-                        <a href="findinventory,jsp"><li><button>Search</button></li></a>
-                        <a href="addtocatalogue.jsp"><li><button>Add to catalogue</button></li></a> 
-                        <a href="index.jsp"><li><button>Logout </button></li>
-                    </ul>
+                    
 
                 </div>
             </div>

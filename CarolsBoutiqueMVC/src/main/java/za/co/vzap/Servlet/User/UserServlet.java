@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import za.co.vzap.ClientService.User.UserService;
 import za.co.vzap.Interface.Service.IUserService;
 import za.co.vzap.Model.Branch.Branch;
+import za.co.vzap.Model.User.TellerRequest;
 import za.co.vzap.Model.User.User;
 import za.co.vzap.Model.User.UserDto;
 
@@ -25,6 +26,8 @@ import za.co.vzap.Model.User.UserDto;
 public class UserServlet extends HttpServlet {
 
     private IUserService userService;
+    
+    private String responseTo;
     
     public UserServlet(){
         userService = new UserService();
@@ -53,20 +56,39 @@ public class UserServlet extends HttpServlet {
                 Double dailyTarget = Double.parseDouble(request.getParameter("dailyTarget"));
 
                 Branch branch = new Branch(branchName, monthlyTarget, dailyTarget);
-                String responseTo = userService.addBranch(branch);
+                String branchId = userService.addBranch(branch);
+                
+                if(branchId != null) {
+                    responseTo = "Store Added";
+                    
+                } else {
+                    responseTo = "Store Add Failed";
+                }
 
                 request.setAttribute("response", responseTo);
-                request.getRequestDispatcher("addbranch.jsp").forward(request, response);
+                request.getRequestDispatcher("responsepage.jsp").forward(request, response);
+                
+                
 
             break;
 
             case "updateTeller":
 
                 String userId = request.getParameter("userId");
+                
+                TellerRequest tellerRequest = new TellerRequest();
+                tellerRequest.userId = userId;
 
-                Boolean result = userService.updateToTeller(userId);
-                request.setAttribute("response", result);
-                request.getRequestDispatcher("updatetoteller.jsp").forward(request, response);
+                Boolean result = userService.updateToTeller(tellerRequest);
+                
+                if(result) {
+                    responseTo = "Employee Registered As Teller";
+                } else {
+                    responseTo = "Registration Failed";
+                }
+                
+                request.setAttribute("response", responseTo);
+                request.getRequestDispatcher("responsepage.jsp").forward(request, response);
 
             break;
 
@@ -83,7 +105,7 @@ public class UserServlet extends HttpServlet {
 
                     HttpSession session = request.getSession();
 
-                    request.getSession().setAttribute("loggedInUser", loggedInUser);
+                    session.setAttribute("loggedInUser", loggedInUser);
                     request.getRequestDispatcher("index.jsp").forward(request, response);
                 }
                

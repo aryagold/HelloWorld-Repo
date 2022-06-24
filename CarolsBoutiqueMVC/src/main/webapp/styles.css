@@ -102,9 +102,13 @@ h1 {
 }
 
 #addstore {
-    height: 120px;
-    font-size: 2rem;
-    width: 190px;
+    height: 150px;
+    width: 300px;
+    background-color: #FAF7EF;
+    border-radius: 10px !important;
+    box-shadow: 1px 5px rgba(0,0,0,0.5);
+    margin-bottom: 1rem !important;
+    font-size: 50px !important;
 }
 
 #submit {

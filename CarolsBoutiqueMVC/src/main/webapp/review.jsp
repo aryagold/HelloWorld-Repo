@@ -4,6 +4,8 @@
     Author     : aryagoldridge
 --%>
 
+<%@page import="za.co.vzap.Model.Branch.Branch"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,10 +23,15 @@
         <title>Reviews</title>
     </head>
     <body>
+        
+        <%
+            List<Branch> branches = (List<Branch>) request.getAttribute("branches");
+        %>
+        
         <h1>Review Carol's Boutique</h1>
         <form action="CustomerServlet" method="post">
         <div class="d-flex justify-content-center"> <label>Select Rating:</label></div>
-        <div class="d-flex justify-content-center"><select name="rating">
+        <div class="d-flex justify-content-center"><select id="rating" name="rating">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -41,21 +48,16 @@
         <div class="d-flex justify-content-center"><textarea name="comment" rows="4" cols="40"></textarea></div>
         <div class="d-flex justify-content-center"><label>Select Branch:</label></div>
         <div class="d-flex justify-content-center">
-            <select name="branchId">
-                <option value="BR001">Parktown</option>
-                <option value="2">Sandton</option>
-                <option value="3">Pietermaritzburg</option>
-                <option value="4">Durban</option>
-                <option value="5">Alberton</option>
-                <option value="6">Bedfordview</option>
-                <option value="7">Midrand</option>
-                <option value="8">Upington</option>
-                <option value="9">Magaliesburg</option>
-                <option value="10">Benoni</option>
+            <select id="branchId" name="branchId">
+                <%if(branches != null) {%>
+                    <%for(Branch branch : branches) {%>
+                        <option value="<%=branch.branchId%>"><%=branch.getName()%></option>
+                    <%}%>
+                <%}%>
             </select>
         </div>
         <br>
-        <div class="d-flex justify-content-center"><a href="/aryatest/newsletter.html"><button id="submit" name="submit" value="addReview">Submit</button></a></div>
+        <div class="d-flex justify-content-center"><a href="http://localhost:8080/CarolsBoutiqueMVC/newsletter.jsp"><button id="submit" type="submit" name="submit" value="addReview">Submit</button></a></div>
     </form>
         <div class="d-flex justify-content-center"><img src="Caol_s_Botique-removebg-preview.png"/></div>
 

@@ -31,7 +31,7 @@
                     <input type="text" id="barcode" name="barcode">
                     <br>
                     <label>Quantity: </label>
-                    <select>
+                    <select id="quantity "name="quantity">
                         <option name="quantity" value="1">1</option>
                         <option name="quantity" value="2">2</option>
                         <option name="quantity" value="3">3</option>

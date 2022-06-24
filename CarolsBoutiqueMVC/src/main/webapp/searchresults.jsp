@@ -30,8 +30,9 @@
         <table>
             <tr>
                 <th>Product</th>
-                <th>Branch</th>
                 <th>Size</th>
+                <th>Price</th>
+                <th>Branch</th>
             </tr>
             <tr>
                 <td>Alfreds Futterkiste</td>

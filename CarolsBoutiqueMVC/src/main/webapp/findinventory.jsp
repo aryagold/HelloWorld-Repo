@@ -34,17 +34,9 @@
                     <label class="checkboxstyle">Search By Product ID:</label>
                     <input type="text" name="productId">
 
-
-
-
-
-
-
-
-
                 </div>
                 <div class="col-sm">
-                    <button class="stock" name="submit" value="findInventory">Search</button>
+                    <button class="stock" name="submit" type="submit" value="findInventory">Search</button>
                     <a href="home.html"><button class="stock">Home</button></a>
 
                 </div>

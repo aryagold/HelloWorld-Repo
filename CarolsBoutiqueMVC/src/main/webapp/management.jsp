@@ -20,18 +20,20 @@
         <title>Management</title>
     </head>
     <body>
+        <style>
+          body {
+            background-image: url('istockphoto-184640309-612x612.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+          }
+        </style>
         <div>
             <header><h1>Parktown</h1></header>
 
             <div class="row">
                 <div class="col-sm">
-                    <ul>
-                        <a href="management.jsp"><li><button>Management</button></li></a>
-                        <a href="stockhome.jsp"><li><button>Stock</button></li></a>
-                        <li><button>Point of sale till</button></li>
-                        <a href="transferhome.jsp"><li><button>transfers</button></li>
 
-                    </ul>
                 </div>
 
                 <div class="col-sm">
@@ -39,6 +41,7 @@
                         <a href="addbranch.jsp"><button id="addstore">Add A Store</button></a>
                         <a href="updatetoteller.jsp"><button id="addstore">Register A Teller</button></a>
                     </div>
+                    <div class="d-flex justify-content-center"><img alt="" class="logo" src="Caol_s_Botique-removebg-preview.png"/></div>
 
 
 
@@ -47,12 +50,7 @@
 
                 </div>
                 <div class="col-sm">
-                    <ul>
-                        <a href="reporthome.jsp"><li><button>Reports</button></li>
-                        <a href="findinventory.jsp"><li><button>Search</button></li></a>
-                        <a href="addtocatalogue.jsp"><li><button>Add to catalogue</button></li></a> 
-                        <a href="index.jsp"><li><button>Logout </button></li>
-                    </ul>
+
 
                 </div>
             </div>

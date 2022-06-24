@@ -48,7 +48,7 @@ public class InventoryService implements IInventoryService{
     @Override
     public List<InventoryDto> getBranchInventory(String userID) {// should userID be passed in as a parmeter if its in the header?
         
-        url = "http://localhost:8080/rest/inventory";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/inventory";
         client = ClientBuilder.newClient();
         target = client.target(url);
         
@@ -68,14 +68,13 @@ public class InventoryService implements IInventoryService{
     @Override
     public InventoryControlDto captureInventory(String userId, String barcode ,int quantity) throws Exception {
         
-        url = "http://localhost:8080/rest/inventory/capture";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/inventory/capture";
         client = ClientBuilder.newClient();
-        
         target = client.target(url);
         
-        CaptureInventoryRequest request = new CaptureInventoryRequest(userId, barcode, quantity);
+        CaptureInventoryRequest captureInventoryRequest = new CaptureInventoryRequest(userId, barcode, quantity);
         
-        response = target.request(MediaType.APPLICATION_JSON).post(Entity.json(stringJson(request)));
+        response = target.request(MediaType.APPLICATION_JSON).post(Entity.json(stringJson(captureInventoryRequest)));
         
         return response.readEntity(InventoryControlDto.class);
         
@@ -84,15 +83,15 @@ public class InventoryService implements IInventoryService{
     @Override
     public InventoryDto addInventory(String userID, String productId, int sizeId, String barcode) {
       
-        url = "http://localhost:8080/rest/inventory/add";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/inventory/add";
         client = ClientBuilder.newClient();
         target = client.target(url);
 
-        AddInventoryRequest request = new AddInventoryRequest(userID, productId, sizeId, barcode);
+        AddInventoryRequest addInventoryRequest = new AddInventoryRequest(userID, productId, sizeId, barcode);
 
         try {
             
-            response = target.request(MediaType.APPLICATION_JSON).post(Entity.json(stringJson(request)));
+            response = target.request(MediaType.APPLICATION_JSON).post(Entity.json(stringJson(addInventoryRequest)));
             
         } catch (JsonProcessingException ex) {
             Logger.getLogger(InventoryService.class.getName()).log(Level.SEVERE, null, ex);
@@ -126,7 +125,7 @@ public class InventoryService implements IInventoryService{
     @Override
     public List<InventoryDto> findInventory(String searchTerm) throws Exception {
        
-        url = "http://localhost:8080/rest/inventory/find?searchTerm=searchTerm";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/inventory/find?searchTerm=" + searchTerm;
         client = ClientBuilder.newClient();
         target = client.target(url);
 
