@@ -18,6 +18,7 @@
     <body>
         <div>
             <header><h1></h1></header>
+           
 
             <div class="row">
                 <div class="col-sm">
@@ -56,7 +57,7 @@
                             <input type="text" id="result" name="barcode"/>
                         </div>
                         <br>
-                        <div class="d-flex justify-content-center"><button type="submit" name="submit" value="addInventory" class="barcodegen">Add Inventory</button> </div>
+                        <div class="d-flex justify-content-center"><button id="submit" name="submit" value="addInventory" class="barcodegen">Add</button> </div>
                         <img src="Caol_s_Botique-removebg-preview.png"/>
                     </form>
 

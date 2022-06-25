@@ -6,6 +6,7 @@ package za.co.vzap.ClientService.User;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import za.co.vzap.Interface.Service.IUserService;
 import za.co.vzap.Model.Branch.Branch;
+import za.co.vzap.Model.User.TellerRequest;
 import za.co.vzap.Model.User.User;
 import za.co.vzap.Model.User.UserDto;
 
@@ -35,20 +37,19 @@ public class UserService implements IUserService{
     public UserService (){
         
         this.om = new ObjectMapper();
-        client = ClientBuilder.newClient();
+
         
     }
-
     @Override
-    public boolean updateToTeller(String userID) {
+    public Boolean updateToTeller(TellerRequest tellerRequest) {// the end point was changed to not take any path params.
         
-        url = "http://localhost:8080/rest/user/updatetoteller";
-  
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/user/updatetoteller";
+        client = ClientBuilder.newClient();
         target = client.target(url);
         
         try {
             
-            response = target.request(MediaType.APPLICATION_JSON).post(Entity.json(stringJson(userID)));
+            response = target.request(MediaType.APPLICATION_JSON).post(Entity.json(stringJson(tellerRequest)));
             
         } catch (JsonProcessingException ex) {
             Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
@@ -79,7 +80,7 @@ public class UserService implements IUserService{
 
     @Override
     public UserDto login(User user) {
-        System.out.println("here2");
+        
         url = "http://localhost:8080/CarolsBoutiqueRest/rest/user/login";
         client = ClientBuilder.newClient();
         target = client.target(url);
@@ -91,8 +92,6 @@ public class UserService implements IUserService{
             response = target.request().post(Entity.json(stringJson(user)));
 
             dto = om.readValue(response.readEntity(String.class), UserDto.class);
-             
-            System.out.println("response : "+response);
             
         } catch (JsonProcessingException ex) {
             Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
@@ -109,19 +108,21 @@ public class UserService implements IUserService{
     @Override
     public List<Branch> getAllBranches() {
       
-        url = "http://localhost:8080/rest/user/branches";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/user/branches";
         client = ClientBuilder.newClient();
         target = client.target(url);
+        
+        List<Branch> branches = null;
 
         try {
 
-            List<Branch> branches = om.readValue( target.request().accept(MediaType.APPLICATION_JSON).get(String.class), List.class);
+            branches = Arrays.asList(om.readValue(target.request().accept(MediaType.APPLICATION_JSON).get(String.class), Branch[].class));
             
         } catch (JsonProcessingException ex) {
             Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return response.readEntity(List.class);
+        return branches;
         
     }
     

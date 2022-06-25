@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import za.co.vzap.ClientService.Inventory.InventoryService;
 import za.co.vzap.ClientService.Product.ProductService;
 import za.co.vzap.Interface.Service.IInventoryService;
@@ -24,6 +25,7 @@ import za.co.vzap.Model.Inventory.InventoryDto;
 import za.co.vzap.Model.Inventory.ProductDto;
 import za.co.vzap.Model.Inventory.Size;
 import za.co.vzap.Model.User.User;
+import za.co.vzap.Model.User.UserDto;
 
 /**
  *
@@ -38,8 +40,9 @@ public class InventoryServlet extends HttpServlet {
     private List<Size> sizes;
     private ProductDto prodDto;
     private InventoryControlDto invenCtrlDto;
-    private InventoryDto invenDto;
-    private User user;
+    private InventoryDto invenDto; 
+    
+    private String responseTo;
 
     public InventoryServlet() {
 
@@ -55,7 +58,7 @@ public class InventoryServlet extends HttpServlet {
 
         switch (request.getParameter("submit")) {
 
-            case "getCategories":// this is to the addToCatelogue.jsp
+            case "getCategories":
 
                 categories = null;
                 categories = productService.getAllCategories();
@@ -65,7 +68,7 @@ public class InventoryServlet extends HttpServlet {
 
                 break;
 
-            case "getSizes":// this is to the addInventory.jsp
+            case "getSizes":
 
                 sizes = null;
                 sizes = null;//this is where the method to hit the getAllSizes end point should be inserted.
@@ -79,11 +82,13 @@ public class InventoryServlet extends HttpServlet {
 
                 String productID_2 = request.getParameter("productId");
                 String barcode_2 = request.getParameter("barcode");
+                System.out.println("Barcode: " + barcode_2);
+                System.out.println("Product ID: " + productID_2);
 
                 List<InventoryDto> dtos = null;
 
                 try {
-                    if (barcode_2.equals("none")) {
+                    if (barcode_2.equals("")) {
 
                         dtos = inventoryService.findInventory(productID_2);
 
@@ -96,9 +101,15 @@ public class InventoryServlet extends HttpServlet {
                 } catch (Exception ex) {
                     Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
+                if(dtos != null) {
+                    responseTo = dtos.toString() + " found";
+                } else {
+                    responseTo = "Didn't work";
+                }
 
-                request.setAttribute("dtos", dtos);
-                request.getRequestDispatcher("findinventory.jsp").forward(request, response);
+                request.setAttribute("response", responseTo);
+                request.getRequestDispatcher("responsepage.jsp").forward(request, response);
 
                 break;
         }
@@ -110,45 +121,27 @@ public class InventoryServlet extends HttpServlet {
 
         switch (request.getParameter("submit")) {
 
-            case "addToCatalogue"://this is from the addToCatelogue.jsp
-
-                String productName = request.getParameter("productName");
-                Double price = Double.parseDouble(request.getParameter("price"));
-
-                List<String> categoryIds = new ArrayList<>();//storing category IDs returned from the jsp
-                categories = productService.getAllCategories();// all categories in system.
-
-                for (int i = 0; i < categories.size(); i++) {
-                    try {
-
-                        if (categories.get(i).categoryId == request.getParameter(i + "").toString()) {
-
-                            categoryIds.add(categories.get(i).categoryId);
-
-                        }
-
-                    } catch (NullPointerException e) {
-                        continue;
-                    }
-                }
-
-                prodDto = productService.addProduct(productName, price, categoryIds);
-                request.setAttribute("productDto", prodDto);
-                request.getRequestDispatcher("addtocatalogue.jsp").forward(request, response);
-
-                break;
-
             case "captureInventory":
                 
                 try {
 
                 String barcode = request.getParameter("barcode");
-                int quantity = Integer.parseInt(request.getParameter("quantity"));
+                String quantity = request.getParameter("quantity");
+                
+                HttpSession session = request.getSession(true);
+                UserDto userDto = (UserDto) session.getAttribute("loggedInUser");
+                String userId = userDto.userId;
 
-                invenCtrlDto = inventoryService.captureInventory(user.userId, barcode, quantity);
+                invenCtrlDto = inventoryService.captureInventory(userId, barcode, Integer.parseInt(quantity));
+                
+                if(invenCtrlDto != null) {
+                    responseTo = "The quantity of " + quantity + " products of barcode:" + barcode + " has been captured."; 
+                } else {
+                    responseTo = quantity + " products not captured successfully.";
+                }
 
-                request.setAttribute("inventoryControlDto", invenCtrlDto);
-                request.getRequestDispatcher("captureinventory.jsp").forward(request, response);
+                request.setAttribute("response", responseTo);
+                request.getRequestDispatcher("responsepage.jsp").forward(request, response);
 
             } catch (Exception ex) {
                 Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -159,27 +152,25 @@ public class InventoryServlet extends HttpServlet {
 
                 String productID = request.getParameter("productId");
                 String barcode = request.getParameter("barcode");
-
-                sizes = null;//service method to receive a list of all sizes.
-                int sizeId = 0;
-
-                for (int i = 0; i < sizes.size(); i++) {
-
-                    if (sizes.get(i).Id == Integer.parseInt(request.getAttribute("sizeId").toString())) {
-                        sizeId = sizes.get(i).Id;
-                    }
-
+                String sizeId = request.getParameter("size");
+                
+                HttpSession session = request.getSession(true);
+                UserDto userDto = (UserDto) session.getAttribute("loggedInUser");
+                System.out.println("The User: " + userDto);
+                String userId = userDto.userId;
+                
+                invenDto = inventoryService.addInventory(userId, productID, Integer.parseInt(sizeId), barcode);
+                
+                if(invenDto != null) {
+                    responseTo = invenDto.productName + " in size " + invenDto.sizeName + " was added to inventory. Proceed to capture stock.";
+                } else {
+                    responseTo = "Item was not successfully added to inventory.";
                 }
 
-                invenDto = inventoryService.addInventory(user.userId, productID, sizeId, barcode);
-
-                request.setAttribute("inventoryDto", invenDto);
-                request.getRequestDispatcher("addinventory.jsp").forward(request, response);
+                request.setAttribute("response", responseTo);
+                request.getRequestDispatcher("responsepage.jsp").forward(request, response);
 
                 break;
-
-            
-
 
         }
 

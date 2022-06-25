@@ -40,6 +40,8 @@
                         <a href="stockhome.jsp"><li><button>Stock</button></li></a>
                         <li><button>Point of sale till</button></li>
                         <a href="transferhome.jsp"><li><button>Inter Branch Transfers</button></li>
+                        <a href="CustomerServlet?submit=getBranches"><li><button>Review</button></li>
+                        <a href="newsletter.jsp"><li><button>NewsLetter</button></li>
 
                     </ul>
                 </div>

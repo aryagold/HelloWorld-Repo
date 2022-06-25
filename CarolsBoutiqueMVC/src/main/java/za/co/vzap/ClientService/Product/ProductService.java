@@ -45,15 +45,15 @@ public class ProductService implements IProductService {
     @Override
     public ProductDto addProduct(String name, double price, List<String> categoryIds) {
         
-        url = "http://localhost:8080/rest/product/add";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/product/add";
         client =  ClientBuilder.newClient();
         target = client.target(url);
         
-        AddProductRequest request = new AddProductRequest(name, price, categoryIds);
+        AddProductRequest productRequest = new AddProductRequest(name, price, categoryIds);
         
         try {
             
-            response = target.request(MediaType.APPLICATION_JSON).post(Entity.json(stringJson(request)));
+            response = target.request(MediaType.APPLICATION_JSON).post(Entity.json(stringJson(productRequest)));
             
         } catch (JsonProcessingException ex) {
             Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, ex);
@@ -66,7 +66,7 @@ public class ProductService implements IProductService {
     @Override
     public List<ProductDto> getAllProducts() {
         
-        url = "http://localhost:8080/rest/product/product";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/product/product";
         client = ClientBuilder.newClient();
         target = client.target(url);
         

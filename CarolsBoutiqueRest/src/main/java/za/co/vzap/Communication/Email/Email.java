@@ -93,7 +93,7 @@ public class Email extends Thread {
             htmlBody += "</table>";
             htmlBody += "<div>Total; " + sale.getTotal() + "</div>";
             
-            htmlBody += "<a href='review.jsp'>Please leave a review to let us know about your experience with our store</a>";
+            htmlBody += "<a href='http://localhost:8080/CarolsBoutiqueMVC/CustomerServlet?submit=getBranches'>Please leave a review to let us know about your experience with our store</a>";
             htmlBody += "<div style=\"font-size=0.5em; font-weight:bold; margin-top:10px;\">All returns are to be performed within 10 calendar days from purchase</div>";
             htmlBody += "</div>";
         

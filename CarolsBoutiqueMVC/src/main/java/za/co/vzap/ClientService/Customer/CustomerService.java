@@ -30,13 +30,13 @@ public class CustomerService implements ICustomerService {
     private Response response;
     
     public CustomerService(){
-        om = new ObjectMapper();
+        this.om = new ObjectMapper();
     }
 
     @Override
     public int addCustomer(Customer customer) {
         
-        url = "http://localhost:8080/rest/customer/add" ;
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/customer/add" ;
         client = ClientBuilder.newClient();
         target = client.target(url);
         
@@ -55,7 +55,7 @@ public class CustomerService implements ICustomerService {
     @Override
     public int addReview(Review review) {
       
-        url = "http://localhost:8080/rest/customer/addreview";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/customer/addreview";
         client = ClientBuilder.newClient();
         target = client.target(url);
         

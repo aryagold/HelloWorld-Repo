@@ -5,6 +5,7 @@
 package za.co.vzap.Servlet.Customer;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +17,7 @@ import za.co.vzap.ClientService.User.UserService;
 import za.co.vzap.Interface.Service.ICustomerService;
 import za.co.vzap.Interface.Service.IUserService;
 import za.co.vzap.Model.Branch.Branch;
+import za.co.vzap.Model.Customer.Customer;
 import za.co.vzap.Model.Customer.Review;
 import za.co.vzap.Model.User.User;
 
@@ -28,6 +30,7 @@ public class CustomerServlet extends HttpServlet {
 
     private IUserService userService;
     private ICustomerService customerService;
+    
 
     public CustomerServlet() {
 
@@ -43,10 +46,10 @@ public class CustomerServlet extends HttpServlet {
 
             case "getBranches":
 
-                List<Branch> branches = null;//get all branches method needed.
+                List<Branch> branches = userService.getAllBranches();
 
                 request.setAttribute("branches", branches);
-                request.getRequestDispatcher("addreview.jsp").forward(request, response);
+                request.getRequestDispatcher("review.jsp").forward(request, response);
 
                 break;
 
@@ -59,19 +62,35 @@ public class CustomerServlet extends HttpServlet {
 
         switch (request.getParameter("submit")) {
 
-            case "addreview":
+            case "addReview":
 
                 Integer rating = Integer.parseInt(request.getParameter("rating"));
                 String comment = request.getParameter("comment");
 
-                User user = (User) request.getSession().getAttribute("user");
+                String branchId = Arrays.asList(request.getParameterValues("branchId")).get(0);
 
-                Review review = new Review("Not bad", 5, user.getBranchId());
-                customerService.addReview(review);
-
-                request.getRequestDispatcher("home.jsp").forward(request, response);
+                Review review = new Review(comment, rating, branchId);
+                int id = customerService.addReview(review);
+                
+                if(id != 0) {
+                    request.setAttribute("response", id);
+                    request.getRequestDispatcher("newsletter.jsp").forward(request, response);
+                }
+                
 
                 break;
+                
+            case "addCustomer":
+
+                String email = request.getParameter("customerEmail");
+                String phoneNumber = request.getParameter("phoneNumber");
+
+                Customer customer = new Customer(email, phoneNumber);
+
+                customerService.addCustomer(customer);
+
+                break;
+    
 
         }
 
