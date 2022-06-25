@@ -28,7 +28,7 @@ public abstract class RepositoryBase<IEntity> implements IRepository<IEntity> {
         }
 
         try {
-            this.con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/carolsboutique?useSSL=false", "root", "rootroot");
+            this.con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/carolsboutique?useSSL=false", "root", "root");
         } catch (SQLException e) {
             e.printStackTrace();
         }
