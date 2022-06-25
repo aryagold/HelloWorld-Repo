@@ -40,7 +40,7 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public boolean updateToTeller(String userID) {// the end point was changed to not take any path params.
+    public boolean updateToTeller(String userID) {
         
         url = "http://localhost:8080/rest/user/updatetoteller";
   
