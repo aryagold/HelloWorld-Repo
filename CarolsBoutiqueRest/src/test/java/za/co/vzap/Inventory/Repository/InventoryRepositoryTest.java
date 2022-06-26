@@ -17,7 +17,7 @@ import za.co.vzap.Inventory.Model.Size;
  *
  * @author macpe
  */
-public class InventoryRepositoryTest {
+public class InventoryRepositoryTest {//complete
     
     private IRepository inventoryRepository;
     private IRepository branchDB;

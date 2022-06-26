@@ -13,7 +13,7 @@ import za.co.vzap.Inventory.Model.Size;
  *
  * @author macpe
  */
-public class SizeRepositoryTest {
+public class SizeRepositoryTest {//complete
     
     private IRepository sizeRepository;
    

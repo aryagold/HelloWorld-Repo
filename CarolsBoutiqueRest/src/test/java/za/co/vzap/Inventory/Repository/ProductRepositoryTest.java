@@ -13,7 +13,7 @@ import za.co.vzap.Inventory.Model.Product;
  *
  * @author macpe
  */
-public class ProductRepositoryTest {
+public class ProductRepositoryTest {//complete
     
     private IRepository productRepository;
    

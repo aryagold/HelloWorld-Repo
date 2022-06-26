@@ -78,7 +78,7 @@ public class SaleLineItemRepositoryTest {
 
     
     @Test
-    public void testUpdate() {
+    public void testUpdate() { // foreign key constraint
         
         saleLineItemRepository = new SaleLineItemRepository();
         branchDB = new BranchRepository();

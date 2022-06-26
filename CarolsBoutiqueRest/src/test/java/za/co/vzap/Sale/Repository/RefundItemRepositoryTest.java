@@ -21,6 +21,7 @@ import za.co.vzap.POS.Model.Payment;
 import za.co.vzap.POS.Model.PaymentTypeEnum;
 import za.co.vzap.POS.Model.Refund;
 import za.co.vzap.POS.Model.RefundItem;
+import za.co.vzap.POS.Model.RefundStatusEnum;
 import za.co.vzap.POS.Model.Sale;
 import za.co.vzap.POS.Model.SaleStatusEnum;
 import za.co.vzap.User.Model.RoleEnum;
@@ -31,7 +32,7 @@ import za.co.vzap.User.Repository.UserRepository;
  *
  * @author macpe
  */
-public class RefundItemRepositoryTest {// works
+public class RefundItemRepositoryTest {// throws error in the repository
     
     private IRepository refundItemRepository;
     private IRepository inventoryDB;
@@ -76,14 +77,14 @@ public class RefundItemRepositoryTest {// works
         Sale sale = new Sale(userID, "TestCustomerEmail", Timestamp.valueOf(LocalDateTime.now()), paymentID, SaleStatusEnum.COMPLETED);
         String saleID = saleDB.add2(sale);
         
-//        Refund refund = new Refund( saleID ,Timestamp.valueOf(LocalDateTime.now()));
-//        int refundID = refundDB.add(refund);
-//        
-//        RefundItem refundItem = new RefundItem(invenID,refundID);
-//        
-//        Integer result = refundItemRepository.add(refundItem);
-//       
-//        assertEquals(Integer.class, result.getClass());
+        Refund refund = new Refund( saleID ,Timestamp.valueOf(LocalDateTime.now()),RefundStatusEnum.NEW);
+        int refundID = refundDB.add(refund);
+        
+        RefundItem refundItem = new RefundItem(invenID,refundID);
+        
+        Integer result = refundItemRepository.add(refundItem);
+       
+        assertEquals(Integer.class, result.getClass());
   
     }
 
@@ -114,24 +115,25 @@ public class RefundItemRepositoryTest {// works
         String userID = userDB.add2(user);
         Sale sale = new Sale(userID, "TestCustomerEmail", Timestamp.valueOf(LocalDateTime.now()), paymentID, SaleStatusEnum.COMPLETED);
         String saleID = saleDB.add2(sale);
-//        Refund refund = new Refund(saleID, Timestamp.valueOf(LocalDateTime.now()));
-//        int refundID = refundDB.add(refund);
-//        
-//        RefundItem refundItem = new RefundItem(invenID, refundID);
-//        int ID = refundItemRepository.add(refundItem);
-//        
-//        refundItem.Id = ID;
-//        
-//        Boolean result = refundItemRepository.update(refundItem);
-//        
-//        assertEquals( Boolean.class , result.getClass() );
+        
+        Refund refund = new Refund(saleID, Timestamp.valueOf(LocalDateTime.now()), RefundStatusEnum.NEW);
+        int refundID = refundDB.add(refund);
+        
+        RefundItem refundItem = new RefundItem(invenID, refundID);
+        int ID = refundItemRepository.add(refundItem);
+        
+        refundItem.Id = ID;
+        
+        Boolean result = refundItemRepository.update(refundItem);
+        
+        assertEquals( Boolean.class , result.getClass() );
     }
 
    
     @Test
     public void testGetById_int() {
         refundItemRepository = new RefundItemRepository();
-         inventoryDB = new InventoryRepository();
+        inventoryDB = new InventoryRepository();
         refundDB = new RefundRepository();
         branchDB = new BranchRepository();
         productDB = new ProductRepository();
@@ -154,16 +156,17 @@ public class RefundItemRepositoryTest {// works
         String userID = userDB.add2(user);
         Sale sale = new Sale(userID, "TestCustomerEmail", Timestamp.valueOf(LocalDateTime.now()), paymentID, SaleStatusEnum.COMPLETED);
         String saleID = saleDB.add2(sale);
-//        Refund refund = new Refund(saleID, Timestamp.valueOf(LocalDateTime.now()));
-//        int refundID = refundDB.add(refund);
-//        
-//        RefundItem refundItem = new RefundItem(invenID, refundID);
-//        int ID = refundItemRepository.add(refundItem);
-//        
-//        refundItem.Id = ID;
-//        RefundItem result =  (RefundItem) refundItemRepository.getById(refundItem.Id);
-//        System.out.println(result);
-//        assertEquals(RefundItem.class, result.getClass() );
+        
+        Refund refund = new Refund(saleID, Timestamp.valueOf(LocalDateTime.now()), RefundStatusEnum.NEW);
+        int refundID = refundDB.add(refund);
+        
+        RefundItem refundItem = new RefundItem(invenID, refundID);
+        int ID = refundItemRepository.add(refundItem);
+        
+        refundItem.Id = ID;
+        RefundItem result =  (RefundItem) refundItemRepository.getById(refundItem.Id);
+        
+        assertEquals(RefundItem.class, result.getClass() );
         
     }
 }

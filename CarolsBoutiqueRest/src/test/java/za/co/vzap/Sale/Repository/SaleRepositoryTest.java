@@ -24,7 +24,7 @@ import za.co.vzap.User.Repository.UserRepository;
  *
  * @author macpe
  */
-public class SaleRepositoryTest {
+public class SaleRepositoryTest {// complete
     
     private IRepository saleRepository;
     private IRepository paymentDB;
@@ -82,7 +82,7 @@ public class SaleRepositoryTest {
     }
 
     @Test
-    public void testGetById_String() {// null pointer as the method returns a null.
+    public void testGetById_String() {
         
         saleRepository = new SaleRepository();
         paymentDB = new PaymentRepository();

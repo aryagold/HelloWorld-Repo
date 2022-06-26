@@ -4,6 +4,8 @@
  */
 package za.co.vzap.User.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Test;
@@ -16,13 +18,14 @@ import za.co.vzap.Interface.Repository.IRepository;
 import za.co.vzap.Interface.Service.IUserService;
 import za.co.vzap.User.Model.RoleEnum;
 import za.co.vzap.User.Model.User;
+import za.co.vzap.User.Model.UserDto;
 import za.co.vzap.User.Repository.UserRepository;
 
 /**
  *
  * @author macpe
  */
-public class UserServiceTest {
+public class UserServiceTest {//complete
     
     private IUserService userService;
     private IRepository userRepository;
@@ -31,7 +34,7 @@ public class UserServiceTest {
     
     
     @Test
-    public void testUpdateToTeller() {
+    public void testUpdateToTeller() {//done
         
         userRepository = new UserRepository();
         branchRepository = new BranchRepository();
@@ -50,7 +53,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testAddBranch() {
+    public void testAddBranch() {//done
         
         userRepository = new UserRepository();
         branchRepository = new BranchRepository();
@@ -81,9 +84,23 @@ public class UserServiceTest {
         user = null;
         user = (User) userRepository.getById(userID);
         
-//        User result = userService.login(new User(user.getUserId(), user.getPassword()));
-//        System.out.println("result "+result);
-//        assertEquals(User.class, result.getClass());
+        UserDto result = userService.login(new User(user.getUserId(), user.getPassword()));
+        
+        assertEquals(UserDto.class, result.getClass());
+        
+    }
+    
+    @Test
+    public void testGetAllBranches(){//done
+        
+        userRepository = new UserRepository();
+        branchRepository = new BranchRepository();
+
+        userService = new UserService(userRepository, branchRepository);
+        
+        List<Branch> branches = userService.getAllBranches();
+
+        assertEquals(ArrayList.class,branches.getClass());
         
     }
     

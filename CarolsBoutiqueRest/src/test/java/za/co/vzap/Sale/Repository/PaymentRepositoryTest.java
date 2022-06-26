@@ -14,7 +14,7 @@ import za.co.vzap.POS.Model.PaymentTypeEnum;
  *
  * @author macpe
  */
-public class PaymentRepositoryTest {// works
+public class PaymentRepositoryTest {// complete
     
     private IRepository paymentRepository;
     

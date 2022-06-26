@@ -5,15 +5,19 @@
 package za.co.vzap.Inventory.Service;
 
 
+import java.nio.file.attribute.UserDefinedFileAttributeView;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.Test;
 import za.co.vzap.Branch.Model.Branch;
 import za.co.vzap.Branch.Repository.BranchRepository;
 import za.co.vzap.Interface.Repository.IRepository;
 import za.co.vzap.Interface.Service.IInventoryService;
 import za.co.vzap.Inventory.Model.Category;
+import za.co.vzap.Inventory.Model.InventoryControlDto;
 import za.co.vzap.Inventory.Model.InventoryDto;
 import za.co.vzap.Inventory.Model.Product;
 import za.co.vzap.Inventory.Repository.CategoryRepository;
@@ -32,7 +36,7 @@ import za.co.vzap.User.Repository.UserRepository;
  *
  * @author macpe
  */
-public class InventoryServiceTest {
+public class InventoryServiceTest {//complete
     
     private IInventoryService inventoryService;
     private IRepository productDB;
@@ -44,141 +48,131 @@ public class InventoryServiceTest {
     private IRepository categoryDB;
     private IRepository branchDB;
     private IRepository userDB;
-    
-    @Test
-    public void testAddProduct() {
-        
-        productDB = new ProductRepository();
-        productCategoryDB = new ProductCategoryRepository();
-        inventoryControlDB = new InventoryControlRepository();
-        inventoryDB = new InventoryRepository();
-        sizeDB = new SizeRepository();
-        saleDB = new SaleRepository();
-        categoryDB = new CategoryRepository();
-        branchDB = new BranchRepository();
-//        inventoryService = new InventoryService(productDB, inventoryControlDB, inventoryDB, sizeDB, categoryDB, branchDB);
-
-        Product product = new Product("TestProduct", 100);
-        product.productId = productDB.add2(product);
-        Category category = new Category("TestCategory");
-        category.categoryId = categoryDB.add2(category);
-        
-        List<String> categoryIDs = new ArrayList<>();
-        categoryIDs.add(category.categoryId);
-        
-//        String result = productService.addProduct(product, categoryIDs);
-//        
-//        assertEquals(String.class, result.getClass());
-        
-    }
-    
-    @Test
-    public void testAddCategory() {
-        
-        productDB = new ProductRepository();
-        productCategoryDB = new ProductCategoryRepository();
-        inventoryControlDB = new InventoryControlRepository();
-        inventoryDB = new InventoryRepository();
-        sizeDB = new SizeRepository();
-        saleDB = new SaleRepository();
-        categoryDB = new CategoryRepository();
-        branchDB = new BranchRepository();
-//        inventoryService = new InventoryService(productDB, inventoryControlDB, inventoryDB, sizeDB, categoryDB, branchDB);
-
-        Category category = new Category("TestCategory");
-        
-//        String result = inventoryService.addCategory(category);
-//        
-//        assertEquals( String.class , result.getClass());
-        
-    }
    
     @Test
-    public void testAddInventoryControl() throws Exception {
-       
+    public void testAddInventory() {//done
+        
         productDB = new ProductRepository();
-        productCategoryDB = new ProductCategoryRepository();
         inventoryControlDB = new InventoryControlRepository();
         inventoryDB = new InventoryRepository();
         sizeDB = new SizeRepository();
-        saleDB = new SaleRepository();
-        categoryDB = new CategoryRepository();
         branchDB = new BranchRepository();
-//        inventoryService = new InventoryService(productDB, inventoryControlDB, inventoryDB, sizeDB, categoryDB, branchDB);
-
         userDB = new UserRepository();
+        categoryDB = new CategoryRepository();
+
+        inventoryService = new InventoryService(productDB, inventoryControlDB, inventoryDB, sizeDB, branchDB, userDB, categoryDB);
+        
+        InventoryDto result = inventoryService.addInventory("US001","PR033",2,"00332");
+        
+        assertEquals( InventoryDto.class , result.getClass());
+        
+    }
+    
+    @Test
+    public void testGetBranchInventory(){//done
+        
+        productDB = new ProductRepository();
+        inventoryControlDB = new InventoryControlRepository();
+        inventoryDB = new InventoryRepository();
+        sizeDB = new SizeRepository();
+        branchDB = new BranchRepository();
+        userDB = new UserRepository();
+        categoryDB = new CategoryRepository();
+
+        inventoryService = new InventoryService(productDB, inventoryControlDB, inventoryDB, sizeDB, branchDB, userDB, categoryDB);
+
         Branch branch = new Branch("TestBranch", 10000, 1000);
         String branchID = branchDB.add2(branch);
-        User user = new User("TestUser", "Test@Email" , branchID, "TestPassword", RoleEnum.TELLER);
-        user.userId = userDB.add2(user);
+        User user = new User("TestName", "TestEmail", branchID, "TestPassword", RoleEnum.TELLER);
+        String userID = userDB.add2(user);
         
-//        InventoryDto result = inventoryService.addInventoryControl(user.userId, "TestBarcode", 100);
-//        
-//        assertEquals(InventoryDto.class,result.getClass());
-        
-    }
-    
-    @Test
-    public void testAddInventory() {
-        
-        productDB = new ProductRepository();
-        productCategoryDB = new ProductCategoryRepository();
-        inventoryControlDB = new InventoryControlRepository();
-        inventoryDB = new InventoryRepository();
-        sizeDB = new SizeRepository();
-        saleDB = new SaleRepository();
-        categoryDB = new CategoryRepository();
-        branchDB = new BranchRepository();
-//        inventoryService = new InventoryService(productDB, inventoryControlDB, inventoryDB, sizeDB, categoryDB, branchDB);
-       
-        InventoryDto dto = new InventoryDto();
-        
-//        String result = inventoryService.addInventory(dto);
-//        
-//        assertEquals( String.class , result.getClass());
-        
-    }
-    
-    @Test
-    public void testFindProductWithProductId() throws Exception {
-        
-        productDB = new ProductRepository();
-        productCategoryDB = new ProductCategoryRepository();
-        inventoryControlDB = new InventoryControlRepository();
-        inventoryDB = new InventoryRepository();
-        sizeDB = new SizeRepository();
-        saleDB = new SaleRepository();
-        categoryDB = new CategoryRepository();
-        branchDB = new BranchRepository();
-//        inventoryService = new InventoryService(productDB, inventoryControlDB, inventoryDB, sizeDB, categoryDB, branchDB);
-         
-        Product product = new Product("TestProduct1", 20 );
-        product.productId = productDB.add2(product);
-        
-//        List<InventoryDto> result = inventoryService.findProductWithProductId(product.productId);
-//        
-//        assertEquals( List.class , result.getClass() );
-        
-    }
+        List<InventoryDto> result = inventoryService.getBranchInventory(userID);
 
+        assertEquals( ArrayList.class , result.getClass() );
+        
+    }
+    
     @Test
-    public void testFindProductWithBarcode() throws Exception {
+    public void testCaptureInventory(){//done
         
         productDB = new ProductRepository();
-        productCategoryDB = new ProductCategoryRepository();
         inventoryControlDB = new InventoryControlRepository();
         inventoryDB = new InventoryRepository();
         sizeDB = new SizeRepository();
-        saleDB = new SaleRepository();
-        categoryDB = new CategoryRepository();
         branchDB = new BranchRepository();
-//        inventoryService = new InventoryService(productDB, inventoryControlDB, inventoryDB, sizeDB, categoryDB, branchDB);
-       
-        String barcode = "TestBarcode";
+        userDB = new UserRepository();
+        categoryDB = new CategoryRepository();
+
+        inventoryService = new InventoryService(productDB, inventoryControlDB, inventoryDB, sizeDB, branchDB, userDB, categoryDB);
+
+        InventoryControlDto result = null;
         
-//        List<InventoryDto> result = inventoryService.findProductWithBarcode(barcode);
-//
-//        assertEquals( List.class , result.getClass() );
+        try {
+            
+           result = inventoryService.captureInventory("US001", "00332" , 10);
+        
+        } catch (Exception ex) {
+            Logger.getLogger(InventoryServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        assertEquals( InventoryControlDto.class , result.getClass());
+        
+    }
+    
+    @Test
+    public void testFindInventory() throws Exception{//done
+        
+        productDB = new ProductRepository();
+        inventoryControlDB = new InventoryControlRepository();
+        inventoryDB = new InventoryRepository();
+        sizeDB = new SizeRepository();
+        branchDB = new BranchRepository();
+        userDB = new UserRepository();
+        categoryDB = new CategoryRepository();
+
+        inventoryService = new InventoryService(productDB, inventoryControlDB, inventoryDB, sizeDB, branchDB, userDB, categoryDB);
+
+        List<InventoryDto> result = inventoryService.findInventory("00332");
+        
+        assertEquals( ArrayList.class , result.getClass());
+        
+    }
+    
+    @Test
+    public void testGetItem(){//done
+        
+        productDB = new ProductRepository();
+        inventoryControlDB = new InventoryControlRepository();
+        inventoryDB = new InventoryRepository();
+        sizeDB = new SizeRepository();
+        branchDB = new BranchRepository();
+        userDB = new UserRepository();
+        categoryDB = new CategoryRepository();
+
+        inventoryService = new InventoryService(productDB, inventoryControlDB, inventoryDB, sizeDB, branchDB, userDB, categoryDB);
+
+        InventoryDto result = inventoryService.getItem("00332");
+        
+        assertEquals( InventoryDto.class , result.getClass());
+        
+    }
+    
+    @Test
+    public void testGetLowStockQuantity(){//done
+        
+        productDB = new ProductRepository();
+        inventoryControlDB = new InventoryControlRepository();
+        inventoryDB = new InventoryRepository();
+        sizeDB = new SizeRepository();
+        branchDB = new BranchRepository();
+        userDB = new UserRepository();
+        categoryDB = new CategoryRepository();
+
+        inventoryService = new InventoryService(productDB, inventoryControlDB, inventoryDB, sizeDB, branchDB, userDB, categoryDB);
+
+        List<InventoryDto> result = inventoryService.getLowStockQuantity(3);
+
+        assertEquals( ArrayList.class , result.getClass());
         
     }
     

@@ -16,7 +16,7 @@ import za.co.vzap.User.Model.User;
  *
  * @author macpe
  */
-public class UserRepositoryTest {
+public class UserRepositoryTest {// complete
     
     private IRepository userDB;
     private IRepository branchDB;

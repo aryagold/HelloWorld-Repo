@@ -14,6 +14,7 @@ import za.co.vzap.Interface.Repository.IRepository;
 import za.co.vzap.POS.Model.Payment;
 import za.co.vzap.POS.Model.PaymentTypeEnum;
 import za.co.vzap.POS.Model.Refund;
+import za.co.vzap.POS.Model.RefundStatusEnum;
 import za.co.vzap.POS.Model.Sale;
 import za.co.vzap.POS.Model.SaleStatusEnum;
 import za.co.vzap.User.Model.RoleEnum;
@@ -24,7 +25,7 @@ import za.co.vzap.User.Repository.UserRepository;
  *
  * @author macpe
  */
-public class RefundRepositoryTest { // works
+public class RefundRepositoryTest { // throws sql exception
     
     private IRepository refundRepository;
     private IRepository saleDB;
@@ -49,11 +50,12 @@ public class RefundRepositoryTest { // works
         String userID = userDB.add2(user);
         Sale sale = new Sale(userID, "TestEMail", Timestamp.valueOf(LocalDateTime.now()), paymentID, SaleStatusEnum.COMPLETED);
         String saleID = saleDB.add2(sale);
-//        Refund refund = new Refund(saleID, Timestamp.valueOf(LocalDateTime.now()));
-//       
-//        Integer result = refundRepository.add(refund);
-//        
-//        assertEquals(Integer.class, result.getClass() );
+        
+        Refund refund = new Refund(saleID, Timestamp.valueOf(LocalDateTime.now()), RefundStatusEnum.NEW);
+       
+        Integer result = refundRepository.add(refund);
+        
+        assertEquals(Integer.class, result.getClass() );
         
     }
 
@@ -74,18 +76,17 @@ public class RefundRepositoryTest { // works
         String userID = userDB.add2(user);
         Sale sale = new Sale(userID, "TestEMail", Timestamp.valueOf(LocalDateTime.now()), paymentID, SaleStatusEnum.COMPLETED);
         String saleID = saleDB.add2(sale);
-//        Refund refund = new Refund(saleID, Timestamp.valueOf(LocalDateTime.now()));
-//       
-//
-//        
-//        int ID = refundRepository.add(refund);
-//        
-//        refund.Id = ID;
-//        refund.setSaleId("TestSaleId2");
-//        
-//        Boolean result = refundRepository.update(refund);
-//        
-//        assertEquals( Boolean.class , result.getClass() );
+        
+        Refund refund = new Refund(saleID, Timestamp.valueOf(LocalDateTime.now()), RefundStatusEnum.NEW);
+        
+        int ID = refundRepository.add(refund);
+        
+        refund.Id = ID;
+        refund.setSaleId("TestSaleId2");
+        
+        Boolean result = refundRepository.update(refund);
+        
+        assertEquals( Boolean.class , result.getClass() );
        
     }
 
@@ -106,17 +107,16 @@ public class RefundRepositoryTest { // works
         String userID = userDB.add2(user);
         Sale sale = new Sale(userID, "TestEMail", Timestamp.valueOf(LocalDateTime.now()), paymentID, SaleStatusEnum.COMPLETED);
         String saleID = saleDB.add2(sale);
-//        Refund refund = new Refund(saleID, Timestamp.valueOf(LocalDateTime.now()));
-//       
-//
-//    
-//        int ID = refundRepository.add(refund);
-//        
-//        refund.Id = ID;
-//        
-//        Refund result = (Refund)refundRepository.getById(refund.Id);
-//        
-//        assertEquals(Refund.class, result.getClass());
+        
+        Refund refund = new Refund(saleID, Timestamp.valueOf(LocalDateTime.now()), RefundStatusEnum.NEW);
+           
+        int ID = refundRepository.add(refund);
+        
+        refund.Id = ID;
+        
+        Refund result = (Refund)refundRepository.getById(refund.Id);
+        
+        assertEquals(Refund.class, result.getClass());
         
     }
 }

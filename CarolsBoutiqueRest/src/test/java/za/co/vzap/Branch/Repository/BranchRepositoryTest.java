@@ -13,7 +13,7 @@ import za.co.vzap.Interface.Repository.IRepository;
  *
  * @author macpe
  */
-public class BranchRepositoryTest {// branch works
+public class BranchRepositoryTest {// branch complete
     private IRepository br;
   
     @Test

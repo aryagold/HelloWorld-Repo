@@ -15,7 +15,7 @@ import za.co.vzap.Inventory.Model.ProductCategory;
  *
  * @author macpe
  */
-public class ProductCategoryRepositoryTest {//works
+public class ProductCategoryRepositoryTest {//complete
     
     private IRepository productCategoryRepository;
     private IRepository productDB;
