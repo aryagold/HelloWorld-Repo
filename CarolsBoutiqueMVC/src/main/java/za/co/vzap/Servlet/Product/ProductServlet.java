@@ -56,7 +56,7 @@ public class ProductServlet extends HttpServlet {
                 prodDto = productService.addProduct(productName, price, categoryIds);
                 
                 if(prodDto != null) {
-                    responseTo = prodDto.productId + " was added to catalogue.";
+                    responseTo = prodDto.productId + " was added to catalogue. Proceed to add inventory with ID.";
                 } else {
                     responseTo = "Product was not added.";
                 }

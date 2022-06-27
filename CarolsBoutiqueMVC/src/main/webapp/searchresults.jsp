@@ -33,37 +33,17 @@
                 <th>Size</th>
                 <th>Price</th>
                 <th>Branch</th>
+                <th>Quantity</th>
             </tr>
-            <tr>
-                <td>Alfreds Futterkiste</td>
-                <td>Maria Anders</td>
-                <td>Germany</td>
-            </tr>
-            <tr>
-                <td>Centro comercial Moctezuma</td>
-                <td>Francisco Chang</td>
-                <td>Mexico</td>
-            </tr>
-            <tr>
-                <td>Ernst Handel</td>
-                <td>Roland Mendel</td>
-                <td>Austria</td>
-            </tr>
-            <tr>
-                <td>Island Trading</td>
-                <td>Helen Bennett</td>
-                <td>UK</td>
-            </tr>
-            <tr>
-                <td>Laughing Bacchus Winecellars</td>
-                <td>Yoshi Tannamuri</td>
-                <td>Canada</td>
-            </tr>
-            <tr>
-                <td>Magazzini Alimentari Riuniti</td>
-                <td>Giovanni Rovelli</td>
-                <td>Italy</td>
-            </tr>
+            
+            
+                <%for(InventoryDto item1 : items) {%>
+                <tr><td class=""><%=item1.productName%></td><td><%=item1.sizeName%></td><td><%=item1.price%></td><td><%=item1.branchName%></td><td><%=item1.quantity%></td></tr>
+
+                <%}%>
+              
+               
+            
         </table>
 
     </body>

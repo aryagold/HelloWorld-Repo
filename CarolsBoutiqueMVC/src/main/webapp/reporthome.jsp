@@ -18,6 +18,14 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap" rel="stylesheet"> 
+        <style>
+           body {
+             background-image: url('istockphoto-184640309-612x612.jpg');
+             background-repeat: no-repeat;
+             background-attachment: fixed;
+             background-size: cover;
+           }
+        </style>
     </head>
     <body>
         <div>
@@ -25,7 +33,7 @@
             <div class="row">
                 <div class="col-sm">
                     <ul>
-                        <a href="Management.html"><li><button>Top Achieving Stores</button></li></a>
+                        <a href="ReportServlet?submit=topachievingstores"><li><button>Top Achieving Stores</button></li></a>
                         <a href="stock.html"><li><button>Customer Reports</button></li></a>
                         <a href="addToCatalogue.html"></a><li><button>Month's Sales Report</button></li>
                         <a href="addToCatalogue.html"></a><li><button>Top Selling Employees</button></li>

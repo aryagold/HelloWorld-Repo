@@ -34,19 +34,18 @@
             
             <h1></h1>
             <div class="row">
-                <div class="col-lg">
+                <div class="col-sm">
                     <ul>
                         <a href="management.jsp"><li><button>Management</button></li></a>
                         <a href="stockhome.jsp"><li><button>Stock</button></li></a>
                         <li><button>Point of sale till</button></li>
                         <a href="transferhome.jsp"><li><button>Inter Branch Transfers</button></li>
-                        <a href="CustomerServlet?submit=getBranches"><li><button>Review</button></li>
-                        <a href="newsletter.jsp"><li><button>NewsLetter</button></li>
+                     
 
                     </ul>
                 </div>
 
-                <div class="col-lg">
+                <div class="col-sm">
 
 
 
@@ -55,7 +54,7 @@
 
 
                 </div>
-                <div class="col-lg">
+                <div class="col-sm">
                     <ul>
                         <a href="reporthome.jsp"><li><button>Reports</button></li>
                         <a href="findinventory.jsp"><li><button>Search</button></li></a>

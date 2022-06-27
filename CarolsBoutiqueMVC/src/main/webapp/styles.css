@@ -7,6 +7,7 @@ body {
 
 label {
     font-size: 1.4rem;
+    font-weight: 700;
     
 }
 
@@ -23,7 +24,21 @@ ul {
     
 }
 
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
 
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 30px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
 
 button {
     height: 150px;
@@ -115,4 +130,41 @@ h1 {
     height: 100px;
     font-size: 3rem;
     width: 150px;
+}
+
+.inventory {
+    height: 100px;
+    width: 280px;
+    font-size: 1.8rem !important;
+}
+
+#homebtn {
+    padding-top: 47%;
+
+    font-size: 1.5rem !important;
+    height: 75px;
+    width: 120px;
+}
+
+#home {
+    height: 60px;
+    width: 130px;
+    font-size: 1.5rem !important;
+
+}
+
+#response {
+    border-style: solid;
+    border-color: #313131;
+    border-width: 4px;
+    background-color: #fd9100;
+    border-radius: 8px 4px 4px 8px;
+    width: 600px;
+    height: 140px;
+    font-family: cursive;
+    align-items: center !important;
+}
+
+#inventoryButtons {
+    padding-left: 25%;
 }

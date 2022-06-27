@@ -6,6 +6,7 @@ package za.co.vzap.ClientService.Inventory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -133,7 +134,7 @@ public class InventoryService implements IInventoryService{
 
         try {
 
-            invenDtos = om.readValue(target.request().accept(MediaType.APPLICATION_JSON).get(String.class), List.class);
+            invenDtos = Arrays.asList(om.readValue(target.request().accept(MediaType.APPLICATION_JSON).get(String.class), InventoryDto[].class));
 
         } catch (JsonProcessingException ex) {
             Logger.getLogger(InventoryService.class.getName()).log(Level.SEVERE, null, ex);

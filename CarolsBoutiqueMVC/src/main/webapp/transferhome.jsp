@@ -20,16 +20,24 @@
         <title>Transfers</title>
     </head>
     <body>
+        <style>
+           body {
+             background-image: url('istockphoto-184640309-612x612.jpg');
+             background-repeat: no-repeat;
+             background-attachment: fixed;
+             background-size: cover;
+           }
+        </style>
         <div>
 
             <div class="row">
                 <div class="col-sm">
                     <ul>
-                        <form action="POSServlet" method="get"></form>
-                            <div><button name="submit" value="ibt/1">New Requests Received</button></div>
-                            <div><button name="submit" value="ibt/0">Status On Requests</button></div>
-                            <a href="transferrequest.jsp"><button>Request a Transfer</button></a>
-                        </form>
+                        
+                        <div><a href="POSServlet?submit=newrequests"><button>Requests Received</button></a></div>
+                        <div><a href="POSServlet?submit=requeststatus"><button>Requests Sent</button></a></div>
+                        <div><a href="searchfortransfer.jsp"><button>Request a Transfer</button></a><div>
+                     
 
 
                     </ul>
@@ -39,7 +47,7 @@
 
 
 
-
+                    <img id="logo" src="Caol_s_Botique-removebg-preview.png" alt="Logo">
 
 
 

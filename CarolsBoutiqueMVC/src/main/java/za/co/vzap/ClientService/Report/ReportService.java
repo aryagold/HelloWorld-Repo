@@ -46,7 +46,7 @@ public class ReportService implements IReportService{
     @Override
     public TopAchievingStoresDto topAchievingStores() {
         
-        url = "http://localhost:8080/rest/report/topachievingstores";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/report/topachievingstores";
         client = ClientBuilder.newClient();
         target = client.target(url);
         
@@ -59,7 +59,7 @@ public class ReportService implements IReportService{
     @Override
     public CustomerReports getCustomerReport() {
         
-        url = "http://localhost:8080/rest/report/getcustomerreport";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/report/getcustomerreport";
         client = ClientBuilder.newClient();
         target = client.target(url);
         
@@ -72,7 +72,7 @@ public class ReportService implements IReportService{
     @Override
     public StoreSalesDto storeSalesByMonth(String branchId , String month) {
         
-        url = "http://localhost:8080/rest/report/salesformonth?branchId=branchId&month=month";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/report/salesformonth?branchId=branchId&month=month";
         client = ClientBuilder.newClient();
         target = client.target(url);
         
@@ -85,7 +85,7 @@ public class ReportService implements IReportService{
     @Override
     public TopEmployeesDto topSellingEmployees(String branchId) {
     
-        url = "http://localhost:8080/rest/report/topsellingemployees?branchId=branchid";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/report/topsellingemployees?branchId=branchid";
         client = ClientBuilder.newClient();
         target = client.target(url);
         
@@ -98,7 +98,7 @@ public class ReportService implements IReportService{
     @Override
     public StoresAtTargetDto storesAtTarget() {
      
-        url = "http://localhost:8080/rest/report/storesattarget";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/report/storesattarget";
         client = ClientBuilder.newClient();
         target = client.target(url);
         
@@ -111,7 +111,7 @@ public class ReportService implements IReportService{
     @Override
     public TopFourtyProducts getTop40Products() {
      
-        url = "http://localhost:8080/rest/report/gettopfortyproducts";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/report/gettopfortyproducts";
         client = ClientBuilder.newClient();
         target = client.target(url);        
         
@@ -124,7 +124,7 @@ public class ReportService implements IReportService{
     @Override
     public LeastPerformingStores getLeastPerforming() {
     
-        url = "http://localhost:8080/rest/report/getleastperforming";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/report/getleastperforming";
         client = ClientBuilder.newClient();
         target = client.target(url);
         
@@ -137,7 +137,7 @@ public class ReportService implements IReportService{
     @Override
     public ProductSales getProductSales() {
     
-        url = "http://localhost:8080/rest/report/getproductsales";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/report/getproductsales";
         client = ClientBuilder.newClient();
         target = client.target(url);
         
@@ -150,7 +150,7 @@ public class ReportService implements IReportService{
     @Override
     public StoreSalesDto storeDailySales(String arg0) {
       
-        url = "http://localhost:8080/rest/report/storedailysales";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/report/storedailysales";
         client = ClientBuilder.newClient();
         target = client.target(url);
         
@@ -163,7 +163,7 @@ public class ReportService implements IReportService{
     @Override
     public String downloadCurrentReport() {
      
-        url = "http://localhost:8080/rest/report/downloadreport";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/report/downloadreport";
         client = ClientBuilder.newClient();
         target = client.target(url);
         

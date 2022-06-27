@@ -32,10 +32,9 @@ public class ReportServlet extends HttpServlet {
     private IReportService reportService;
     private Branch branch;
 
-    public ReportServlet(Branch branch) {
-
+    public ReportServlet() {
         reportService = new ReportService();
-        this.branch = branch;
+       
 
     }
 
@@ -44,12 +43,12 @@ public class ReportServlet extends HttpServlet {
 
         switch (request.getParameter("submit")) {
 
-            case "TopAchievingStores":
+            case "topachievingstores":
 
                 TopAchievingStoresDto dto = reportService.topAchievingStores();
 
                 request.setAttribute("dto", dto);
-                request.getRequestDispatcher("report.jsp").forward(request, response);
+                request.getRequestDispatcher("topachievingstores.jsp").forward(request, response);
 
                 break;
 

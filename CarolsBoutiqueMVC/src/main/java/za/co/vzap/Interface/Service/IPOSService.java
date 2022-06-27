@@ -17,7 +17,9 @@ public interface IPOSService {
 
     IbtDto addIbt(IbtDto dto);
 
-    IbtDto updateIbt(IbtDto dto);
+//    IbtDto updateIbt(IbtDto dto);
+    
+    void approveIbt(int id);
 
     List<IbtDto> listIbt(String userId, int type);
 

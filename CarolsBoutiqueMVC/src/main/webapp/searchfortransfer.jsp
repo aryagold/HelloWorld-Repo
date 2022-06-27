@@ -19,28 +19,28 @@
     <body>
         <div>
             <header><h1></h1></header>
-            <form action="InventoryServlet" method="get">
-            <div class="d-flex justify-content-center"><h2>Search</h2></div>
-            <div class="row">
-                <div class="col-sm">
-                    <div id="qr-reader" style="width: 600px"></div>
-                </div>
+            <form action="POSServlet" method="get">
+                <div class="d-flex justify-content-center"><h2>Search</h2></div>
+                <div class="row">
+                    <div class="col-sm">
+                        <div id="qr-reader" style="width: 600px"></div>
+                    </div>
 
-                <div class="col-sm">
-                    <label class="checkboxstyle">Search By Barcode:</label>
-                    <input type="text" id="barcode" name="barcode"/>
-                    <br>
-                    <h3>Or</h3>
-                    <label class="checkboxstyle">Search By Product ID:</label>
-                    <input type="text" name="productId">
+                    <div class="col-sm">
+                        <label class="checkboxstyle">Search By Barcode:</label>
+                        <input type="text" id="barcode" name="barcode"/>
+                        <br>
+                        <h3>Or</h3>
+                        <label class="checkboxstyle">Search By Product ID:</label>
+                        <input type="text" name="productId">
 
-                </div>
-                <div class="col-sm">
-                    <button class="stock" name="submit" type="submit" value="findInventory">Search</button>
-                    <a href="home.html"><button class="stock">Home</button></a>
+                    </div>
+                    <div class="col-sm">
+                        <button class="stock" name="submit" type="submit" value="search">Search</button>
+                        <a href="home.html"><button class="stock">Home</button></a>
 
+                    </div>
                 </div>
-            </div>
         </div>
 
         <script src= "webcam.js"></script>

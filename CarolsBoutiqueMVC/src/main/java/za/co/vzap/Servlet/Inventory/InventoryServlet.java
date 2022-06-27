@@ -103,13 +103,10 @@ public class InventoryServlet extends HttpServlet {
                 }
                 
                 if(dtos != null) {
-                    responseTo = dtos.toString() + " found";
-                } else {
-                    responseTo = "Didn't work";
-                }
-
-                request.setAttribute("response", responseTo);
-                request.getRequestDispatcher("responsepage.jsp").forward(request, response);
+                    
+                    request.setAttribute("items", dtos);
+                    request.getRequestDispatcher("searchresults.jsp").forward(request, response);
+                } 
 
                 break;
         }
@@ -156,13 +153,12 @@ public class InventoryServlet extends HttpServlet {
                 
                 HttpSession session = request.getSession(true);
                 UserDto userDto = (UserDto) session.getAttribute("loggedInUser");
-                System.out.println("The User: " + userDto);
                 String userId = userDto.userId;
                 
                 invenDto = inventoryService.addInventory(userId, productID, Integer.parseInt(sizeId), barcode);
                 
                 if(invenDto != null) {
-                    responseTo = invenDto.productName + " in size " + invenDto.sizeName + " was added to inventory. Proceed to capture stock.";
+                    responseTo = invenDto.productName + " in size " + invenDto.sizeName + " was added to inventory. Proceed to print barcode and capture stock.";
                 } else {
                     responseTo = "Item was not successfully added to inventory.";
                 }

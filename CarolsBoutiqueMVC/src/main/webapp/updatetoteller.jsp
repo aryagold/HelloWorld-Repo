@@ -17,6 +17,14 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap" rel="stylesheet"> 
+        <style>
+           body {
+             background-image: url('istockphoto-184640309-612x612.jpg');
+             background-repeat: no-repeat;
+             background-attachment: fixed;
+             background-size: cover;
+           }
+        </style>
         <title>Register Teller</title>
     </head>
     <body>
@@ -34,9 +42,10 @@
                         <label>Employee ID:</label>
                         <input type="text" class="checkboxstyle" name="userId"/>
                         <br>
-                        <div class="d-flex justify-content-center"><button class="barcodegen" id="submit" name="submit" value="updateTeller">Register</button></div>
+                        <div class="d-flex justify-content-center"><button id="submit" name="submit" value="updateTeller">Register</button></div>
                         <img src="Caol_s_Botique-removebg-preview.png"/> 
                     </form>
+
 
 
 
