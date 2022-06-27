@@ -180,6 +180,15 @@ public class PosMapper {
         dto.statusName = ibt.getStatus().name();
 
         Inventory inventoryFrom = (Inventory) inventoryRepository.getById(ibt.getInventoryIdFrom());
+        
+        String productId = inventoryFrom.getProductId();
+        Product product = (Product) productRepository.getById(productId);
+        dto.productName = product.getName();
+        
+        int sizeId = inventoryFrom.getSizeId();
+        Size size = (Size) sizeRepository.getById(sizeId);
+        dto.sizeName = size.getSize();
+        
         String branchIdFrom = inventoryFrom.getBranchId();
         Branch branchFrom = (Branch) branchRepository.getById(branchIdFrom);
         dto.branchNameFrom = branchFrom.getName();

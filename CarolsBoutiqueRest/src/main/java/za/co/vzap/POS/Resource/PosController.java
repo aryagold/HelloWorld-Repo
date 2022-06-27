@@ -108,6 +108,14 @@ public class PosController extends ControllerBase {
         return posService.updateIbt(dto);
     }
     
+    @POST
+    @Path("ibt/status")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void updateIbtStatus(IbtDto dto) throws Exception {
+        posService.updateIbtStatus(dto);
+    }
+    
     @GET
     @Path("ibt")
     @Produces(MediaType.APPLICATION_JSON)

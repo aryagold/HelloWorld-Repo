@@ -203,6 +203,14 @@ public class POSService implements IPOSService {
     }
     
     @Override
+    public void updateIbtStatus(IbtDto dto) {
+        IBT ibt = (IBT) ibtRepository.getById(dto.Id);
+        ibt.setStatus(dto.status);
+        
+        ibtRepository.update(ibt);
+    }
+    
+    @Override
     public List<IbtDto> listIbt(String userId, int type) {
         List<IbtDto> dtos = new ArrayList<>();
         
@@ -284,4 +292,6 @@ public class POSService implements IPOSService {
         
         return reserves;
     }
+
+    
 }

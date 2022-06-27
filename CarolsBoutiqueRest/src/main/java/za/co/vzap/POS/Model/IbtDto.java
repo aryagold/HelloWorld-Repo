@@ -9,7 +9,12 @@ public class IbtDto {
     public String emailAddress;
     public IBTStatusEnum status;
     
+    public String productName;
+    public String sizeName;
     public String branchNameFrom;
     public String branchNameTo;
     public String statusName;
+    
+    public IbtDto() {
+    }
 }

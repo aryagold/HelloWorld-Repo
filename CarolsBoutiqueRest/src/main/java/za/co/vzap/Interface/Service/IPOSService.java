@@ -18,6 +18,8 @@ public interface IPOSService {
     
     IbtDto updateIbt(IbtDto dto);
     
+    void updateIbtStatus(IbtDto dto);
+    
     List<IbtDto> listIbt(String userId, int type);
     
     List<SaleDto> getReserved(); // this method does NOT hit an endpoint, no servlet/client methods.
