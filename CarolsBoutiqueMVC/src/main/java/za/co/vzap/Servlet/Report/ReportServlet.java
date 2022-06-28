@@ -30,7 +30,6 @@ import za.co.vzap.Model.Report.TopFourtyProducts;
 public class ReportServlet extends HttpServlet {
 
     private IReportService reportService;
-    private Branch branch;
 
     public ReportServlet() {
         reportService = new ReportService();
@@ -52,75 +51,75 @@ public class ReportServlet extends HttpServlet {
 
                 break;
 
-            case "CustomerReports":
+            case "customerreports":
 
                 CustomerReports cr = reportService.getCustomerReport();
 
-                request.setAttribute("CustomerReports", cr);
-                request.getRequestDispatcher("report.jsp").forward(request, response);
+                request.setAttribute("customerreports", cr);
+                request.getRequestDispatcher("customerreport.jsp").forward(request, response);
 
                 break;
 
-            case "SalesForMonth":
+            case "salesformonth":
 
-                StoreSalesDto dto_2 = reportService.storeSalesByMonth(branch.branchId, "January");//ask where the month is comming from
+                StoreSalesDto dto_2 = reportService.storeSalesByMonth(request.getParameter("branch"), request.getParameter("month"));//ask where the month is comming from
 
                 request.setAttribute("dto", dto_2);
-                request.getRequestDispatcher("report.jsp").forward(request, response);
+                request.getRequestDispatcher("salesformonth.jsp").forward(request, response);
 
                 break;
 
-            case "TopSellingEmployees":
+            case "topsellingemployees":
 
-                TopEmployeesDto dto_3 = reportService.topSellingEmployees(branch.branchId);
+                TopEmployeesDto dto_3 = reportService.topSellingEmployees(request.getParameter("branch"));
 
                 request.setAttribute("dto", dto_3);
-                request.getRequestDispatcher("report.jsp").forward(request, response);
+                request.getRequestDispatcher("topsellingemployees.jsp").forward(request, response);
 
                 break;
 
-            case "StoresAtTarget":
+            case "storesattarget":
 
-                StoresAtTargetDto dto_4 = reportService.storesAtTarget();
+                StoresAtTargetDto dto_4 = reportService.storesAtTarget(request.getParameter("month"));
 
                 request.setAttribute("dto", dto_4);
-                request.getRequestDispatcher("report.jsp").forward(request, response);
+                request.getRequestDispatcher("storesattarget.jsp").forward(request, response);
 
                 break;
 
-            case "TopProducts":
+            case "topproducts":
 
                 TopFourtyProducts top = reportService.getTop40Products();
 
                 request.setAttribute("top", top);
-                request.getRequestDispatcher("report.jsp").forward(request, response);
+                request.getRequestDispatcher("topproducts.jsp").forward(request, response);
 
                 break;
 
-            case "LeastPerformingStores":
+            case "leastperformingstores":
 
-                LeastPerformingStores least = reportService.getLeastPerforming();
+                LeastPerformingStores least = reportService.getLeastPerforming(Integer.parseInt(request.getParameter("interval")));
 
                 request.setAttribute("least", least);
-                request.getRequestDispatcher("report.jsp").forward(request, response);
+                request.getRequestDispatcher("leastperformingstores.jsp").forward(request, response);
 
                 break;
 
-            case "ProductStats":
+            case "productstats":
 
                 ProductSales sales = reportService.getProductSales();
 
-                request.setAttribute("ProductSales", sales);
-                request.getRequestDispatcher("report.jsp").forward(request, response);
+                request.setAttribute("productsales", sales);
+                request.getRequestDispatcher("productstats.jsp").forward(request, response);
 
                 break;
 
-            case "SalesForTheDay":
+            case "salesfortheday":
 
-                StoreSalesDto dto_5 = reportService.storeDailySales(branch.branchId);
+                StoreSalesDto dto_5 = reportService.storeDailySales(request.getParameter("branch"));
 
                 request.setAttribute("dto", dto_5);
-                request.getRequestDispatcher("report.jsp").forward(request, response);
+                request.getRequestDispatcher("salesforday.jsp").forward(request, response);
 
                 break;
 

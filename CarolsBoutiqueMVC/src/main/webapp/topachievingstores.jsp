@@ -1,3 +1,4 @@
+<%@page import="za.co.vzap.Model.Report.TopAchievingStoresDto"%>
 <%@page import="za.co.vzap.Model.Report.ItemAmount"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -5,7 +6,8 @@
 <html>
     <head>
         <% Boolean pieChart = false;%>
-        <%List<ItemAmount> items = (List<ItemAmount>) request.getAttribute("Sales");%>
+        <%TopAchievingStoresDto dto = (TopAchievingStoresDto) request.getAttribute("dto");%>
+        <%List<ItemAmount> items = dto.storeSales;%>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript">
@@ -16,9 +18,9 @@
             function drawChart1() {
  
                   var data = google.visualization.arrayToDataTable([<%--report data bar graph--%>
-                    ["Branch Name", "Total Sales", {role: "style"} ],
+                    ["Branch Name", "Total Sales", {role: "style"} ]
             <%for (ItemAmount item : items) {%>
-                    [' <%=item.description%> ', ' <%=item.amount%>'],
+                    ,[' <%=item.description%> ', ' <%=item.amount%>']
             <%}%>
                 ]);
 
@@ -44,9 +46,9 @@
             function drawChart() {
 
                 var data = google.visualization.arrayToDataTable([<%--report data pie chart--%>
-                    ['Branch Name', 'Total sales'],
+                    ['Branch Name', 'Total sales']
             <%for (ItemAmount item : items) {%>
-                    [' <%=item.description%> ', ' <%=item.amount%>'],
+                    ,[' <%=item.description%> ', ' <%=item.amount%>']
             <%}%>
                 ]);
 
@@ -70,7 +72,7 @@
                 <label for="pie">Pie Chart</label>
             </div>
             <div>
-                <input onClick="window.location.reload();" onClick = " <%pieChart = true;%>"type="radio" id="barchart_values" name="graph" value="bar">
+                <input onClick="window.location.reload();" onClick = " <%pieChart = false;%>"type="radio" id="barchart_values" name="graph" value="bar">
                 <label for="bar">Bar Graph</label>
             </div>
         </fieldset>
@@ -83,7 +85,7 @@
                 <label for="pie">Pie Chart</label>
             </div>
             <div>
-                <input onClick="window.location.reload();" onClick = " <%pieChart = true;%>"type="radio" id="barchart_values" name="graph" value="bar" checked>
+                <input onClick="window.location.reload();" onClick = " <%pieChart = false;%>"type="radio" id="barchart_values" name="graph" value="bar" checked>
                 <label for="bar">Bar Graph</label>
             </div>
         </fieldset>

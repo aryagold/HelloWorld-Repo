@@ -20,11 +20,11 @@ public interface IReportService {
 
     TopEmployeesDto topSellingEmployees(String branchId);
 
-    StoresAtTargetDto storesAtTarget();
+    StoresAtTargetDto storesAtTarget(String month);
 
     TopFourtyProducts getTop40Products();
 
-    LeastPerformingStores getLeastPerforming();
+    LeastPerformingStores getLeastPerforming(int interval);
 
     ProductSales getProductSales();
 

@@ -72,7 +72,7 @@ public class ReportService implements IReportService{
     @Override
     public StoreSalesDto storeSalesByMonth(String branchId , String month) {
         
-        url = "http://localhost:8080/CarolsBoutiqueRest/rest/report/salesformonth?branchId=branchId&month=month";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/report/salesformonth?branchId=" + branchId + "&month=" + month;
         client = ClientBuilder.newClient();
         target = client.target(url);
         
@@ -85,7 +85,7 @@ public class ReportService implements IReportService{
     @Override
     public TopEmployeesDto topSellingEmployees(String branchId) {
     
-        url = "http://localhost:8080/CarolsBoutiqueRest/rest/report/topsellingemployees?branchId=branchid";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/report/topsellingemployees?branchId=" + branchId;
         client = ClientBuilder.newClient();
         target = client.target(url);
         
@@ -96,9 +96,9 @@ public class ReportService implements IReportService{
     }
 
     @Override
-    public StoresAtTargetDto storesAtTarget() {
+    public StoresAtTargetDto storesAtTarget(String month) {
      
-        url = "http://localhost:8080/CarolsBoutiqueRest/rest/report/storesattarget";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/report/storesattarget?month=" + month;
         client = ClientBuilder.newClient();
         target = client.target(url);
         
@@ -122,9 +122,9 @@ public class ReportService implements IReportService{
     }
 
     @Override
-    public LeastPerformingStores getLeastPerforming() {
+    public LeastPerformingStores getLeastPerforming(int interval) {
     
-        url = "http://localhost:8080/CarolsBoutiqueRest/rest/report/getleastperforming";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/report/getleastperforming?interval=" + interval;
         client = ClientBuilder.newClient();
         target = client.target(url);
         
@@ -148,9 +148,9 @@ public class ReportService implements IReportService{
     }
 
     @Override
-    public StoreSalesDto storeDailySales(String arg0) {
+    public StoreSalesDto storeDailySales(String branchId) {
       
-        url = "http://localhost:8080/CarolsBoutiqueRest/rest/report/storedailysales";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/report/storedailysales?branchId=" + branchId;
         client = ClientBuilder.newClient();
         target = client.target(url);
         

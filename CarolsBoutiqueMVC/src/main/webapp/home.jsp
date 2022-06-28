@@ -59,7 +59,7 @@
                         <a href="reporthome.jsp"><li><button>Reports</button></li>
                         <a href="findinventory.jsp"><li><button>Search</button></li></a>
                         <a href="addtocatalogue.jsp"><li><button>Add to catalogue</button></li></a> 
-                        <a href="index.jsp"><li><button>Logout</button></li>
+                        <a href="UserServlet?submit=logout"><li><button>Logout</button></li>
                     </ul>
 
                 </div>

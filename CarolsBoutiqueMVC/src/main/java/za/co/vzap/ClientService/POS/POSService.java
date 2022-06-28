@@ -160,6 +160,31 @@ public class POSService implements IPOSService {
 
         target.request(MediaType.APPLICATION_JSON).post(Entity.json(dto));
     }
+    
+    public void declineIbt(int ibtId) {
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/pos/ibt/status";
+        client = ClientBuilder.newClient();
+        target = client.target(url);
+
+        IbtDto dto = new IbtDto();
+        dto.Id = ibtId;
+        dto.status = IBTStatusEnum.DECLINED;
+
+        target.request(MediaType.APPLICATION_JSON).post(Entity.json(dto));
+    }
+    
+    public void receivedIbt(int ibtId) {
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/pos/ibt/status";
+        client = ClientBuilder.newClient();
+        target = client.target(url);
+
+        IbtDto dto = new IbtDto();
+        dto.Id = ibtId;
+        dto.status = IBTStatusEnum.RECEIVED;
+
+        target.request(MediaType.APPLICATION_JSON).post(Entity.json(dto));
+        
+    }
 
     @Override
     public List<IbtDto> listIbt(String userId, int type) {

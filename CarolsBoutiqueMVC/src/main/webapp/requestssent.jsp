@@ -25,18 +25,22 @@
     <body style="background-color:#f5f5dc;">
         <h1>Request Status</h1>
         <%List<IbtDto> ibts = (List<IbtDto>) request.getAttribute("ibts");%>
+        <% request.setAttribute("ibts", ibts);%>
         
-        
-        <form action="POSServlet" method="post">
+
             <%for (IbtDto ibt : ibts) {%>
-            <label><%=ibt.branchNameFrom%>  <%=ibt.productName%> <%=ibt.sizeName%>  <%=ibt.statusName%></label><label>Received<input type="checkbox" name="ibtId" value="<%=ibt.Id%>" class="checkboxstyle">
+            <form action="POSServlet" method="post">
+            <label><%=ibt.branchNameFrom%>  <%=ibt.productName%> <%=ibt.sizeName%>  <%=ibt.statusName%></label>
+                <input type="hidden" name="ibtId" value="<%=ibt.Id%>">
+                <div><button id="home" type="submit" name="submit" value="receivedIbt">Received</button></div>
+                </form>
             <%}%>  
-            <br>
-            <br>
-            <br>
+            
+            <img id="logo" src="Caol_s_Botique-removebg-preview.png" alt="Logo">
+           
             <div class="col-sm" id="homebtn">
-                <button id="home" type="submit" name="submit" value="updateIbt">Confirm</button>
+                <div><a href="home.jsp"><button id="home">Home</button></a></div>
             </div>
-        </form>
+        
     </body>
 </html>

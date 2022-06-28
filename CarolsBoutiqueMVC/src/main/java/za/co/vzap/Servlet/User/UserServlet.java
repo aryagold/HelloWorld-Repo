@@ -110,7 +110,12 @@ public class UserServlet extends HttpServlet {
                 }
                
             break;
+            
+            case "logout":
+                HttpSession session = request.getSession();
+                session.invalidate();
 
+                response.sendRedirect("index.jsp");
         }
 
     }

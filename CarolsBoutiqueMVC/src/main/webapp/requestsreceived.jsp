@@ -31,15 +31,17 @@
         <%for(IbtDto ibt : ibts) {%>
         <form action="POSServlet" method="post">
         <label> <%=ibt.branchNameTo%>  <%=ibt.productName%> <%=ibt.sizeName%></label><br>
-        <!--
-<label>Accept</label><input type="checkbox" name="status" value="1" class="checkboxstyle"><label>Decline</label><input type="checkbox" name="status" value="2" class="checkboxstyle">-->
+
         <input type="hidden" name="ibtId" value="<%=ibt.Id%>">
-        <div><button class="add" type="submit" name="submit" value="approveIbt">Accept</button></div>
-        <div><button class="add" type="submit" name="submit" value="declineIbt">Decline</button></div>
+        <div><button id="home" type="submit" name="submit" value="approveIbt">Accept</button></div>
+        <div><button id="home" type="submit" name="submit" value="declineIbt">Decline</button></div>
         </form>
         <%}%>    
         
+        <img id="logo" src="Caol_s_Botique-removebg-preview.png" alt="Logo">
         
-        
+        <div class="col-sm" id="homebtn">
+            <div><a href="home.jsp"><button id="home">Home</button></a></div>
+        </div>
     </body>
 </html>

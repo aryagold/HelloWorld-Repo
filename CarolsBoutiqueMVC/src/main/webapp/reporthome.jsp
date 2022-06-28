@@ -12,7 +12,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Carol's Boutique Homepage</title>
+        <title>Carol's Boutique Reports</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" 
               rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,10 +34,10 @@
                 <div class="col-sm">
                     <ul>
                         <a href="ReportServlet?submit=topachievingstores"><li><button>Top Achieving Stores</button></li></a>
-                        <a href="stock.html"><li><button>Customer Reports</button></li></a>
-                        <a href="addToCatalogue.html"></a><li><button>Month's Sales Report</button></li>
-                        <a href="addToCatalogue.html"></a><li><button>Top Selling Employees</button></li>
-                        <a href="addToCatalogue.html"></a><li><button>Stores at Target</button></li>
+                        <a href="ReportServlet?submit=customerreports"><li><button>Customer Reports</button></li></a>
+                        <a href="ReportServlet?submit=salesformonth"></a><li><button>Month's Sales Report</button></li>
+                        <a href="ReportServlet?submit=topsellingemployees"></a><li><button>Top Selling Employees</button></li>
+                        <a href="ReportServlet?submit=storesattarget"></a><li><button>Stores at Target</button></li>
 
                     </ul>
                 </div>
@@ -53,10 +53,10 @@
                 </div>
                 <div class="col-sm">
                     <ul>
-                        <a href="search.html"><li><button>Top Products</button></li>
-                        <a href="search.html"><li><button>Least Performing Stores</button></li></a>
-                        <a href="addToCatalogue.html"><li><button>Product Statistics</button></li></a> 
-                        <a href="addToCatalogue.html"></a><li><button>Day's Sales Report</button></li>
+                        <a href="ReportServlet?submit=topproducts"><li><button>Top Products</button></li>
+                        <a href="ReportServlet?submit=leastperformingstores"><li><button>Least Performing Stores</button></li></a>
+                        <a href="ReportServlet?submit=productstats"><li><button>Product Statistics</button></li></a> 
+                        <a href="ReportServlet?submit=salesfortheday"></a><li><button>Day's Sales Report</button></li>
                         <a href="home.html"></a><li><button>Home</button></li>
                     </ul>
 

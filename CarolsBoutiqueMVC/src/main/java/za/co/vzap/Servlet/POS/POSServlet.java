@@ -5,6 +5,7 @@
 package za.co.vzap.Servlet.POS;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
@@ -91,7 +92,14 @@ public class POSServlet extends HttpServlet {
                 UserDto userDto = (UserDto) session.getAttribute("loggedInUser");
                 String userId = userDto.userId;
                 
-                List<IbtDto> ibtDtosRequest = posService.listIbt(userId, 1);
+                List<IbtDto> ibtDtos = posService.listIbt(userId, 1);
+                List<IbtDto> ibtDtosRequest = new ArrayList<>();
+                
+                for(IbtDto dto: ibtDtos) {
+                    if(dto.status != IBTStatusEnum.REQUESTED) continue;
+                    
+                    ibtDtosRequest.add(dto);
+                }
                 
                 request.setAttribute("ibts", ibtDtosRequest);
                 request.getRequestDispatcher("requestsreceived.jsp").forward(request, response);
@@ -102,7 +110,14 @@ public class POSServlet extends HttpServlet {
                 userDto = (UserDto) session.getAttribute("loggedInUser");
                 userId = userDto.userId;
 
-                List<IbtDto> ibtDtosStatus = posService.listIbt(userId, 0);
+                ibtDtos = posService.listIbt(userId, 0);
+                List<IbtDto> ibtDtosStatus = new ArrayList<>();
+
+                for (IbtDto dto : ibtDtos) {
+                    if (dto.status == IBTStatusEnum.RECEIVED) continue;
+                    
+                    ibtDtosStatus.add(dto);   
+                }
 
                 request.setAttribute("ibts", ibtDtosStatus);
                 request.getRequestDispatcher("requestssent.jsp").forward(request, response);
@@ -154,14 +169,60 @@ public class POSServlet extends HttpServlet {
                 String userId = userDto.userId;
 
                 List<IbtDto> ibtDtosRequest = posService.listIbt(userId, 1);
+                List<IbtDto> ibtDtos = new ArrayList<>();
 
-                request.setAttribute("ibts", ibtDtosRequest);
+                for (IbtDto dto_1 : ibtDtosRequest) {
+                    if (dto_1.status != IBTStatusEnum.REQUESTED) continue;
+                    
+                    ibtDtos.add(dto_1);
+                }
+
+                request.setAttribute("ibts", ibtDtos);
                 request.getRequestDispatcher("requestsreceived.jsp").forward(request, response);
                 
             break;
+            
             case "declineIbt":
-            break;
+                id = request.getParameter("ibtId");
+                posService.declineIbt(Integer.parseInt(id));
 
+                session = request.getSession(true);
+                userDto = (UserDto) session.getAttribute("loggedInUser");
+                userId = userDto.userId;
+
+                ibtDtos = posService.listIbt(userId, 1);
+                ibtDtosRequest = new ArrayList<>();
+
+                for (IbtDto dto_1 : ibtDtos) {
+                    if (dto_1.status != IBTStatusEnum.REQUESTED) continue;
+                    
+                    ibtDtosRequest.add(dto_1);
+                }
+
+                request.setAttribute("ibts", ibtDtosRequest);
+                request.getRequestDispatcher("requestsreceived.jsp").forward(request, response);
+            break;
+            
+            case "receivedIbt":
+                id = request.getParameter("ibtId");
+                posService.receivedIbt(Integer.parseInt(id));
+
+                session = request.getSession(true);
+                userDto = (UserDto) session.getAttribute("loggedInUser");
+                userId = userDto.userId;
+
+                ibtDtosRequest = posService.listIbt(userId, 0);
+                List<IbtDto> ibtDtosStatus = new ArrayList<>();
+
+                for (IbtDto dto_1 : ibtDtosRequest) {
+                    if (dto_1.status == IBTStatusEnum.RECEIVED) continue;
+                    
+                    ibtDtosStatus.add(dto_1);
+                }
+
+                request.setAttribute("ibts", ibtDtosStatus);
+                request.getRequestDispatcher("requestssent.jsp").forward(request, response);
+            break;
         }
 
     }
