@@ -40,7 +40,6 @@ public class UserService implements IUserService{
 
         
     }
-
     @Override
     public Boolean updateToTeller(TellerRequest tellerRequest) {// the end point was changed to not take any path params.
         

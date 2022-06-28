@@ -4,6 +4,8 @@
  */
 package za.co.vzap.Customer.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import za.co.vzap.Branch.Model.Branch;
@@ -19,7 +21,7 @@ import za.co.vzap.Interface.Service.ICustomerService;
  *
  * @author macpe
  */
-public class CustomerServiceTest {
+public class CustomerServiceTest {//complete
     
     private ICustomerService customerService;
     private IRepository reviewRepository;
@@ -27,7 +29,7 @@ public class CustomerServiceTest {
     private IRepository branchDB;
  
     @Test
-    public void testAddCustomer() {
+    public void testAddCustomer() {//done
         
         reviewRepository = new ReviewRepository();
         customerRepository = new CustomerRepository();
@@ -42,7 +44,7 @@ public class CustomerServiceTest {
     }
    
     @Test
-    public void testAddReview() {
+    public void testAddReview() {//done
       
        reviewRepository = new ReviewRepository();
        customerRepository = new CustomerRepository(); 
@@ -53,11 +55,11 @@ public class CustomerServiceTest {
        Branch branch = new Branch("TestBranch", 10000, 1000);
        String branchID = branchDB.add2(branch);
        
-//       Review review = new Review("good service", 5, branchID);
-//       
-//       Integer result = customerService.addReview(review);
-//       
-//        assertEquals(Integer.class, result.getClass());
+       Review review = new Review("good service", 5, branchID, Timestamp.valueOf(LocalDateTime.now()));
+       
+       Integer result = customerService.addReview(review);
+       
+        assertEquals(Integer.class, result.getClass());
        
     }
 }

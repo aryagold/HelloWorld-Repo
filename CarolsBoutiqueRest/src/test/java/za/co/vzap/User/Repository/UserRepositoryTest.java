@@ -16,13 +16,13 @@ import za.co.vzap.User.Model.User;
  *
  * @author macpe
  */
-public class UserRepositoryTest {
+public class UserRepositoryTest {// complete
     
     private IRepository userDB;
     private IRepository branchDB;
     
     @Test
-    public void testAdd2() {
+    public void testAdd2() {//done
         
         userDB = new UserRepository();
         branchDB = new BranchRepository();
@@ -38,7 +38,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void testUpdate() {
+    public void testUpdate() {//done
         
         userDB = new UserRepository();
         branchDB = new BranchRepository();
@@ -58,7 +58,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void testGetById_String() {
+    public void testGetById_String() {//done
        
         userDB = new UserRepository();
         branchDB = new BranchRepository();

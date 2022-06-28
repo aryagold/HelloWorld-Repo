@@ -21,7 +21,7 @@ import za.co.vzap.User.Repository.UserRepository;
  *
  * @author macpe
  */
-public class InventoryControlRepositoryTest {
+public class InventoryControlRepositoryTest {//complete
     
     private IRepository inventoryControlRepository ;
     private IRepository userDB;

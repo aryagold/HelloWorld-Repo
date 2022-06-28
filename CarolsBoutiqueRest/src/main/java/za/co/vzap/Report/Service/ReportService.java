@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 import za.co.vzap.Branch.Model.Branch;
 import za.co.vzap.Branch.Repository.BranchRepository;
 import za.co.vzap.Interface.Repository.IRepository;
+import za.co.vzap.Interface.Repository.RepositoryBase;
 import za.co.vzap.Interface.Service.IReportService;
 import za.co.vzap.Report.Model.CustomerReportsDto;
 import za.co.vzap.Report.Model.ItemAmount;
@@ -102,13 +103,9 @@ public class ReportService implements IReportService {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                if (ps != null) {
-                    try {
-                        ps.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+                
+                closeStreams(ps, rs);
+                
             }
         }
         
@@ -153,13 +150,9 @@ public class ReportService implements IReportService {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                if (ps != null) {
-                    try {
-                        ps.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+                
+                closeStreams(ps, rs);
+                
             }
         }
 
@@ -212,13 +205,9 @@ public class ReportService implements IReportService {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                if (ps != null) {
-                    try {
-                        ps.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+                
+                closeStreams(ps, rs);
+                
             }
         }
 
@@ -274,13 +263,9 @@ public class ReportService implements IReportService {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                if (ps != null) {
-                    try {
-                        ps.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+                
+                closeStreams(ps, rs);
+                
             }
         }
 
@@ -323,13 +308,9 @@ public class ReportService implements IReportService {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                if (ps != null) {
-                    try {
-                        ps.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+                
+                closeStreams(ps, rs);
+                
             }
         }
 
@@ -375,13 +356,9 @@ public class ReportService implements IReportService {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                if (ps != null) {
-                    try {
-                        ps.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+                
+                closeStreams(ps, rs);
+                
             }
         }
 
@@ -446,13 +423,9 @@ public class ReportService implements IReportService {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                if (ps != null) {
-                    try {
-                        ps.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+                
+                closeStreams(ps, rs);
+                
             }
         }
 
@@ -553,4 +526,21 @@ public class ReportService implements IReportService {
         return byteArrayOutputStream.toByteArray();
     }
 
+    private void closeStreams(PreparedStatement ps, ResultSet rs) {
+        if (ps != null) {
+            try {
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+    }
 }

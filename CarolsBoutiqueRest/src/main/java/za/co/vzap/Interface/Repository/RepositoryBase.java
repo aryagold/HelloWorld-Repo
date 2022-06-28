@@ -3,6 +3,8 @@ package za.co.vzap.Interface.Repository;
 import java.sql.*;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public abstract class RepositoryBase<IEntity> implements IRepository<IEntity> {
     protected Connection con;
@@ -28,7 +30,7 @@ public abstract class RepositoryBase<IEntity> implements IRepository<IEntity> {
         }
 
         try {
-            this.con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/carolsboutique?useSSL=false", "root", "rootroot");
+            this.con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/carolsboutique?useSSL=false", "root", "root");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -144,6 +146,7 @@ public abstract class RepositoryBase<IEntity> implements IRepository<IEntity> {
                 e.printStackTrace();
             }
         }
+       
     }
 
     protected abstract List<IEntity> executeQuery(String statement);

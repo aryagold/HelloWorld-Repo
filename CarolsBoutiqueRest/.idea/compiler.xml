@@ -12,7 +12,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="CarolsBoutiqueRest" options="-endorseddirs C:\Users\macpe\Desktop\repo\HelloWorld-Repo\HelloWorld-Repo\CarolsBoutiqueRest\target/endorsed" />
+      <module name="CarolsBoutiqueRest" options="-endorseddirs C:\Users\macpe\Desktop\repo\HelloWorld-repo\HelloWorld-Repo\CarolsBoutiqueRest\target/endorsed" />
     </option>
   </component>
 </project>

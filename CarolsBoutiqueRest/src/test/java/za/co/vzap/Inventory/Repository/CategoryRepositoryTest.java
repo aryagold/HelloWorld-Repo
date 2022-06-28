@@ -13,7 +13,7 @@ import za.co.vzap.Inventory.Model.Category;
  *
  * @author macpe
  */
-public class CategoryRepositoryTest {
+public class CategoryRepositoryTest {//complete
     
     private IRepository categoryRepository;
    

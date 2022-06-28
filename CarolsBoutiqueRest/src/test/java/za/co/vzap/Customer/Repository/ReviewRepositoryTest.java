@@ -4,6 +4,8 @@
  */
 package za.co.vzap.Customer.Repository;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import za.co.vzap.Branch.Model.Branch;
@@ -15,7 +17,7 @@ import za.co.vzap.Interface.Repository.IRepository;
  *
  * @author macpe
  */
-public class ReviewRepositoryTest {
+public class ReviewRepositoryTest {//complete
     
  private IRepository reviewDB;
  private IRepository branchDB;
@@ -29,10 +31,10 @@ public class ReviewRepositoryTest {
         Branch branch = new Branch("TestBranch",10000,1000);
         String branchID = branchDB.add2(branch);
         
-//        Review review = new Review("nice branch",10, branchID);
-//        Integer result = reviewDB.add(review);
-//        
-//        assertEquals( Integer.class , result.getClass());
+        Review review = new Review("not bad", 7, branchID, Timestamp.valueOf(LocalDateTime.now()));
+        Integer result = reviewDB.add(review);
+        
+        assertEquals( Integer.class , result.getClass());
         
     }
 
@@ -46,15 +48,15 @@ public class ReviewRepositoryTest {
         Branch branch = new Branch("TestBranch",10000,1000);
         String branchID = branchDB.add2(branch);
         
-//        Review review = new Review("nice branch",10, branchID);
-//        int reviewID = reviewDB.add(review);
-//        
-//        review.Id = reviewID;
-//        review.setComment("OK branch");
-//        
-//        Boolean result = reviewDB.update(review);
-//        
-//        assertEquals( Boolean.class , result.getClass() );
+        Review review = new Review("nice branch",10, branchID,Timestamp.valueOf(LocalDateTime.now()));
+        int reviewID = reviewDB.add(review);
+        
+        review.Id = reviewID;
+        review.setComment("OK branch");
+        
+        Boolean result = reviewDB.update(review);
+        
+        assertEquals( Boolean.class , result.getClass() );
         
     }
 
@@ -68,13 +70,13 @@ public class ReviewRepositoryTest {
         Branch branch = new Branch("TestBranch",10000,1000);
         String branchID = branchDB.add2(branch);
         
-//        Review review = new Review("nice branch",10, branchID);
-//        int reviewID = reviewDB.add(review);
-//        
-//        review.Id = reviewID;
-//        Review result =(Review) reviewDB.getById(review.Id);
-//        
-//        assertEquals(Review.class, result.getClass());
+        Review review = new Review("nice branch",10, branchID, Timestamp.valueOf(LocalDateTime.now()));
+        int reviewID = reviewDB.add(review);
+        
+        review.Id = reviewID;
+        Review result =(Review) reviewDB.getById(review.Id);
+        
+        assertEquals(Review.class, result.getClass());
         
     }
 }

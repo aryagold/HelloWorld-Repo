@@ -35,13 +35,9 @@ public class RefundItemRepository extends RepositoryBase<RefundItem> {
                 e.printStackTrace();
             }
             finally {
-                if(ps != null) {
-                    try {
-                        ps.close();
-                    } catch(SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+                
+                closeStreams(rs, ps);
+                
             }
         }
 
@@ -63,13 +59,9 @@ public class RefundItemRepository extends RepositoryBase<RefundItem> {
                 e.printStackTrace();
             }
             finally {
-                if(ps != null) {
-                    try {
-                        ps.close();
-                    } catch(SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+                
+                closeStreams(rs, ps);
+                
             }
         }
 
@@ -99,13 +91,9 @@ public class RefundItemRepository extends RepositoryBase<RefundItem> {
                 e.printStackTrace();
             }
             finally {
-                if(ps != null) {
-                    try {
-                        ps.close();
-                    } catch(SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+
+                closeStreams(rs, ps);
+
             }
         }
 
@@ -143,13 +131,9 @@ public class RefundItemRepository extends RepositoryBase<RefundItem> {
                 e.printStackTrace();
             }
             finally {
-                if(ps != null) {
-                    try {
-                        ps.close();
-                    } catch(SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+                
+                closeStreams(rs, ps);
+                
             }
         }
 

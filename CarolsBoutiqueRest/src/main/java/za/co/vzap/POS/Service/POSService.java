@@ -150,7 +150,7 @@ public class POSService implements IPOSService {
         Refund refund = (Refund) refundRepository.getById(id);
         
         refund.items = refundItemRepository.getWhere("refundId", id);
-        
+      
         RefundDto dto = PosMapper.toRefundDto(refund);
         
         return dto;

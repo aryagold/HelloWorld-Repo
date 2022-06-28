@@ -14,12 +14,12 @@ import za.co.vzap.POS.Model.PaymentTypeEnum;
  *
  * @author macpe
  */
-public class PaymentRepositoryTest {// works
+public class PaymentRepositoryTest {// complete
     
     private IRepository paymentRepository;
     
     @Test
-    public void testAdd() {
+    public void testAdd() {//done
         paymentRepository = new PaymentRepository();
         
         Payment payment = new Payment(PaymentTypeEnum.CARD, "TestCard1", true);
@@ -32,7 +32,7 @@ public class PaymentRepositoryTest {// works
 
     
     @Test
-    public void testUpdate() {
+    public void testUpdate() {//done
         paymentRepository = new PaymentRepository();
        
         Payment payment = new Payment(PaymentTypeEnum.CARD, "TestCard1", true);
@@ -49,7 +49,7 @@ public class PaymentRepositoryTest {// works
 
    
     @Test
-    public void testGetById_int() {
+    public void testGetById_int() {//done
         paymentRepository = new PaymentRepository();
         
         Payment payment = new Payment(PaymentTypeEnum.CARD, "TestCard1", true);

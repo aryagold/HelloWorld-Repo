@@ -40,6 +40,10 @@ public class InventoryRepository extends RepositoryBase<Inventory> {
         } catch (SQLException e) {
             System.out.println("SQLException error thrown in the Inventory Repository class at the add(Inventory inventory) method.");
             throw new RuntimeException(e);
+        }finally{
+            
+            closeStreams(rs, ps);
+            
         }
         
         return inventory.Id;
@@ -61,6 +65,10 @@ public class InventoryRepository extends RepositoryBase<Inventory> {
         } catch (SQLException e) {
             System.out.println("SQLException error thrown in the Inventory Repository class at the update(Inventory inventory) method.");
             throw new RuntimeException(e);
+        }finally{
+            
+            closeStreams(rs, ps);
+            
         }
         
         return rowsAffected == 1;
@@ -92,6 +100,10 @@ public class InventoryRepository extends RepositoryBase<Inventory> {
         } catch (SQLException e) {
             System.out.println("SQLException error thrown in the Inventory Repository class at the getById(int Id) method.");
             throw new RuntimeException(e);
+        }finally{
+            
+            closeStreams(rs, ps);
+            
         }
         
         return inventory;
@@ -131,13 +143,9 @@ public class InventoryRepository extends RepositoryBase<Inventory> {
                 e.printStackTrace();
             }
             finally {
-                if(ps != null) {
-                    try {
-                        ps.close();
-                    } catch(SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+
+                closeStreams(rs, ps);
+                
             }
         }
 

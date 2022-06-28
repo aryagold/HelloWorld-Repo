@@ -13,7 +13,7 @@ import za.co.vzap.Interface.Repository.IRepository;
  *
  * @author macpe
  */
-public class CustomerRepositoryTest {// Categroy repository test works.
+public class CustomerRepositoryTest {// complete
     private IRepository customerDB;
 
     

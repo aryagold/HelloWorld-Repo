@@ -15,14 +15,14 @@ import za.co.vzap.Inventory.Model.ProductCategory;
  *
  * @author macpe
  */
-public class ProductCategoryRepositoryTest {//works
+public class ProductCategoryRepositoryTest {//complete
     
     private IRepository productCategoryRepository;
     private IRepository productDB;
     private IRepository categoryDB;
     
     @Test
-    public void testAdd() {
+    public void testAdd() {//done
         productCategoryRepository = new ProductCategoryRepository();
         productDB = new ProductRepository();
         categoryDB = new CategoryRepository();
@@ -42,7 +42,7 @@ public class ProductCategoryRepositoryTest {//works
 
    
     @Test
-    public void testUpdate() {
+    public void testUpdate() {//done
         productCategoryRepository = new ProductCategoryRepository();
         productDB = new ProductRepository();
         categoryDB = new CategoryRepository();

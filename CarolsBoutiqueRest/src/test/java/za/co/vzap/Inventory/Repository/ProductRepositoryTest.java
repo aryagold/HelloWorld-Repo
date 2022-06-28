@@ -13,12 +13,12 @@ import za.co.vzap.Inventory.Model.Product;
  *
  * @author macpe
  */
-public class ProductRepositoryTest {
+public class ProductRepositoryTest {//complete
     
     private IRepository productRepository;
    
     @Test
-    public void testAdd2() {
+    public void testAdd2() {//done
         
         productRepository = new ProductRepository();
         
@@ -32,7 +32,7 @@ public class ProductRepositoryTest {
 
    
     @Test
-    public void testUpdate() {
+    public void testUpdate() {//done
         
         productRepository = new ProductRepository();
         
@@ -49,7 +49,7 @@ public class ProductRepositoryTest {
     }
 
     @Test
-    public void testGetById_String() {
+    public void testGetById_String() {//done
         
         productRepository = new ProductRepository();
        

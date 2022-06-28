@@ -31,7 +31,7 @@ import za.co.vzap.User.Repository.UserRepository;
  *
  * @author macpe
  */
-public class SaleLineItemRepositoryTest {
+public class SaleLineItemRepositoryTest {//complete
     
     private IRepository saleLineItemRepository;
     private IRepository branchDB;
@@ -43,7 +43,7 @@ public class SaleLineItemRepositoryTest {
     private IRepository userDB;
     
     @Test
-    public void testAdd() {
+    public void testAdd() {//done
         saleLineItemRepository = new SaleLineItemRepository();
         branchDB = new BranchRepository();
         productDB = new ProductRepository();
@@ -78,7 +78,7 @@ public class SaleLineItemRepositoryTest {
 
     
     @Test
-    public void testUpdate() {
+    public void testUpdate() { // done
         
         saleLineItemRepository = new SaleLineItemRepository();
         branchDB = new BranchRepository();
@@ -106,11 +106,10 @@ public class SaleLineItemRepositoryTest {
         
         SaleLineItem saleLineItem = new SaleLineItem(saleID, invenID);
         
-        
         int ID = saleLineItemRepository.add(saleLineItem);
         
         saleLineItem.Id = ID;
-        saleLineItem.setInventoryId(1234);
+        saleLineItem.setInventoryId(184);
         
         Boolean result = saleLineItemRepository.update(saleLineItem);
         
@@ -120,7 +119,7 @@ public class SaleLineItemRepositoryTest {
 
     
     @Test
-    public void testGetById_int() {
+    public void testGetById_int() {//done
         
         saleLineItemRepository = new SaleLineItemRepository();
         branchDB = new BranchRepository();

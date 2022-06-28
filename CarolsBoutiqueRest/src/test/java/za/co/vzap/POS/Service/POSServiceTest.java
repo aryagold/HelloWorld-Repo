@@ -6,6 +6,7 @@ package za.co.vzap.POS.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -38,12 +39,17 @@ import za.co.vzap.User.Model.User;
 import za.co.vzap.User.Repository.UserRepository;
 import za.co.vzap.POS.Model.SaleDto;
 import za.co.vzap.Interface.Service.IPOSService;
+import za.co.vzap.POS.Model.IBT;
+import za.co.vzap.POS.Model.IBTStatusEnum;
+import za.co.vzap.POS.Model.IbtDto;
+import za.co.vzap.POS.Model.RefundDto;
+import za.co.vzap.POS.Model.RefundStatusEnum;
 
 /**
  *
  * @author macpe
  */
-public class POSServiceTest {
+public class POSServiceTest {// complete
     
         private IRepository productRepository;
         private IRepository saleRepository;
@@ -59,7 +65,7 @@ public class POSServiceTest {
         private IPOSService posService;
 
     @Test
-    public void testAddSale() {
+    public void testAddSale() {//done
        
         productRepository = new ProductRepository();
         saleRepository = new SaleRepository();
@@ -89,97 +95,9 @@ public class POSServiceTest {
         assertEquals( SaleDto.class , dto.getClass() );
         
     }
-
+    
     @Test
-    public void testVoidSale() {
-      
-        productRepository = new ProductRepository();
-        saleRepository = new SaleRepository();
-        refundRepository = new RefundRepository();
-        refundItemRepository = new RefundItemRepository();
-        inventoryRepository = new InventoryRepository();
-        saleLineItemRepository = new SaleLineItemRepository();
-        paymentRepository = new PaymentRepository();
-        sizeRepository = new SizeRepository();
-        ibtRepository = new IBTRepository();
-        branchRepository = new BranchRepository();
-        userRepository = new UserRepository();
-
-        posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
-
-        Branch branch = new Branch("Testbranch", 10000, 1000);
-        String branchId = branchRepository.add2(branch);
-        User user = new User("TestUser", "TestEmail", branchId, "TestPassword", RoleEnum.TELLER);
-        String userID = userRepository.add2(user);
-        Payment payment = new Payment(PaymentTypeEnum.CARD, "TestCard", true);
-        int paymentID = paymentRepository.add(payment);
-
-        Sale sale = new Sale(userID, "TestCustomerEmail", Timestamp.valueOf(LocalDateTime.now()), paymentID, SaleStatusEnum.NEW);
-        String saleID = saleRepository.add2(sale);
-        
-//        Boolean result = posService.voidSale(saleID);
-//        
-//        assertEquals( Boolean.class , result.getClass() );
-        
-    }
-
-    @Test
-    public void testAddSaleLineItem() throws Exception {
-        
-        productRepository = new ProductRepository();
-        saleRepository = new SaleRepository();
-        refundRepository = new RefundRepository();
-        refundItemRepository = new RefundItemRepository();
-        inventoryRepository = new InventoryRepository();
-        saleLineItemRepository = new SaleLineItemRepository();
-        paymentRepository = new PaymentRepository();
-        sizeRepository = new SizeRepository();
-        ibtRepository = new IBTRepository();
-        branchRepository = new BranchRepository();
-        userRepository = new UserRepository();
-
-        posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
-       
-//        SaleLineItemDto sliDto = new SaleLineItemDto();
-//        
-//        SaleLineItemDto result = posService.addSaleLineItem(sliDto);
-        
-    }
-
-    @Test
-    public void testCompleteSale() {
-
-        productRepository = new ProductRepository();
-        saleRepository = new SaleRepository();
-        refundRepository = new RefundRepository();
-        refundItemRepository = new RefundItemRepository();
-        inventoryRepository = new InventoryRepository();
-        saleLineItemRepository = new SaleLineItemRepository();
-        paymentRepository = new PaymentRepository();
-        sizeRepository = new SizeRepository();
-        ibtRepository = new IBTRepository();
-        branchRepository = new BranchRepository();
-        userRepository = new UserRepository();
-
-        posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
- 
-        Branch branch = new Branch("Testbranch", 10000, 1000);
-        String branchId = branchRepository.add2(branch);
-        User user = new User("TestUser", "TestEmail", branchId, "TestPassword", RoleEnum.TELLER);
-        String userID = userRepository.add2(user);
-        Payment payment = new Payment(PaymentTypeEnum.CARD, "TestCard", true);
-        int paymentID = paymentRepository.add(payment);
-        Sale sale = new Sale(userID, "TestCustomerEmail", Timestamp.valueOf(LocalDateTime.now()), paymentID, SaleStatusEnum.NEW);
-        String saleID = saleRepository.add2(sale);
-        
-//        Boolean result = posService.completeSale(payment, saleID);
-//        
-//        assertEquals( Boolean.class, result.getClass());
-        
-    }
-
-    @Test
-    public void testGetSaleLineItems() {
+    public void testGetSale(){//done
         
         productRepository = new ProductRepository();
         saleRepository = new SaleRepository();
@@ -195,199 +113,157 @@ public class POSServiceTest {
 
         posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
 
-        Branch branch = new Branch("Testbranch", 10000, 1000);
-        String branchId = branchRepository.add2(branch);
-        User user = new User("TestUser", "TestEmail", branchId, "TestPassword", RoleEnum.TELLER);
-        String userID = userRepository.add2(user);
-        Payment payment = new Payment(PaymentTypeEnum.CARD, "TestCard", true);
-        int paymentID = paymentRepository.add(payment);
-        Sale sale = new Sale(userID, "TestCustomerEmail", Timestamp.valueOf(LocalDateTime.now()), paymentID, SaleStatusEnum.NEW);
-        String saleID = saleRepository.add2(sale);
-
-//        List<SaleLineItemDto> result = posService.getSaleLineItems(saleID);
-//        
-//        assertEquals( List.class , result.getClass());
+        SaleDto result = posService.getSale("SL001");
         
-    }
-
-    @Test
-    public void testAddRefund() {
+        assertEquals( SaleDto.class , result.getClass() );
         
-        productRepository = new ProductRepository();
-        saleRepository = new SaleRepository();
-        refundRepository = new RefundRepository();
-        refundItemRepository = new RefundItemRepository();
-        inventoryRepository = new InventoryRepository();
-        saleLineItemRepository = new SaleLineItemRepository();
-        paymentRepository = new PaymentRepository();
-        sizeRepository = new SizeRepository();
-        ibtRepository = new IBTRepository();
-        branchRepository = new BranchRepository();
-        userRepository = new UserRepository();
-
-        posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
-
-        Branch branch = new Branch("Testbranch", 10000, 1000);
-        String branchId = branchRepository.add2(branch);
-        User user = new User("TestUser", "TestEmail", branchId, "TestPassword", RoleEnum.TELLER);
-        String userID = userRepository.add2(user);
-        Payment payment = new Payment(PaymentTypeEnum.CARD, "TestCard", true);
-        int paymentID = paymentRepository.add(payment);
-        Sale sale = new Sale(userID, "TestCustomerEmail", Timestamp.valueOf(LocalDateTime.now()), paymentID, SaleStatusEnum.NEW);
-        String saleID = saleRepository.add2(sale);
-
-//        Refund refund = new Refund(saleID, Timestamp.valueOf(LocalDateTime.now()));
-//
-//        Integer result = posService.addRefund(refund);
-//        
-//        assertEquals( Integer.class , result.getClass() );
-        
-    }
-
-    @Test
-    public void testAddRefundItem() {
-       
-        productRepository = new ProductRepository();
-        saleRepository = new SaleRepository();
-        refundRepository = new RefundRepository();
-        refundItemRepository = new RefundItemRepository();
-        inventoryRepository = new InventoryRepository();
-        saleLineItemRepository = new SaleLineItemRepository();
-        paymentRepository = new PaymentRepository();
-        sizeRepository = new SizeRepository();
-        ibtRepository = new IBTRepository();
-        branchRepository = new BranchRepository();
-        userRepository = new UserRepository();
-
-        posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
-
-       RefundItemDto rid = new RefundItemDto();
-       
-//       RefundItemDto result = posService.addRefundItem(rid);
-//       
-//        assertEquals( RefundItemDto.class , result.getClass() );
-        
-    }
-
-    @Test
-    public void testDeleteSaleLineItem() {
-        
-        productRepository = new ProductRepository();
-        saleRepository = new SaleRepository();
-        refundRepository = new RefundRepository();
-        refundItemRepository = new RefundItemRepository();
-        inventoryRepository = new InventoryRepository();
-        saleLineItemRepository = new SaleLineItemRepository();
-        paymentRepository = new PaymentRepository();
-        sizeRepository = new SizeRepository();
-        ibtRepository = new IBTRepository();
-        branchRepository = new BranchRepository();
-        userRepository = new UserRepository();
-
-        posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
-
-        Branch branch = new Branch("Testbranch", 10000, 1000);
-        String branchId = branchRepository.add2(branch);
-        User user = new User("TestUser", "TestEmail", branchId, "TestPassword", RoleEnum.TELLER);
-        String userID = userRepository.add2(user);
-        Payment payment = new Payment(PaymentTypeEnum.CARD, "TestCard", true);
-        int paymentID = paymentRepository.add(payment);
-        Sale sale = new Sale(userID, "TestCustomerEmail", Timestamp.valueOf(LocalDateTime.now()), paymentID, SaleStatusEnum.NEW);
-        String saleID = saleRepository.add2(sale);
-        
-        Product product = new Product("TestProduct", 50);
-        String productID = productRepository.add2(product);
-        Size size = new Size("Large");
-        int sizeID = sizeRepository.add(size);
-        Inventory inven = new Inventory(branchId, sizeID, productID, "Testbracode" , 50 );
-        int inventoryID = inventoryRepository.add(inven);
-        
-        SaleLineItem sli = new SaleLineItem(saleID, inventoryID);
-        int sliID = saleLineItemRepository.add(sli);
-        
-//        Boolean result = posService.deleteSaleLineItem(sliID);
-//        
-//        assertEquals( Boolean.class , result.getClass() );
-        
-    }
-
-    @Test
-    public void testReserveSale() {
-        
-        productRepository = new ProductRepository();
-        saleRepository = new SaleRepository();
-        refundRepository = new RefundRepository();
-        refundItemRepository = new RefundItemRepository();
-        inventoryRepository = new InventoryRepository();
-        saleLineItemRepository = new SaleLineItemRepository();
-        paymentRepository = new PaymentRepository();
-        sizeRepository = new SizeRepository();
-        ibtRepository = new IBTRepository();
-        branchRepository = new BranchRepository();
-        userRepository = new UserRepository();
-
-        posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
-
-        Branch branch = new Branch("Testbranch", 10000, 1000);
-        String branchId = branchRepository.add2(branch);
-        User user = new User("TestUser", "TestEmail", branchId, "TestPassword", RoleEnum.TELLER);
-        String userID = userRepository.add2(user);
-        Payment payment = new Payment(PaymentTypeEnum.CARD, "TestCard", true);
-        int paymentID = paymentRepository.add(payment);
-        Sale sale = new Sale(userID, "TestCustomerEmail", Timestamp.valueOf(LocalDateTime.now()), paymentID, SaleStatusEnum.NEW);
-        String saleID = saleRepository.add2(sale);
-        
-//        Boolean result = posService.reserveSale(saleID);
-//        
-//        assertEquals( Boolean.class , result.getClass() );
-        
-    }
-
-    @Test
-    public void testRequestIBT() {
-        
-        productRepository = new ProductRepository();
-        saleRepository = new SaleRepository();
-        refundRepository = new RefundRepository();
-        refundItemRepository = new RefundItemRepository();
-        inventoryRepository = new InventoryRepository();
-        saleLineItemRepository = new SaleLineItemRepository();
-        paymentRepository = new PaymentRepository();
-        sizeRepository = new SizeRepository();
-        ibtRepository = new IBTRepository();
-        branchRepository = new BranchRepository();
-        userRepository = new UserRepository();
-
-        posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
-
-        Branch branch = new Branch("Testbranch", 10000, 1000);
-        String branchId = branchRepository.add2(branch);
-       
-        InventoryDto dto = new InventoryDto();
-        
-        //this method needs a return type 
-        // suggestion is an If statement int the request IBT method.
-        
-    }
-
-    @Test
-    public void testAcceptIBT() {
-       //needs a return type.
-    }
-
-    @Test
-    public void testDeclineIBT() {
-      //needs a return type
-    }
-
-    @Test
-    public void testIBTReceived() {
-       //return type needed
-    }
-
-    @Test
-    public void testPayIBT() {
-       //needs return type
     }
     
+    @Test
+    public void testGetRefund(){//done
+        
+        productRepository = new ProductRepository();
+        saleRepository = new SaleRepository();
+        refundRepository = new RefundRepository();
+        refundItemRepository = new RefundItemRepository();
+        inventoryRepository = new InventoryRepository();
+        saleLineItemRepository = new SaleLineItemRepository();
+        paymentRepository = new PaymentRepository();
+        sizeRepository = new SizeRepository();
+        ibtRepository = new IBTRepository();
+        branchRepository = new BranchRepository();
+        userRepository = new UserRepository();
+
+        posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
+
+        RefundDto result = posService.getRefund(1);
+        
+        assertEquals( RefundDto.class , result.getClass() );
+        
+    }
+    
+    @Test
+    public void testAddIbt(){//done
+        
+        productRepository = new ProductRepository();
+        saleRepository = new SaleRepository();
+        refundRepository = new RefundRepository();
+        refundItemRepository = new RefundItemRepository();
+        inventoryRepository = new InventoryRepository();
+        saleLineItemRepository = new SaleLineItemRepository();
+        paymentRepository = new PaymentRepository();
+        sizeRepository = new SizeRepository();
+        ibtRepository = new IBTRepository();
+        branchRepository = new BranchRepository();
+        userRepository = new UserRepository();
+
+        posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
+
+        IBT ibt = new IBT(61, "BR003" , 10 , "TestPhoneNumber","TestEmail", IBTStatusEnum.REQUESTED);
+        IbtDto ibtDto = PosMapper.toIbtDto(ibt);
+        
+        IbtDto result = posService.addIbt(ibtDto);
+        
+        assertEquals( IbtDto.class , result.getClass() );
+        
+    }
+    
+    @Test
+    public void testUpdateIbt(){ //done
+        
+        productRepository = new ProductRepository();
+        saleRepository = new SaleRepository();
+        refundRepository = new RefundRepository();
+        refundItemRepository = new RefundItemRepository();
+        inventoryRepository = new InventoryRepository();
+        saleLineItemRepository = new SaleLineItemRepository();
+        paymentRepository = new PaymentRepository();
+        sizeRepository = new SizeRepository();
+        ibtRepository = new IBTRepository();
+        branchRepository = new BranchRepository();
+        userRepository = new UserRepository();
+
+        posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
+
+        IBT ibt = new IBT(61, "BR003", 10, "TestPhoneNumber", "TestEmail", IBTStatusEnum.REQUESTED);
+        
+        IbtDto ibtDto = posService.addIbt(PosMapper.toIbtDto(ibt));
+        ibtDto.status = IBTStatusEnum.REQUESTED;
+        
+        IbtDto result = posService.updateIbt(ibtDto);
+        
+        assertEquals( IbtDto.class , result.getClass() );
+        
+    }
+    
+    @Test
+    public void testListIbt(){//done
+        
+        productRepository = new ProductRepository();
+        saleRepository = new SaleRepository();
+        refundRepository = new RefundRepository();
+        refundItemRepository = new RefundItemRepository();
+        inventoryRepository = new InventoryRepository();
+        saleLineItemRepository = new SaleLineItemRepository();
+        paymentRepository = new PaymentRepository();
+        sizeRepository = new SizeRepository();
+        ibtRepository = new IBTRepository();
+        branchRepository = new BranchRepository();
+        userRepository = new UserRepository();
+
+        posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
+  
+        List<IbtDto> result = posService.listIbt( "US001" , 1 );
+        
+        assertEquals( ArrayList.class , result.getClass());
+        
+    }
+    
+    @Test
+    public void testGetReserved(){//done
+        
+        productRepository = new ProductRepository();
+        saleRepository = new SaleRepository();
+        refundRepository = new RefundRepository();
+        refundItemRepository = new RefundItemRepository();
+        inventoryRepository = new InventoryRepository();
+        saleLineItemRepository = new SaleLineItemRepository();
+        paymentRepository = new PaymentRepository();
+        sizeRepository = new SizeRepository();
+        ibtRepository = new IBTRepository();
+        branchRepository = new BranchRepository();
+        userRepository = new UserRepository();
+
+        posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
+
+        List<SaleDto> result = posService.getReserved();
+        
+        assertEquals( ArrayList.class , result.getClass() );
+        
+    }
+
+    @Test
+    public void testAddRefund() {//done
+        
+        productRepository = new ProductRepository();
+        saleRepository = new SaleRepository();
+        refundRepository = new RefundRepository();
+        refundItemRepository = new RefundItemRepository();
+        inventoryRepository = new InventoryRepository();
+        saleLineItemRepository = new SaleLineItemRepository();
+        paymentRepository = new PaymentRepository();
+        sizeRepository = new SizeRepository();
+        ibtRepository = new IBTRepository();
+        branchRepository = new BranchRepository();
+        userRepository = new UserRepository();
+
+        posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
+
+        Refund refund = new Refund( "SL006" , Timestamp.valueOf(LocalDateTime.now()) , RefundStatusEnum.NEW);
+
+        RefundDto result = posService.addRefund(PosMapper.toRefundDto(refund));
+        
+        assertEquals( RefundDto.class , result.getClass() );
+        
+    }
 }
