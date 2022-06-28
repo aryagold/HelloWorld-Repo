@@ -49,8 +49,8 @@ public class ReportRestController {
     @GET
     @Path("storesattarget")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getStoresAtTarget() {
-        return Response.status(Response.Status.OK).entity(reportService.storesAtTarget()).build();
+    public Response getStoresAtTarget(@QueryParam("month")String month) {
+        return Response.status(Response.Status.OK).entity(reportService.storesAtTarget(month)).build();
     }
     
     @GET
@@ -82,9 +82,14 @@ public class ReportRestController {
     }
     
     @GET
-    @Path("downloadreport")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response downloadReport(StatementDto dto) {
-        return Response.status(Response.Status.OK).entity(reportService.downloadCurrentReport(dto)).build();
+    @Path("topachievingstores/download")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response downloadTopStoresReport() {
+       
+        return Response
+                .status(Response.Status.OK)
+                .header("Content-Disposition", "attachment; filename=\"report.pdf\"")
+                .entity(reportService.downloadTopStoresReport())
+                .build();
     }
 }

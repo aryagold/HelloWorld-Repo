@@ -2,10 +2,12 @@ package za.co.vzap.Report.Service;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 
 import java.sql.Connection;
@@ -286,7 +288,7 @@ public class ReportService implements IReportService {
     }
     
     @Override
-    public StoresAtTargetDto storesAtTarget() {
+    public StoresAtTargetDto storesAtTarget(String month) {
         StoresAtTargetDto dto = new StoresAtTargetDto();
         dto.title = "Stores At Target";
 
@@ -297,6 +299,7 @@ public class ReportService implements IReportService {
                 + "join inventory on salelineitem.inventoryId = inventory.id\n"
                 + "join product on inventory.productId = product.id\n"
                 + "join branch on inventory.branchId = branch.id\n"
+                + "where MONTHNAME(sale.date) = '" + month + "' "
                 + "group by branch.id, branch.name, branch.monthlyTarget\n"
                 + "having total >= branch.monthlyTarget\n"
                 + "order by total desc";
@@ -463,8 +466,8 @@ public class ReportService implements IReportService {
     @Override
     public String downloadCurrentReport(StatementDto dto) {
         try {
-            Statement stmt = con.createStatement();
-            ResultSet query_set = stmt.executeQuery(dto.content);
+//            Statement stmt = con.createStatement();
+//            ResultSet query_set = stmt.executeQuery(dto.content);
            
             Document my_pdf_report = new Document();
             
@@ -482,20 +485,20 @@ public class ReportService implements IReportService {
             PdfPTable my_report_table = new PdfPTable(4);
             PdfPCell table_cell;
             
-            while (query_set.next()) {
-                String dept_id = query_set.getString("name");
-                table_cell = new PdfPCell(new Phrase(dept_id));
+//            while (query_set.next()) {
+//                String dept_id = query_set.getString("name");
+                table_cell = new PdfPCell(new Phrase("Branch Name"));
                 my_report_table.addCell(table_cell);
-                String dept_name = query_set.getString("surname");
-                table_cell = new PdfPCell(new Phrase(dept_name));
+//                String dept_name = query_set.getString("surname");
+                table_cell = new PdfPCell(new Phrase("Branch Sale"));
                 my_report_table.addCell(table_cell);
-                int manager_id = query_set.getInt("id");
-                table_cell = new PdfPCell(new Phrase(String.valueOf(manager_id)));
+//                int manager_id = query_set.getInt("id");
+                table_cell = new PdfPCell(new Phrase("Employee Name"));
                 my_report_table.addCell(table_cell);
-                int location_id = query_set.getInt("phonenumber");
-                table_cell = new PdfPCell(new Phrase(String.valueOf(location_id)));
+//                int location_id = query_set.getInt("phonenumber");
+                table_cell = new PdfPCell(new Phrase("Employee Number"));
                 my_report_table.addCell(table_cell);
-            }
+//            }
             
             try {
                 my_pdf_report.add(my_report_table);
@@ -504,8 +507,8 @@ public class ReportService implements IReportService {
             }
             my_pdf_report.close();
             
-            query_set.close();
-            stmt.close();
+//            query_set.close();
+//            stmt.close();
             con.close();
             
             
@@ -514,6 +517,40 @@ public class ReportService implements IReportService {
         }
         
         return "Download successful.";
+    }
+    
+    public byte[] downloadTopStoresReport() {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        TopAchievingStoresDto dto = this.topAchievingStores();
+        
+        try {
+            Document document = new Document(PageSize.LETTER, 0.75F, 0.75F, 0.75F, 0.75F);
+            PdfWriter.getInstance(document, byteArrayOutputStream);  // Do this BEFORE document.open()
+            
+            document.open();
+            
+            document.addTitle(dto.title);
+          
+            PdfPTable table = new PdfPTable(2);
+            table.addCell("Store Name");
+            table.addCell("Total Sales");
+            
+            for(ItemAmount storeSale : dto.storeSales) {
+                table.addCell(new PdfPCell(new Phrase(storeSale.description)));
+                table.addCell(new PdfPCell(new Phrase(String.valueOf(storeSale.amount))));
+            }
+            
+            document.add(table);
+            
+            document.close();
+            
+            
+        } catch (DocumentException ex) {
+            Logger.getLogger(ReportService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return byteArrayOutputStream.toByteArray();
     }
 
 }

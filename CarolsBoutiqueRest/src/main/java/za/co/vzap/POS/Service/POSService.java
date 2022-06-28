@@ -1,14 +1,20 @@
 package za.co.vzap.POS.Service;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.stream.XMLStreamException;
 import za.co.vzap.Branch.Model.Branch;
 import za.co.vzap.Branch.Repository.BranchRepository;
 import za.co.vzap.Communication.Email.Email;
 import za.co.vzap.Communication.Model.CommunicationDto;
 import za.co.vzap.Communication.Model.EmailTypeEnum;
+import za.co.vzap.Communication.SMS.SMSController;
 import za.co.vzap.Interface.Repository.IRepository;
 import za.co.vzap.Inventory.Model.Inventory;
 import za.co.vzap.Inventory.Repository.InventoryRepository;
@@ -195,10 +201,6 @@ public class POSService implements IPOSService {
         
         ibtRepository.update(ibt);
         
-        if(ibt.getStatus() == IBTStatusEnum.RECEIVED){
-            sendIbtNotification(dto);
-        }
-           
         return PosMapper.toIbtDto(ibt);
     }
     
@@ -206,6 +208,11 @@ public class POSService implements IPOSService {
     public void updateIbtStatus(IbtDto dto) {
         IBT ibt = (IBT) ibtRepository.getById(dto.Id);
         ibt.setStatus(dto.status);
+        dto = PosMapper.toIbtDto(ibt);
+        
+        if (ibt.getStatus() == IBTStatusEnum.RECEIVED) {
+            sendIbtNotification(dto);
+        }
         
         ibtRepository.update(ibt);
     }
@@ -276,7 +283,15 @@ public class POSService implements IPOSService {
     }
 
     private void sendIbtNotification(IbtDto dto) {
-        // sms stuff goes here
+        SMSController sms;
+        sms = new SMSController();
+        
+        try {
+            sms.writeToXML("Branch Transfer request for request #" + dto.Id + " has been delivered at store " + dto.branchNameTo + ". Please use reference number upon collection.", dto.phoneNumber, LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYY/MM/DD , HH:MM:SS")));
+            sms.sendSms();
+        } catch (IOException | XMLStreamException ex) {
+            Logger.getLogger(POSService.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

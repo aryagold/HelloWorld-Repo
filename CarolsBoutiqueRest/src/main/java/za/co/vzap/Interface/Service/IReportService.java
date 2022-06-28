@@ -20,7 +20,7 @@ public interface IReportService {
     
     TopEmployeesDto topSellingEmployees(String branchId);
     
-    StoresAtTargetDto storesAtTarget();
+    StoresAtTargetDto storesAtTarget(String month);
     
     TopFourtyProductsDto getTop40Products();
     
@@ -31,4 +31,6 @@ public interface IReportService {
     StoreSalesDto storeDailySales(String branchId);
     
     String downloadCurrentReport(StatementDto dto);
+    
+    byte[] downloadTopStoresReport();
 }

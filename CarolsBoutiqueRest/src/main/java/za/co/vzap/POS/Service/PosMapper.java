@@ -177,6 +177,7 @@ public class PosMapper {
         dto.phoneNumber = ibt.getPhoneNumber();
         dto.emailAddress = ibt.getEmailAddress();
         dto.quantity = ibt.getQuantity();
+        dto.status = ibt.getStatus();
         dto.statusName = ibt.getStatus().name();
 
         Inventory inventoryFrom = (Inventory) inventoryRepository.getById(ibt.getInventoryIdFrom());
