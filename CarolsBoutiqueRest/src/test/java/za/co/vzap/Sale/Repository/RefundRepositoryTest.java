@@ -34,7 +34,7 @@ public class RefundRepositoryTest { // throws sql exception
     private IRepository branchDB;
     
     @Test
-    public void testAdd() {// works
+    public void testAdd() {//done
         
         refundRepository = new RefundRepository();
         saleDB = new SaleRepository();
@@ -61,7 +61,7 @@ public class RefundRepositoryTest { // throws sql exception
 
     
     @Test
-    public void testUpdate() { // works
+    public void testUpdate() {//done
         refundRepository = new RefundRepository();
         saleDB = new SaleRepository();
         paymentDB = new PaymentRepository();
@@ -92,7 +92,7 @@ public class RefundRepositoryTest { // throws sql exception
 
     
     @Test
-    public void testGetById_int() {//works
+    public void testGetById_int() {//done
         refundRepository = new RefundRepository();
         saleDB = new SaleRepository();
         paymentDB = new PaymentRepository();

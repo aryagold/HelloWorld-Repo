@@ -31,13 +31,9 @@ public class CategoryRepository extends RepositoryBase<Category> {
                 e.printStackTrace();
             }
             finally {
-                if(ps != null) {
-                    try {
-                        ps.close();
-                    } catch(SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+                
+                closeStreams(rs, ps);
+                
             }
         }
         
@@ -58,13 +54,9 @@ public class CategoryRepository extends RepositoryBase<Category> {
                 e.printStackTrace();
             }
             finally {
-                if(ps != null) {
-                    try {
-                        ps.close();
-                    } catch(SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+                
+                closeStreams(rs, ps);
+                
             }
         }
         
@@ -99,13 +91,9 @@ public class CategoryRepository extends RepositoryBase<Category> {
                 e.printStackTrace();
             }
             finally {
-                if(ps != null) {
-                    try {
-                        ps.close();
-                    } catch(SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+                
+                closeStreams(rs, ps);
+                
             }
         }
 
@@ -138,13 +126,9 @@ public class CategoryRepository extends RepositoryBase<Category> {
                 e.printStackTrace();
             }
             finally {
-                if(ps != null) {
-                    try {
-                        ps.close();
-                    } catch(SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+               
+                closeStreams(rs, ps);
+                
             }
         }
 

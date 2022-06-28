@@ -18,7 +18,7 @@ public class SizeRepositoryTest {//complete
     private IRepository sizeRepository;
    
     @Test
-    public void testAdd() {
+    public void testAdd() {//done
         sizeRepository = new SizeRepository();
         
         Size size = new Size("TestSize");
@@ -31,7 +31,7 @@ public class SizeRepositoryTest {//complete
 
    
     @Test
-    public void testUpdate() {
+    public void testUpdate() {//done
         sizeRepository = new SizeRepository();
         
         Size size =  new Size("TestSize");
@@ -48,7 +48,7 @@ public class SizeRepositoryTest {//complete
 
     
     @Test
-    public void testGetById_int() {
+    public void testGetById_int() {//done
         sizeRepository = new SizeRepository();
         
         Size size =  new Size("TestSize");

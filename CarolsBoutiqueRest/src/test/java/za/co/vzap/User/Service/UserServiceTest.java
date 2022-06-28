@@ -69,7 +69,7 @@ public class UserServiceTest {//complete
     }
 
     @Test
-    public void testLogin() {
+    public void testLogin() {//done
         
         userRepository = new UserRepository();
         branchRepository = new BranchRepository();

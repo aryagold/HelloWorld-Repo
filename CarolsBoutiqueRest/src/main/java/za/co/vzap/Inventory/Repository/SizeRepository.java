@@ -33,13 +33,9 @@ public class SizeRepository extends RepositoryBase<Size> {
                 e.printStackTrace();
             }
             finally {
-                if(ps != null) {
-                    try {
-                        ps.close();
-                    } catch(SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+                
+                closeStreams(rs, ps);
+                
             }
         }
         
@@ -60,13 +56,9 @@ public class SizeRepository extends RepositoryBase<Size> {
                 e.printStackTrace();
             }
             finally {
-                if(ps != null) {
-                    try {
-                        ps.close();
-                    } catch(SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+                
+                closeStreams(rs, ps);
+                
             }
         }
         
@@ -94,13 +86,9 @@ public class SizeRepository extends RepositoryBase<Size> {
                         e.printStackTrace();
                 }
                 finally {
-                    if(ps != null) {
-                        try {
-                            ps.close();
-                        } catch(SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                    
+                    closeStreams(rs, ps);
+                    
                 }
             }
     
@@ -140,13 +128,7 @@ public class SizeRepository extends RepositoryBase<Size> {
             }
             
             finally {
-                if(ps != null) {
-                    try {
-                        ps.close();
-                    } catch(SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+                closeStreams(rs, ps);
             }
         }
 

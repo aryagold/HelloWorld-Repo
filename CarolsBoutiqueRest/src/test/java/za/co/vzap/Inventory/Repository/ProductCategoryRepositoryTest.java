@@ -22,7 +22,7 @@ public class ProductCategoryRepositoryTest {//complete
     private IRepository categoryDB;
     
     @Test
-    public void testAdd() {
+    public void testAdd() {//done
         productCategoryRepository = new ProductCategoryRepository();
         productDB = new ProductRepository();
         categoryDB = new CategoryRepository();
@@ -42,7 +42,7 @@ public class ProductCategoryRepositoryTest {//complete
 
    
     @Test
-    public void testUpdate() {
+    public void testUpdate() {//done
         productCategoryRepository = new ProductCategoryRepository();
         productDB = new ProductRepository();
         categoryDB = new CategoryRepository();

@@ -21,7 +21,7 @@ import za.co.vzap.Interface.Service.ICustomerService;
  *
  * @author macpe
  */
-public class CustomerServiceTest {
+public class CustomerServiceTest {//complete
     
     private ICustomerService customerService;
     private IRepository reviewRepository;
@@ -29,7 +29,7 @@ public class CustomerServiceTest {
     private IRepository branchDB;
  
     @Test
-    public void testAddCustomer() {//complete
+    public void testAddCustomer() {//done
         
         reviewRepository = new ReviewRepository();
         customerRepository = new CustomerRepository();
@@ -44,7 +44,7 @@ public class CustomerServiceTest {
     }
    
     @Test
-    public void testAddReview() {
+    public void testAddReview() {//done
       
        reviewRepository = new ReviewRepository();
        customerRepository = new CustomerRepository(); 

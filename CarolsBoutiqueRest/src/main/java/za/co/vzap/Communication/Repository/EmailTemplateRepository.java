@@ -1,8 +1,13 @@
 package za.co.vzap.Communication.Repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import za.co.vzap.Communication.Model.EmailTemplate;
 import za.co.vzap.Communication.Model.EmailTypeEnum;
 import za.co.vzap.Interface.Repository.RepositoryBase;
@@ -41,13 +46,9 @@ public class EmailTemplateRepository extends RepositoryBase<EmailTemplate> {
                 e.printStackTrace();
             }
             finally {
-                if(ps != null) {
-                    try {
-                        ps.close();
-                    } catch(SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+                
+                closeStreams(rs, ps);
+                
             }
         }
 
@@ -94,13 +95,9 @@ public class EmailTemplateRepository extends RepositoryBase<EmailTemplate> {
                 e.printStackTrace();
             }
             finally {
-                if(ps != null) {
-                    try {
-                        ps.close();
-                    } catch(SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+                
+                closeStreams(rs, ps);
+                
             }
         }
 
@@ -110,6 +107,6 @@ public class EmailTemplateRepository extends RepositoryBase<EmailTemplate> {
     @Override
     public EmailTemplate getById(String arg0) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    }    
     
 }

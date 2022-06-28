@@ -19,7 +19,7 @@ public class IBTRepositoryTest {// complete
     private IRepository ibtRepository;
     
     @Test
-    public void testAdd() {
+    public void testAdd() {//done
         ibtRepository = new IBTRepository();
         
         IBT ibt = new IBT(61, "BR005" , 10 , "TestPhoneNumner" , "TestEmail" , IBTStatusEnum.REQUESTED);
@@ -32,7 +32,7 @@ public class IBTRepositoryTest {// complete
 
    
     @Test
-    public void testUpdate() {
+    public void testUpdate() {//done
         ibtRepository = new IBTRepository();
         
         IBT ibt = new IBT(61, "BR005", 10, "TestPhoneNumner", "TestEmail", IBTStatusEnum.REQUESTED);
@@ -50,7 +50,7 @@ public class IBTRepositoryTest {// complete
 
     
     @Test
-    public void testGetById_int() {
+    public void testGetById_int() {//done
         ibtRepository = new IBTRepository();
         
         IBT ibt = new IBT(61, "BR005", 10, "TestPhoneNumner", "TestEmail", IBTStatusEnum.REQUESTED);

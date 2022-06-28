@@ -6,6 +6,7 @@ package za.co.vzap.Branch.Repository;
 
 import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.BeforeAll;
 import za.co.vzap.Branch.Model.Branch;
 import za.co.vzap.Interface.Repository.IRepository;
 
@@ -17,7 +18,6 @@ public class BranchRepositoryTest {// branch complete
     private IRepository br;
   
     @Test
-
     public void testAdd2() {// works
         System.out.println("add");
         br = new BranchRepository();

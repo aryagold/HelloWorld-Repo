@@ -32,7 +32,7 @@ public class SaleRepositoryTest {// complete
     private IRepository branchDB;
     
     @Test
-    public void test2Add() {// works
+    public void test2Add() {// done
         saleRepository = new SaleRepository();
         paymentDB = new PaymentRepository();
         userDB = new UserRepository();
@@ -54,7 +54,7 @@ public class SaleRepositoryTest {// complete
 
     @Test
 
-    public void testUpdate() {// works
+    public void testUpdate() {// done
         
         saleRepository = new SaleRepository();
         paymentDB = new PaymentRepository();
@@ -82,7 +82,7 @@ public class SaleRepositoryTest {// complete
     }
 
     @Test
-    public void testGetById_String() {
+    public void testGetById_String() {//done
         
         saleRepository = new SaleRepository();
         paymentDB = new PaymentRepository();

@@ -20,7 +20,7 @@ import za.co.vzap.Report.Model.TopEmployeesDto;
  *
  * @author macpe
  */
-public class ReportServiceTest {// 2 tests incomplete as service is imcomplete.
+public class ReportServiceTest {// 2 tests incomplete as service is incomplete.
     
     private IReportService reportService;
     
@@ -110,19 +110,6 @@ public class ReportServiceTest {// 2 tests incomplete as service is imcomplete.
         StoreSalesDto result = reportService.storeDailySales("BR001");
         
         assertEquals(StoreSalesDto.class, result.getClass());
-        
-    }
-    
-    @Test
-    public void testDownloadCurrentReport(){
-        
-        reportService = new ReportService();
-        
-        StatementDto dto = new StatementDto();
-        
-        String result = reportService.downloadCurrentReport(dto);
-        
-        assertEquals(String.class, result.getClass());
         
     }
     

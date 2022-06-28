@@ -47,6 +47,10 @@ public class ReviewRepository extends RepositoryBase<Review> {
         } catch (SQLException e) {
             System.out.println("SQLException thrown in the Review Repository class in the add(Review review) method.");
             throw new RuntimeException(e);
+        }finally{
+            
+            closeStreams(rs, ps);
+            
         }
         
         return review.Id;
@@ -72,6 +76,10 @@ public class ReviewRepository extends RepositoryBase<Review> {
         } catch (SQLException e) {
             System.out.println("SQLException thrown in the Review Repository class at the update(Review review) method.");
             throw new RuntimeException(e);
+        }finally{
+            
+            closeStreams(rs, ps);
+            
         }
         
         return rowsAffected == 1;
@@ -105,7 +113,12 @@ public class ReviewRepository extends RepositoryBase<Review> {
         } catch (SQLException e) {
             System.out.println("SQLException thrown in the Review Repository class at the getById(int Id) method");
             throw new RuntimeException(e);
+        }finally{
+            
+            closeStreams(rs, ps);
+            
         }
+        
 
         return review;
     }
@@ -153,13 +166,9 @@ public class ReviewRepository extends RepositoryBase<Review> {
                 e.printStackTrace();
             }
             finally {
-                if(ps != null) {
-                    try {
-                        ps.close();
-                    } catch(SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+                
+                closeStreams(rs, ps);
+                
             }
         }
 

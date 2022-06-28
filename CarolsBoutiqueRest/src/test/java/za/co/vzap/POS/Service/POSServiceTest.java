@@ -49,7 +49,7 @@ import za.co.vzap.POS.Model.RefundStatusEnum;
  *
  * @author macpe
  */
-public class POSServiceTest {// 3 tests throw null pointers.
+public class POSServiceTest {// complete
     
         private IRepository productRepository;
         private IRepository saleRepository;
@@ -120,7 +120,7 @@ public class POSServiceTest {// 3 tests throw null pointers.
     }
     
     @Test
-    public void testGetRefund(){// getRefund throws a null pointer at line 146
+    public void testGetRefund(){//done
         
         productRepository = new ProductRepository();
         saleRepository = new SaleRepository();
@@ -169,7 +169,7 @@ public class POSServiceTest {// 3 tests throw null pointers.
     }
     
     @Test
-    public void testUpdateIbt(){// throws null pointer at line 196
+    public void testUpdateIbt(){ //done
         
         productRepository = new ProductRepository();
         saleRepository = new SaleRepository();
@@ -188,6 +188,7 @@ public class POSServiceTest {// 3 tests throw null pointers.
         IBT ibt = new IBT(61, "BR003", 10, "TestPhoneNumber", "TestEmail", IBTStatusEnum.REQUESTED);
         
         IbtDto ibtDto = posService.addIbt(PosMapper.toIbtDto(ibt));
+        ibtDto.status = IBTStatusEnum.REQUESTED;
         
         IbtDto result = posService.updateIbt(ibtDto);
         
@@ -242,7 +243,7 @@ public class POSServiceTest {// 3 tests throw null pointers.
     }
 
     @Test
-    public void testAddRefund() {//add refund throws a null pointer at line 146 and 134
+    public void testAddRefund() {//done
         
         productRepository = new ProductRepository();
         saleRepository = new SaleRepository();
@@ -258,7 +259,7 @@ public class POSServiceTest {// 3 tests throw null pointers.
 
         posService = new POSService(productRepository, saleRepository, refundRepository, refundItemRepository, inventoryRepository, saleLineItemRepository, paymentRepository, sizeRepository, ibtRepository, branchRepository, userRepository);
 
-        Refund refund = new Refund( "SL004" , Timestamp.valueOf(LocalDateTime.now()) , RefundStatusEnum.NEW);
+        Refund refund = new Refund( "SL006" , Timestamp.valueOf(LocalDateTime.now()) , RefundStatusEnum.NEW);
 
         RefundDto result = posService.addRefund(PosMapper.toRefundDto(refund));
         

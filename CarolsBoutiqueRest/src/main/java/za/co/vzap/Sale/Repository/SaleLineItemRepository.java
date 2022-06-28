@@ -36,13 +36,9 @@ public class SaleLineItemRepository extends RepositoryBase<SaleLineItem> {
                 e.printStackTrace();
             }
             finally {
-                if(ps != null) {
-                    try {
-                        ps.close();
-                    } catch(SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+                
+                closeStreams(rs, ps);
+                
             }
         }
 
@@ -64,13 +60,9 @@ public class SaleLineItemRepository extends RepositoryBase<SaleLineItem> {
                 e.printStackTrace();
             }
             finally {
-                if(ps != null) {
-                    try {
-                        ps.close();
-                    } catch(SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+                
+                closeStreams(rs, ps);
+                
             }
         }
 
@@ -100,13 +92,9 @@ public class SaleLineItemRepository extends RepositoryBase<SaleLineItem> {
                 e.printStackTrace();
             }
             finally {
-                if(ps != null) {
-                    try {
-                        ps.close();
-                    } catch(SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+                
+                closeStreams(rs, ps);
+
             }
         }
 
@@ -144,13 +132,9 @@ public class SaleLineItemRepository extends RepositoryBase<SaleLineItem> {
                 e.printStackTrace();
             }
             finally {
-                if(ps != null) {
-                    try {
-                        ps.close();
-                    } catch(SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+                
+                closeStreams(rs, ps);
+                
             }
         }
 
