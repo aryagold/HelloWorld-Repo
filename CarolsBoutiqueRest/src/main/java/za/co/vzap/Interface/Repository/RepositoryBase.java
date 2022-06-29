@@ -22,17 +22,15 @@ public abstract class RepositoryBase<IEntity> implements IRepository<IEntity> {
         this.prop = new Properties();
 
         try {
-//            prop.load(new FileInputStream("MySQL.properties"));
 
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+            DataBasePropertyReader pr = new DataBasePropertyReader();
 
-        try {
-            this.con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/carolsboutique?useSSL=false", "root", "root");
-        } catch (SQLException e) {
-            e.printStackTrace();
+            Class.forName(pr.getDriver());
+
+            this.con = DriverManager.getConnection(pr.getDataBase(), pr.getUserName(), pr.getPassword());
+
+        } catch (Exception ex) {
+            Logger.getLogger(RepositoryBase.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

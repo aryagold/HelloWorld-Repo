@@ -41,12 +41,7 @@ public class UserServiceTest {//complete
         
         userService = new UserService(userRepository, branchRepository);
         
-        Branch branch = new Branch("TestBranch", 10000, 1000);
-        String branchID = branchRepository.add2(branch);
-        User user = new User("TestUser", "Test@email", branchID, "TestPassword", RoleEnum.GENERAL_EMPLOYEE);
-        String userID = userRepository.add2(user);
-        
-        Boolean result = userService.updateToTeller(userID);
+        Boolean result = userService.updateToTeller("US001");
         
         assertEquals( Boolean.class , result.getClass());
         
