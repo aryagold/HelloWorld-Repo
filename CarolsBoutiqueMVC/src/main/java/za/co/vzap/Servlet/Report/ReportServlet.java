@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import za.co.vzap.ClientService.Report.ReportService;
 import za.co.vzap.Interface.Service.IReportService;
 import za.co.vzap.Model.Branch.Branch;
-import za.co.vzap.Model.Report.CustomerReports;
-import za.co.vzap.Model.Report.LeastPerformingStores;
+import za.co.vzap.Model.Report.CustomerReportsDto;
+import za.co.vzap.Model.Report.LeastPerformingStoresDto;
 import za.co.vzap.Model.Report.ProductSales;
 import za.co.vzap.Model.Report.StoreSalesDto;
 import za.co.vzap.Model.Report.StoresAtTargetDto;
@@ -52,8 +52,20 @@ public class ReportServlet extends HttpServlet {
                 break;
 
             case "customerreports":
+                String month = request.getParameter("month");
+                String resultAmount = request.getParameter("resultAmount");
+                
+                if(month == null) {
+                    month = "June";
+                    request.setAttribute("month", month);
+                }
+                
+                if(resultAmount == null) {
+                    resultAmount = "6";
+                    request.setAttribute("resultAmount", resultAmount);
+                }
 
-                CustomerReports cr = reportService.getCustomerReport();
+                CustomerReportsDto cr = reportService.getCustomerReport(month, Integer.parseInt(resultAmount));
 
                 request.setAttribute("customerreports", cr);
                 request.getRequestDispatcher("customerreport.jsp").forward(request, response);
@@ -61,17 +73,35 @@ public class ReportServlet extends HttpServlet {
                 break;
 
             case "salesformonth":
+                String branchId = request.getParameter("branchId");
+                month = request.getParameter("month");
+                
+                if (branchId == null) {
+                    branchId = "BR001";
+                    request.setAttribute("branchId", branchId);
+                }
+                
+                if (month == null) {
+                    month = "June";
+                    request.setAttribute("month", month);
+                }
 
-                StoreSalesDto dto_2 = reportService.storeSalesByMonth(request.getParameter("branch"), request.getParameter("month"));//ask where the month is comming from
+                StoreSalesDto dto_2 = reportService.storeSalesByMonth(branchId, month);
 
                 request.setAttribute("dto", dto_2);
-                request.getRequestDispatcher("salesformonth.jsp").forward(request, response);
+                request.getRequestDispatcher("storemonthlysales.jsp").forward(request, response);
 
                 break;
 
             case "topsellingemployees":
+                branchId = request.getParameter("branchId");
+                
+                if(branchId == null) {
+                    branchId = "BR001";
+                    request.setAttribute("branchId", branchId);
+                }
 
-                TopEmployeesDto dto_3 = reportService.topSellingEmployees(request.getParameter("branch"));
+                TopEmployeesDto dto_3 = reportService.topSellingEmployees(branchId);
 
                 request.setAttribute("dto", dto_3);
                 request.getRequestDispatcher("topsellingemployees.jsp").forward(request, response);
@@ -79,8 +109,14 @@ public class ReportServlet extends HttpServlet {
                 break;
 
             case "storesattarget":
+                month = request.getParameter("month");
+                
+                if(month == null) {
+                    month = "June";
+                    request.setAttribute("month", month);
+                }
 
-                StoresAtTargetDto dto_4 = reportService.storesAtTarget(request.getParameter("month"));
+                StoresAtTargetDto dto_4 = reportService.storesAtTarget(month);
 
                 request.setAttribute("dto", dto_4);
                 request.getRequestDispatcher("storesattarget.jsp").forward(request, response);
@@ -97,8 +133,14 @@ public class ReportServlet extends HttpServlet {
                 break;
 
             case "leastperformingstores":
+                String interval = request.getParameter("interval");
+                
+                if(interval == null) {
+                    interval = "3";
+                    request.setAttribute("interval", interval);
+                }
 
-                LeastPerformingStores least = reportService.getLeastPerforming(Integer.parseInt(request.getParameter("interval")));
+                LeastPerformingStoresDto least = reportService.getLeastPerforming(Integer.parseInt(interval));
 
                 request.setAttribute("least", least);
                 request.getRequestDispatcher("leastperformingstores.jsp").forward(request, response);
@@ -115,11 +157,17 @@ public class ReportServlet extends HttpServlet {
                 break;
 
             case "salesfortheday":
+                branchId = request.getParameter("branchId");
+                
+                if (branchId == null) {
+                    branchId = "BR001";
+                    request.setAttribute("branchId", branchId);
+                }
 
-                StoreSalesDto dto_5 = reportService.storeDailySales(request.getParameter("branch"));
+                StoreSalesDto dto_5 = reportService.storeDailySales(branchId);
 
                 request.setAttribute("dto", dto_5);
-                request.getRequestDispatcher("salesforday.jsp").forward(request, response);
+                request.getRequestDispatcher("storedailysales.jsp").forward(request, response);
 
                 break;
 
@@ -132,13 +180,7 @@ public class ReportServlet extends HttpServlet {
 
         switch (request.getParameter("submit")) {
 
-            case "download":
-
-                String responseTo = reportService.downloadCurrentReport();
-
-                request.setAttribute("response", responseTo);
-
-                break;
+           
 
         }
 

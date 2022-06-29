@@ -109,6 +109,15 @@ public class InventoryServlet extends HttpServlet {
                 } 
 
                 break;
+                
+            case "getitem" :
+                String barcodeScanned = request.getParameter("barcode");
+                
+                InventoryDto itemFound = inventoryService.getItem(barcodeScanned);
+                
+                request.setAttribute("item", itemFound);
+                request.getRequestDispatcher("pointofsale.jsp").forward(request, response);
+                
         }
 
     }

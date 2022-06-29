@@ -31,7 +31,7 @@
 
             <% if (foundItems != null) {%>
             <%for (InventoryDto item : foundItems) {%>
-            <input type="checkbox" name="inventoryIdFrom" value="<%=item.Id%>"><%=item.productName%>    <%=item.sizeName%>    <%=item.branchName%></input><br>
+            <input type="checkbox" name="inventoryIdFrom" value="<%=item.Id%>"><label><%=item.productName%> &nbsp;&nbsp; <%=item.sizeName%> &nbsp;&nbsp; <%=item.branchName%></label></input><br>
             <%}%>
             <%}%>
 

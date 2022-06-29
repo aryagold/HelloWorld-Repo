@@ -136,18 +136,6 @@ public class POSService implements IPOSService {
        
     }
 
-//    @Override
-//    public IbtDto updateIbt(IbtDto dto) {
-//        
-//        url = "http://localhost:8080/CarolsBoutiqueRest/rest/pos/ibt/update";
-//        client = ClientBuilder.newClient();
-//        target = client.target(url);
-//        
-//        response = target.request(MediaType.APPLICATION_JSON).post(Entity.json(dto));
-//        
-//        return response.readEntity(IbtDto.class);
-//       
-//    }
     
     public void approveIbt(int ibtId) {
         url = "http://localhost:8080/CarolsBoutiqueRest/rest/pos/ibt/status";

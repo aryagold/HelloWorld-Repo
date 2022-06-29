@@ -1,11 +1,13 @@
+<%@page import="za.co.vzap.Model.Report.TopEmployeesDto"%>
+<%@page import="za.co.vzap.Model.Report.CustomerReportsDto"%>
 <%@page import="za.co.vzap.Model.Report.ItemAmount"%>
 <%@page import="java.util.List"%>
 <%@page import="za.co.vzap.Model.Report.TopAchievingStoresDto"%>
 <html>
     <head>
-        <%TopAchievingStoresDto dto = (TopAchievingStoresDto) request.getAttribute("dto");%>
-        <%List<ItemAmount> items = dto.storeSales;%>
-        
+        <%TopEmployeesDto dto = (TopEmployeesDto) request.getAttribute("dto");%>
+        <%List<ItemAmount> items = dto.employeeSales;%>
+
         <!--Load the AJAX API-->
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript">
@@ -25,21 +27,20 @@
 
                 // Create our data table.
                 data = new google.visualization.DataTable();
-                data.addColumn('string', 'Store Name');
+                data.addColumn('string', 'Employee Name');
                 data.addColumn('number', 'Total Sales');
-            
+
                 data.addRows([
-            <%for(int i = 0; i < items.size(); i++) {
-                   ItemAmount item = items.get(i);
-                   
-                  if(i == 0) {%>
-                      [' <%=item.description%> ', <%=item.amount%>]
-                  <%}
-                   else {%>
-                      ,[' <%=item.description%> ', <%=item.amount%>]
-                  <%}
-            }%>
-                    
+            <%for (int i = 0; i < items.size(); i++) {
+                    ItemAmount item = items.get(i);
+
+                    if (i == 0) {%>
+                [' <%=item.description%> ', <%=item.amount%>]
+            <%} else {%>
+                , [' <%=item.description%> ', <%=item.amount%>]
+            <%}
+                }%>
+
                 ]);
 
                 // Set chart options
@@ -62,14 +63,14 @@
         </script>
     </head>
     <body>
-        
+
         <div id="homebtn">
-            <a href="http://localhost:8080/CarolsBoutiqueRest/rest/report/topachievingstores/download"><button class="downloadButton">Download</button></a>
+            <a href="http://localhost:8080/CarolsBoutiqueRest/rest/report/topemployees/download?branchId=<%=request.getAttribute("branchId")%>"><button class="downloadButton">Download</button></a>
         </div>
-        
+
         <!--Div that will hold the pie chart-->
         <div id="chart_div" style="width:400; height:300"></div>
-        
-        
+
+
     </body>
 </html>

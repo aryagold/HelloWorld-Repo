@@ -105,7 +105,7 @@ public class InventoryService implements IInventoryService{
     @Override
     public InventoryDto getItem(String barcode) {
         
-        url = "http://localhost:8080/rest/inventory/getitem?barcode=barcode";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/inventory/getitem?barcode=" + barcode;
         client = ClientBuilder.newClient();
         target = client.target(url);
         

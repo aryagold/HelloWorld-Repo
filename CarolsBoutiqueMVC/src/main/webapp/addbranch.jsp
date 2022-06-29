@@ -18,12 +18,12 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap" rel="stylesheet"> 
         
-        <title>Add Store</title>
+       
     </head>
-    <body>
+    <body style="background-color:#f5f5dc;">
         
         <div>
-            
+            <h1>Add a Store</h1>
             <div class="row">
                 <div class="col-sm">
                     
@@ -32,7 +32,7 @@
                 <div class="col-sm">
                 
                     <form action="UserServlet" method="post">    
-                        <div class="d-flex justify-content-center"><h2>Add Store</h2></div>
+                        
                         <label>Store Name:</label>
                         <input type="text" class="checkboxstyle" name="branchName"/>
                         <br>
@@ -45,6 +45,9 @@
                         <div class="d-flex justify-content-center"><button class="barcodegen" id="submit" name="submit" value="addBranch">Add</button></div>
                         <img src="Caol_s_Botique-removebg-preview.png"/>
                     </form>
+                </div>
+                <div class="col-sm">
+
                 </div>
                 
             </div>

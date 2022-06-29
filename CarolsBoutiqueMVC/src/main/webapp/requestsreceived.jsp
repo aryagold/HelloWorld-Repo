@@ -27,18 +27,19 @@
         <%List<IbtDto> ibts = (List<IbtDto>) request.getAttribute("ibts");%>
         <% request.setAttribute("ibts", ibts);%>
         
-       
+        <div class="col-sm">
         <%for(IbtDto ibt : ibts) {%>
         <form action="POSServlet" method="post">
-        <label> <%=ibt.branchNameTo%>  <%=ibt.productName%> <%=ibt.sizeName%></label><br>
+            <label> <%=ibt.branchNameTo%> &nbsp;&nbsp; <%=ibt.productName%> &nbsp;&nbsp; Size: <%=ibt.sizeName%> &nbsp;&nbsp;</label>
 
         <input type="hidden" name="ibtId" value="<%=ibt.Id%>">
-        <div><button id="home" type="submit" name="submit" value="approveIbt">Accept</button></div>
-        <div><button id="home" type="submit" name="submit" value="declineIbt">Decline</button></div>
+        <button id="home" type="submit" name="submit" value="approveIbt">Accept</button>
+        <button id="home" type="submit" name="submit" value="declineIbt">Decline</button>
         </form>
         <%}%>    
         
         <img id="logo" src="Caol_s_Botique-removebg-preview.png" alt="Logo">
+        </div>
         
         <div class="col-sm" id="homebtn">
             <div><a href="home.jsp"><button id="home">Home</button></a></div>

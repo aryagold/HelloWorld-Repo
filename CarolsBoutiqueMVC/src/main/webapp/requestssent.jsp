@@ -30,9 +30,9 @@
 
             <%for (IbtDto ibt : ibts) {%>
             <form action="POSServlet" method="post">
-            <label><%=ibt.branchNameFrom%>  <%=ibt.productName%> <%=ibt.sizeName%>  <%=ibt.statusName%></label>
+                <label><%=ibt.branchNameFrom%> &nbsp; <%=ibt.productName%> &nbsp; Size: <%=ibt.sizeName%> &nbsp; Status: <%=ibt.statusName%> &nbsp;&nbsp;</label>
                 <input type="hidden" name="ibtId" value="<%=ibt.Id%>">
-                <div><button id="home" type="submit" name="submit" value="receivedIbt">Received</button></div>
+                <button id="home" type="submit" name="submit" value="receivedIbt">Received</button>
                 </form>
             <%}%>  
             

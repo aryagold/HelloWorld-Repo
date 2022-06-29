@@ -35,9 +35,8 @@
                     <ul>
                         <a href="ReportServlet?submit=topachievingstores"><li><button>Top Achieving Stores</button></li></a>
                         <a href="ReportServlet?submit=customerreports"><li><button>Customer Reports</button></li></a>
-                        <a href="ReportServlet?submit=salesformonth"></a><li><button>Month's Sales Report</button></li>
-                        <a href="ReportServlet?submit=topsellingemployees"></a><li><button>Top Selling Employees</button></li>
-                        <a href="ReportServlet?submit=storesattarget"></a><li><button>Stores at Target</button></li>
+                        <a href="ReportServlet?submit=topsellingemployees"><li><button>Top Selling Employees</button></li></a>
+                        <a href="ReportServlet?submit=storesattarget"><li><button>Stores at Target</button></li></a>
 
                     </ul>
                 </div>
@@ -53,11 +52,11 @@
                 </div>
                 <div class="col-sm">
                     <ul>
-                        <a href="ReportServlet?submit=topproducts"><li><button>Top Products</button></li>
+                        
                         <a href="ReportServlet?submit=leastperformingstores"><li><button>Least Performing Stores</button></li></a>
-                        <a href="ReportServlet?submit=productstats"><li><button>Product Statistics</button></li></a> 
-                        <a href="ReportServlet?submit=salesfortheday"></a><li><button>Day's Sales Report</button></li>
-                        <a href="home.html"></a><li><button>Home</button></li>
+                        <a href="ReportServlet?submit=salesformonth"><li><button>Month's Sales Report</button></li></a>
+                        <a href="ReportServlet?submit=salesfortheday"><li><button>Day's Sales Report</button></li></a>
+                        <a href="home.jsp"><li><button>Home</button></li></a>
                     </ul>
 
                 </div>

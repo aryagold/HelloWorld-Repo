@@ -17,16 +17,28 @@
         <title>Search</title>
     </head>
     <body>
+        <style>
+           body {
+             background-image: url('istockphoto-184640309-612x612.jpg');
+             background-repeat: no-repeat;
+             background-attachment: fixed;
+             background-size: cover;
+           }
+        </style>
         <div>
-            <header><h1></h1></header>
+            <header><h1>Search</h1></header>
             <form action="POSServlet" method="get">
-                <div class="d-flex justify-content-center"><h2>Search</h2></div>
+                
                 <div class="row">
                     <div class="col-sm">
                         <div id="qr-reader" style="width: 600px"></div>
                     </div>
 
                     <div class="col-sm">
+                        <br>
+                        <br> 
+                        <br>
+                        <br>
                         <label class="checkboxstyle">Search By Barcode:</label>
                         <input type="text" id="barcode" name="barcode"/>
                         <br>

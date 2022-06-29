@@ -168,3 +168,24 @@ h1 {
 #inventoryButtons {
     padding-left: 25%;
 }
+
+#qr-reader__scan_region {
+    visibility: hidden;
+}
+
+.firstLabel {
+    margin-right: 50px;
+}
+
+.secondLabel {
+    margin-right: 50px;
+}
+
+.thirdLabel {
+    margin-right: 50px;
+}
+
+.downloadButton {
+    height: 60px !important;
+    width: 130px !important;
+}

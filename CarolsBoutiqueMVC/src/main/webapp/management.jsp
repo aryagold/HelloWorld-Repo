@@ -29,7 +29,6 @@
           }
         </style>
         <div>
-            <header><h1>Parktown</h1></header>
 
             <div class="row">
                 <div class="col-sm">

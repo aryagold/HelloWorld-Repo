@@ -6,14 +6,17 @@ package za.co.vzap.ClientService.Report;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import za.co.vzap.Interface.Service.IReportService;
-import za.co.vzap.Model.Report.CustomerReports;
-import za.co.vzap.Model.Report.LeastPerformingStores;
+import za.co.vzap.Model.Inventory.InventoryDto;
+import za.co.vzap.Model.Report.CustomerReportsDto;
+import za.co.vzap.Model.Report.LeastPerformingStoresDto;
 import za.co.vzap.Model.Report.ProductSales;
 import za.co.vzap.Model.Report.StoreSalesDto;
 import za.co.vzap.Model.Report.StoresAtTargetDto;
@@ -57,15 +60,20 @@ public class ReportService implements IReportService{
     }
 
     @Override
-    public CustomerReports getCustomerReport() {
+    public CustomerReportsDto getCustomerReport(String month, int resultAmount) {
+        CustomerReportsDto dto = new CustomerReportsDto();
         
-        url = "http://localhost:8080/CarolsBoutiqueRest/rest/report/getcustomerreport";
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/report/customerreport?month=" + month + "&resultAmount=" + resultAmount;
         client = ClientBuilder.newClient();
         target = client.target(url);
         
-        response = target.request().accept(MediaType.APPLICATION_JSON).get();
+        try {
+            dto = om.readValue(target.request().accept(MediaType.APPLICATION_JSON).get(String.class), CustomerReportsDto.class);
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(ReportService.class.getName()).log(Level.SEVERE, null, ex);
+        }
    
-        return response.readEntity(CustomerReports.class);
+        return dto;
     
     }
 
@@ -122,15 +130,21 @@ public class ReportService implements IReportService{
     }
 
     @Override
-    public LeastPerformingStores getLeastPerforming(int interval) {
-    
-        url = "http://localhost:8080/CarolsBoutiqueRest/rest/report/getleastperforming?interval=" + interval;
+    public LeastPerformingStoresDto getLeastPerforming(int interval) {
+        LeastPerformingStoresDto dto = new LeastPerformingStoresDto();
+        
+        url = "http://localhost:8080/CarolsBoutiqueRest/rest/report/leastperforming?interval=" + interval;
         client = ClientBuilder.newClient();
         target = client.target(url);
         
-        response = target.request().accept(MediaType.APPLICATION_JSON).get();
         
-        return response.readEntity(LeastPerformingStores.class);
+        try {
+            dto = om.readValue(target.request().accept(MediaType.APPLICATION_JSON).get(String.class), LeastPerformingStoresDto.class);
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(ReportService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return dto;
     
     }
 
@@ -157,19 +171,6 @@ public class ReportService implements IReportService{
         response = target.request().accept(MediaType.APPLICATION_JSON).get();
         
         return response.readEntity(StoreSalesDto.class);
-    
-    }
-
-    @Override
-    public String downloadCurrentReport() {
-     
-        url = "http://localhost:8080/CarolsBoutiqueRest/rest/report/downloadreport";
-        client = ClientBuilder.newClient();
-        target = client.target(url);
-        
-        response = target.request().accept(MediaType.APPLICATION_JSON).get();
-        
-        return response.readEntity(String.class);
     
     }
     

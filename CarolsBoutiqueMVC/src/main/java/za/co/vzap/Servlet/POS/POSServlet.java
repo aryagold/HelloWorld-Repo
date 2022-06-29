@@ -6,7 +6,6 @@ package za.co.vzap.Servlet.POS;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,9 +22,13 @@ import za.co.vzap.Interface.Service.IInventoryService;
 import za.co.vzap.Interface.Service.IPOSService;
 import za.co.vzap.Interface.Service.IProductService;
 import za.co.vzap.Model.Inventory.InventoryDto;
-import za.co.vzap.Model.Inventory.ProductDto;
 import za.co.vzap.Model.Sale.IBTStatusEnum;
 import za.co.vzap.Model.Sale.IbtDto;
+import za.co.vzap.Model.Sale.Payment;
+import za.co.vzap.Model.Sale.PaymentTypeEnum;
+import za.co.vzap.Model.Sale.SaleDto;
+import za.co.vzap.Model.Sale.SaleLineItemDto;
+import za.co.vzap.Model.Sale.SaleStatusEnum;
 import za.co.vzap.Model.User.UserDto;
 import za.co.vzap.Servlet.Inventory.InventoryServlet;
 
@@ -131,11 +134,50 @@ public class POSServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         switch (request.getParameter("submit")) {
+            
+            case "addSale":
+                HttpSession session = request.getSession(true);
+                UserDto userDto = (UserDto) session.getAttribute("loggedInUser");
+                String userId = userDto.userId;
+                
+                SaleDto saleDto = new SaleDto();
+    
+                Payment payment = new Payment();
+                payment.setCardNumber(request.getParameter("cardNumber"));
+                payment.setApproved(Boolean.parseBoolean(request.getParameter("paymentApproval")));
+                payment.setType(PaymentTypeEnum.valueOf(request.getParameter("paymentType")));
+                
+                List<SaleLineItemDto> saleLineItemDtos = new ArrayList<>();
+                for(SaleLineItemDto dto : saleLineItemDtos) {
+                    dto.inventoryId = Integer.parseInt(request.getParameter("inventoryId"));
+                }
+                
+                saleDto.lineitems = saleLineItemDtos;
+                saleDto.payment = payment;
+                
+                saleDto.customerEmail = request.getParameter("customerEmail");
+                saleDto.status = SaleStatusEnum.valueOf(request.getParameter("saleStatus"));
+                saleDto.userId = userId;
+                
+                SaleDto saleReturn = posService.addSale(saleDto);
+                
+                if (saleReturn != null) {
+                    if(saleReturn.status == SaleStatusEnum.COMPLETED) {
+                        responseTo = "Sale " + saleReturn.saleId + " has been completed. Receipt emailed to " + saleReturn.customerEmail;
+                    }
+                    
+                    if(saleReturn.status == SaleStatusEnum.RESERVED) {
+                        responseTo = "Reserve " + saleReturn.saleId + " has been completed. Customer payment due within 48 hours.";
+                    }
+                }
+
+                request.setAttribute("response", responseTo);
+                request.getRequestDispatcher("responsepage.jsp").forward(request, response);
 
             case "addIbt":
 
-                HttpSession session = request.getSession(true);
-                UserDto userDto = (UserDto) session.getAttribute("loggedInUser");
+                session = request.getSession(true);
+                userDto = (UserDto) session.getAttribute("loggedInUser");
                 
                 String inventoryIdFrom = request.getParameter("inventoryIdFrom");
                 String phoneNumber = request.getParameter("phoneNumber");
@@ -166,7 +208,7 @@ public class POSServlet extends HttpServlet {
                 
                 session = request.getSession(true);
                 userDto = (UserDto) session.getAttribute("loggedInUser");
-                String userId = userDto.userId;
+                userId = userDto.userId;
 
                 List<IbtDto> ibtDtosRequest = posService.listIbt(userId, 1);
                 List<IbtDto> ibtDtos = new ArrayList<>();

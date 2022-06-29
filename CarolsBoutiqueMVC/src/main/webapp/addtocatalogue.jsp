@@ -17,7 +17,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap" rel="stylesheet"> 
         <title>Add to Catalogue</title>
     </head>
-    <body>
+    <body style="background-color:#f5f5dc;">
         <div>
 
             <div class="row">

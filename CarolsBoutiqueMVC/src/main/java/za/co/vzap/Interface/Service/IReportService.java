@@ -1,7 +1,7 @@
 package za.co.vzap.Interface.Service;
 
-import za.co.vzap.Model.Report.CustomerReports;
-import za.co.vzap.Model.Report.LeastPerformingStores;
+import za.co.vzap.Model.Report.CustomerReportsDto;
+import za.co.vzap.Model.Report.LeastPerformingStoresDto;
 import za.co.vzap.Model.Report.StoreSalesDto;
 import za.co.vzap.Model.Report.ProductSales;
 import za.co.vzap.Model.Report.StoresAtTargetDto;
@@ -14,7 +14,7 @@ public interface IReportService {
 
     TopAchievingStoresDto topAchievingStores();
 
-    CustomerReports getCustomerReport();
+    CustomerReportsDto getCustomerReport(String month, int resultAmount);
 
     StoreSalesDto storeSalesByMonth(String branchId, String month);
 
@@ -24,11 +24,10 @@ public interface IReportService {
 
     TopFourtyProducts getTop40Products();
 
-    LeastPerformingStores getLeastPerforming(int interval);
+    LeastPerformingStoresDto getLeastPerforming(int interval);
 
     ProductSales getProductSales();
 
     StoreSalesDto storeDailySales(String branchId);
 
-    String downloadCurrentReport();
 }
