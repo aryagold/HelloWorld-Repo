@@ -1,21 +1,16 @@
 package za.co.vzap.Report.Resource;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import za.co.vzap.Customer.Model.Review;
 import za.co.vzap.Interface.Service.IReportService;
-import za.co.vzap.Report.Model.StatementDto;
 import za.co.vzap.Report.Service.ReportService;
 
 @Path("report")
-public class ReportRestController {
-    
+public class ReportRestController {  
     private IReportService reportService = new ReportService();
     
     @GET
@@ -90,6 +85,78 @@ public class ReportRestController {
                 .status(Response.Status.OK)
                 .header("Content-Disposition", "attachment; filename=\"report.pdf\"")
                 .entity(reportService.downloadTopStoresReport())
+                .build();
+    }
+    
+    @GET
+    @Path("customerreport/download")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response downloadCustomerReport(@QueryParam("month")String month, @QueryParam("resultAmount")int resultAmount) {
+
+        return Response
+                .status(Response.Status.OK)
+                .header("Content-Disposition", "attachment; filename=\"report.pdf\"")
+                .entity(reportService.downloadCustomerReport(month, resultAmount))
+                .build();
+    }
+    
+    @GET
+    @Path("storemonthlysales/download")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response downloadMonthlySalesReport(@QueryParam("branchId")String branchId, @QueryParam("month")String month) {
+
+        return Response
+                .status(Response.Status.OK)
+                .header("Content-Disposition", "attachment; filename=\"report.pdf\"")
+                .entity(reportService.downloadMonthSalesReport(branchId, month))
+                .build();
+    }
+    
+    @GET
+    @Path("topemployees/download")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response downloadTopEmployeesReport(@QueryParam("branchId")String branchId) {
+
+        return Response
+                .status(Response.Status.OK)
+                .header("Content-Disposition", "attachment; filename=\"report.pdf\"")
+                .entity(reportService.downloadTopEmployeesReport(branchId))
+                .build();
+    }
+    
+    @GET
+    @Path("storesattarget/download")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response downloadStoresAtTargetReport(@QueryParam("month")String month) {
+
+        return Response
+                .status(Response.Status.OK)
+                .header("Content-Disposition", "attachment; filename=\"report.pdf\"")
+                .entity(reportService.storesAtTarget(month))
+                .build();
+    }
+    
+    @GET
+    @Path("leastperforming/download")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response downloadLeastPerformingReport(@QueryParam("interval")int interval) {
+
+        return Response
+                .status(Response.Status.OK)
+                .header("Content-Disposition", "attachment; filename=\"report.pdf\"")
+                .entity(reportService.getLeastPerforming(interval))
+                .build();
+    }
+    
+    @GET
+    @Path("storedailysales/download")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response downloadDailySalesReport(@QueryParam("branchId")String branchId) {
+
+        return Response
+                .status(Response.Status.OK)
+                .header("Content-Disposition", "attachment; filename=\"report.pdf\"")
+                .entity(reportService.downloadDailySalesReport(branchId))
                 .build();
     }
 }

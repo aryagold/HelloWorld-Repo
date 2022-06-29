@@ -1,14 +1,10 @@
 package za.co.vzap.POS.Service;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.xml.stream.XMLStreamException;
 import za.co.vzap.Branch.Model.Branch;
 import za.co.vzap.Branch.Repository.BranchRepository;
 import za.co.vzap.Communication.Email.Email;
@@ -115,12 +111,6 @@ public class POSService implements IPOSService {
         return dto;
     }
 
-    private boolean randomizePayment() {
-        int number = (int) (Math.random() + 1) * 5;
-
-        return number != 4;
-    }
-
     @Override
     public RefundDto addRefund(RefundDto dto) {
         Refund refund = PosMapper.toRefund(dto);
@@ -155,34 +145,6 @@ public class POSService implements IPOSService {
         
         return dto;
     }
-
-//    @Override
-//    public boolean reserveSale(String saleID) {
-//
-//        Sale sale = (Sale) saleRepository.getById(saleID);
-//        sale.setStatus(SaleStatusEnum.RESERVED);
-//        sale.setPaymentId(0);
-//        
-//        List<SaleLineItem> lineItems = saleLineItemRepository.getWhere("saleId", saleID);
-//        
-//        for(SaleLineItem item : lineItems) {
-//            sale.items.add(item);
-//        }
-//
-//        if (sale.getStatus() == SaleStatusEnum.RESERVED) {
-//            CommunicationDto dto = new CommunicationDto();
-//
-//            dto.emailType = EmailTypeEnum.RESERVENOTIFICATION;
-//            dto.emailAddressTo = sale.getCustomerEmail();
-//            dto.data = PosMapper.toSaleDto(sale);
-//           
-//
-//            new Email(dto).start();
-//        }
-//
-//        return saleRepository.update(sale);
-//
-//    }
 
     @Override
     public IbtDto addIbt(IbtDto dto) {
@@ -285,13 +247,9 @@ public class POSService implements IPOSService {
     private void sendIbtNotification(IbtDto dto) {
         SMSController sms;
         sms = new SMSController();
-        
-        try {
-            sms.writeToXML("Branch Transfer request for request #" + dto.Id + " has been delivered at store " + dto.branchNameTo + ". Please use reference number upon collection.", dto.phoneNumber, LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYY/MM/DD , HH:MM:SS")));
-            sms.sendSms();
-        } catch (IOException | XMLStreamException ex) {
-            Logger.getLogger(POSService.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //            sms.writeToXML();
+//            sms.format();
+        sms.sendSms("Branch Transfer request for request #" + dto.Id + " has been delivered at store " + dto.branchNameTo + ". Please use reference number upon collection.", dto.phoneNumber, LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYY/MM/DD , HH:MM:SS")));
     }
 
     @Override

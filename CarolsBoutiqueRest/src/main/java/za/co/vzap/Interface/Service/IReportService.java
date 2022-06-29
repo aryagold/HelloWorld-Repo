@@ -30,7 +30,17 @@ public interface IReportService {
     
     StoreSalesDto storeDailySales(String branchId);
     
-    String downloadCurrentReport(StatementDto dto);
-    
     byte[] downloadTopStoresReport();
+    
+    byte[] downloadCustomerReport(String month, int resultAmount);
+    
+    byte[] downloadMonthSalesReport(String branchId, String month);
+    
+    byte[] downloadTopEmployeesReport(String branchId);
+    
+    byte[] downloadStoresAtTargetReport(String month);
+    
+    byte[] downloadLeastPerformingReport(int interval);
+    
+    byte[] downloadDailySalesReport(String branchId);
 }

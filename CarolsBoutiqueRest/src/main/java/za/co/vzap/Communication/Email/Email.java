@@ -120,6 +120,7 @@ public class Email extends Thread {
 
             htmlBody += "</table>";
             htmlBody += "<div>Refund Total; " + total + "</div>";
+            htmlBody += "Amount will be deposited into account in 3 working days.";
 
             htmlBody += "</div>";
             

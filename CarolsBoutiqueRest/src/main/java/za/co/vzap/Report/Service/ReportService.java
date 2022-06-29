@@ -8,16 +8,13 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import java.io.FileOutputStream;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
@@ -25,7 +22,6 @@ import java.util.logging.Logger;
 import za.co.vzap.Branch.Model.Branch;
 import za.co.vzap.Branch.Repository.BranchRepository;
 import za.co.vzap.Interface.Repository.IRepository;
-import za.co.vzap.Interface.Repository.RepositoryBase;
 import za.co.vzap.Interface.Service.IReportService;
 import za.co.vzap.Report.Model.CustomerReportsDto;
 import za.co.vzap.Report.Model.ItemAmount;
@@ -33,7 +29,6 @@ import za.co.vzap.Report.Model.LeastPerformingStoresDto;
 import za.co.vzap.Report.Model.StoreSalesDto;
 import za.co.vzap.Report.Model.ProductSalesDto;
 import za.co.vzap.Report.Model.SaleSummaryDto;
-import za.co.vzap.Report.Model.StatementDto;
 import za.co.vzap.Report.Model.StoresAtTargetDto;
 import za.co.vzap.Report.Model.TopAchievingStoresDto;
 import za.co.vzap.Report.Model.TopEmployeesDto;
@@ -115,19 +110,19 @@ public class ReportService implements IReportService {
     @Override
     public CustomerReportsDto getCustomerReport(String month, int resultAmount) {
         CustomerReportsDto dto = new CustomerReportsDto();
-        dto.title = "Customer Reports";
+        dto.title = "Average Customer Ratings by Store";
         
         dto.date = month;
         dto.resultAmount = resultAmount;
         
         String statement
-                = "select rating, comment, date, branch.name "
-                + "from review "
-                + "join branch on review.branchId = branch.id "
-                + "where MONTHNAME(review.date) = '" + month + "' "
-                + "group by rating, comment, date, branch.name "
-                + "order by rating desc "
-                + "limit 0," + resultAmount;
+                = "select branch.name, avg(rating) as average\n"
+                + "                from review\n"
+                + "                join branch on review.branchId = branch.id\n"
+                + "                where MONTHNAME(review.date) = '" + month + "'\n"
+                + "                group by branch.name\n"
+                + "                order by average desc\n"
+                + "                limit 0," + resultAmount;
         
         
         if (con != null) {
@@ -140,7 +135,7 @@ public class ReportService implements IReportService {
                     ItemAmount customerReport = new ItemAmount();
 
                     customerReport.description = rs.getString("branch.name");
-                    customerReport.amount = rs.getInt("rating");
+                    customerReport.amount = rs.getInt("average");
                        
                     dto.branchName = customerReport.description;
 
@@ -169,17 +164,15 @@ public class ReportService implements IReportService {
         dto.date = month;
 
         String statement
-                = "select sale.id, sale.date, sale.userId, sum(product.price) as total "
-                + "from sale "
-                + "join salelineitem on sale.id = salelineitem.saleId "
-                + "join inventory on salelineitem.inventoryId = inventory.id "
-                + "join product on inventory.productId = product.id "
-                + "join branch on inventory.branchId = branch.id "
-                + "where branchId = '" + branchId + "' and MONTHNAME(sale.date) = '" + month + "' "
-                + "group by sale.id, sale.date, sale.userId "
-                + "order by sale.date";
-        
-        dto.pdfData = createPdfData();
+                = "select branch.name, sum(product.price) as total \n"
+                + "                 from sale \n"
+                + "                 join salelineitem on sale.id = salelineitem.saleId\n"
+                + "                 join inventory on salelineitem.inventoryId = inventory.id\n"
+                + "                 join product on inventory.productId = product.id\n"
+                + "                 join branch on inventory.branchId = branch.id\n"
+                + "                 where branchId = '" + branchId + "' and MONTHNAME(sale.date) = '" + month + "'\n"
+                + "                 group by branch.name\n"
+                + "                 order by total desc";
 
         if (con != null) {
             try {
@@ -232,11 +225,10 @@ public class ReportService implements IReportService {
                 + "join salelineitem on sale.id = salelineitem.saleId\n"
                 + "join inventory on salelineitem.inventoryId = inventory.id\n"
                 + "join product on inventory.productId = product.id\n"
-                + "join branch on inventory.branchId = branch.id\n"
                 + "join user on sale.userId = user.id\n";
         
         if(branchId != null) {
-            statement = statement + "where branch.id = '" + branchId + "'\n";
+            statement = statement + "where user.branchId = '" + branchId + "'\n";
         }
 
         statement = statement 
@@ -431,67 +423,7 @@ public class ReportService implements IReportService {
 
         return dto;
     }
-    
-    private byte[] createPdfData() {
-        return null;
-    }
 
-    @Override
-    public String downloadCurrentReport(StatementDto dto) {
-        try {
-//            Statement stmt = con.createStatement();
-//            ResultSet query_set = stmt.executeQuery(dto.content);
-           
-            Document my_pdf_report = new Document();
-            
-            try {
-                try {
-                    PdfWriter.getInstance(my_pdf_report, new FileOutputStream("pdfexport.pdf"));
-                } catch (DocumentException ex) {
-                    Logger.getLogger(ReportService.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(ReportService.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            my_pdf_report.open();
-            PdfPTable my_report_table = new PdfPTable(4);
-            PdfPCell table_cell;
-            
-//            while (query_set.next()) {
-//                String dept_id = query_set.getString("name");
-                table_cell = new PdfPCell(new Phrase("Branch Name"));
-                my_report_table.addCell(table_cell);
-//                String dept_name = query_set.getString("surname");
-                table_cell = new PdfPCell(new Phrase("Branch Sale"));
-                my_report_table.addCell(table_cell);
-//                int manager_id = query_set.getInt("id");
-                table_cell = new PdfPCell(new Phrase("Employee Name"));
-                my_report_table.addCell(table_cell);
-//                int location_id = query_set.getInt("phonenumber");
-                table_cell = new PdfPCell(new Phrase("Employee Number"));
-                my_report_table.addCell(table_cell);
-//            }
-            
-            try {
-                my_pdf_report.add(my_report_table);
-            } catch (DocumentException ex) {
-                Logger.getLogger(ReportService.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            my_pdf_report.close();
-            
-//            query_set.close();
-//            stmt.close();
-            con.close();
-            
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(ReportService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return "Download successful.";
-    }
-    
     public byte[] downloadTopStoresReport() {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
@@ -523,6 +455,206 @@ public class ReportService implements IReportService {
             Logger.getLogger(ReportService.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        return byteArrayOutputStream.toByteArray();
+    }
+    
+    public byte[] downloadCustomerReport(String month, int resultAmount) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        CustomerReportsDto dto = this.getCustomerReport(month, resultAmount);
+
+        try {
+            Document document = new Document(PageSize.LETTER, 0.75F, 0.75F, 0.75F, 0.75F);
+            PdfWriter.getInstance(document, byteArrayOutputStream);  // Do this BEFORE document.open()
+
+            document.open();
+
+            document.addTitle(dto.title);
+
+            PdfPTable table = new PdfPTable(2);
+            table.addCell("Store Name");
+            table.addCell("Rating");
+
+            for (ItemAmount storeSale : dto.storeRatings) {
+                table.addCell(new PdfPCell(new Phrase(storeSale.description)));
+                table.addCell(new PdfPCell(new Phrase(String.valueOf(storeSale.amount))));
+            }
+
+            document.add(table);
+
+            document.close();
+
+        } catch (DocumentException ex) {
+            Logger.getLogger(ReportService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return byteArrayOutputStream.toByteArray();
+    }
+    
+    public byte[] downloadMonthSalesReport(String branchId, String month) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        StoreSalesDto dto = this.storeSalesByMonth(branchId, month);
+
+        try {
+            Document document = new Document(PageSize.LETTER, 0.75F, 0.75F, 0.75F, 0.75F);
+            PdfWriter.getInstance(document, byteArrayOutputStream);  // Do this BEFORE document.open()
+
+            document.open();
+
+            document.addTitle(dto.title);
+
+            PdfPTable table = new PdfPTable(2);
+            table.addCell("Store Name");
+            table.addCell("Total");
+
+            for (SaleSummaryDto storeSale : dto.sales) {
+                table.addCell(new PdfPCell(new Phrase(dto.branchName)));
+                table.addCell(new PdfPCell(new Phrase(String.valueOf(dto.getTotalSales()))));
+            }
+
+            document.add(table);
+
+            document.close();
+
+        } catch (DocumentException ex) {
+            Logger.getLogger(ReportService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return byteArrayOutputStream.toByteArray();
+    }
+    
+    public byte[] downloadTopEmployeesReport(String branchId) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        TopEmployeesDto dto = this.topSellingEmployees(branchId);
+
+        try {
+            Document document = new Document(PageSize.LETTER, 0.75F, 0.75F, 0.75F, 0.75F);
+            PdfWriter.getInstance(document, byteArrayOutputStream);  // Do this BEFORE document.open()
+
+            document.open();
+
+            document.addTitle(dto.title);
+
+            PdfPTable table = new PdfPTable(2);
+            table.addCell("Employee");
+            table.addCell("Total");
+            
+            for (ItemAmount itemAmount : dto.employeeSales) {
+                table.addCell(new PdfPCell(new Phrase(itemAmount.description)));
+                table.addCell(new PdfPCell(new Phrase(String.valueOf(itemAmount.amount))));
+            }
+
+            document.add(table);
+
+            document.close();
+
+        } catch (DocumentException ex) {
+            Logger.getLogger(ReportService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return byteArrayOutputStream.toByteArray();
+    }
+    
+    public byte[] downloadStoresAtTargetReport(String month) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        StoresAtTargetDto dto = this.storesAtTarget(month);
+
+        try {
+            Document document = new Document(PageSize.LETTER, 0.75F, 0.75F, 0.75F, 0.75F);
+            PdfWriter.getInstance(document, byteArrayOutputStream);  // Do this BEFORE document.open()
+
+            document.open();
+
+            document.addTitle(dto.title);
+
+            PdfPTable table = new PdfPTable(2);
+            table.addCell("Store");
+            table.addCell("Target");
+
+            for (ItemAmount itemAmount : dto.storeSales) {
+                table.addCell(new PdfPCell(new Phrase(itemAmount.description)));
+                table.addCell(new PdfPCell(new Phrase(String.valueOf(itemAmount.amount))));
+            }
+
+            document.add(table);
+
+            document.close();
+
+        } catch (DocumentException ex) {
+            Logger.getLogger(ReportService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return byteArrayOutputStream.toByteArray();
+    }
+    
+    public byte[] downloadLeastPerformingReport(int interval) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        LeastPerformingStoresDto dto = this.getLeastPerforming(interval);
+
+        try {
+            Document document = new Document(PageSize.LETTER, 0.75F, 0.75F, 0.75F, 0.75F);
+            PdfWriter.getInstance(document, byteArrayOutputStream);  // Do this BEFORE document.open()
+
+            document.open();
+
+            document.addTitle(dto.title);
+
+            PdfPTable table = new PdfPTable(2);
+            table.addCell("Store Name");
+            table.addCell("Total");
+
+            for (ItemAmount itemAmount : dto.storeSales) {
+                table.addCell(new PdfPCell(new Phrase(itemAmount.description)));
+                table.addCell(new PdfPCell(new Phrase(String.valueOf(itemAmount.amount))));
+            }
+
+            document.add(table);
+
+            document.close();
+
+        } catch (DocumentException ex) {
+            Logger.getLogger(ReportService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return byteArrayOutputStream.toByteArray();
+    }
+    
+    public byte[] downloadDailySalesReport(String branchId) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        StoreSalesDto dto = this.storeDailySales(branchId);
+
+        try {
+            Document document = new Document(PageSize.LETTER, 0.75F, 0.75F, 0.75F, 0.75F);
+            PdfWriter.getInstance(document, byteArrayOutputStream);  // Do this BEFORE document.open()
+
+            document.open();
+
+            document.addTitle(dto.title);
+
+            PdfPTable table = new PdfPTable(3);
+            table.addCell("Date");
+            table.addCell("Employee Name");
+            table.addCell("Total");
+
+            for (SaleSummaryDto itemAmount : dto.sales) {
+                table.addCell(new PdfPCell(new Phrase(itemAmount.date)));
+                table.addCell(new PdfPCell(new Phrase(itemAmount.employee)));
+                table.addCell(new PdfPCell(new Phrase(String.valueOf(itemAmount.total))));
+            }
+
+            document.add(table);
+
+            document.close();
+
+        } catch (DocumentException ex) {
+            Logger.getLogger(ReportService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         return byteArrayOutputStream.toByteArray();
     }
 
