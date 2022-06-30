@@ -1,5 +1,6 @@
 package za.co.vzap.Communication.Email;
 
+import java.io.FileNotFoundException;
 import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -24,12 +25,23 @@ public class Email extends Thread {
     private Properties properties;
     private Session session;
     
-    private String mailFrom = "vzapemail@gmail.com";
-    private String smtpUser = "vzapemail@gmail.com";
-    private String smtpPassword = "cqtazrgweajbacwn";
+    private String mailFrom;
+    private String smtpUser;
+    private String smtpPassword;
 
     public Email(CommunicationDto communicationDto) {
+        try {
 
+            EmailPropertyReader epr = new EmailPropertyReader();
+
+            mailFrom = epr.getMailFrom();
+            smtpUser = epr.getSmtpUser();
+            smtpPassword = epr.getSmtpPassword();
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Email.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         String host = "smtp.gmail.com";
 
         properties = System.getProperties();

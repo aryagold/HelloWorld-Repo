@@ -19,6 +19,8 @@ public class SaleDto {
     private double total;
 
     public double getTotal() {
+        this.total = 0;
+        
         for(SaleLineItemDto item : lineitems) {
             total += item.price;
         } 

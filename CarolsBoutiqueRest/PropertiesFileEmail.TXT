@@ -1,0 +1,3 @@
+MailFrom<vzapemail@gmail.com>
+smtpUser<vzapemail@gmail.com>
+smtpPassword<cqtazrgweajbacwn>

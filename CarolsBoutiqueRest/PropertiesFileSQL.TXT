@@ -1,0 +1,4 @@
+Driver<com.mysql.jdbc.Driver>
+DataBase<jdbc:mysql://127.0.0.1:3306/carolsboutique?useSSL=false>
+UserName<root>
+Password<rootroot>

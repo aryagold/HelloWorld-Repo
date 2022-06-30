@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StoreSalesDto extends ReportBase {
-    private double totalSales;
+    public double totalSales;
     
     public String branchName;
     public String date;

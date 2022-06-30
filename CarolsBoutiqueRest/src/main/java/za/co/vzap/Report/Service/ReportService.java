@@ -159,20 +159,22 @@ public class ReportService implements IReportService {
         StoreSalesDto dto = new StoreSalesDto();
         dto.title = "Sales By Month";
         
+        SaleSummaryDto sale = new SaleSummaryDto();
+        
         Branch branch = (Branch) branchRepository.getById(branchId);
         dto.branchName = branch.getName();
         dto.date = month;
 
         String statement
-                = "select branch.name, sum(product.price) as total \n"
+                = "select sale.id, sale.date, sale.userId, sum(product.price) as total \n"
                 + "                 from sale \n"
                 + "                 join salelineitem on sale.id = salelineitem.saleId\n"
                 + "                 join inventory on salelineitem.inventoryId = inventory.id\n"
                 + "                 join product on inventory.productId = product.id\n"
                 + "                 join branch on inventory.branchId = branch.id\n"
                 + "                 where branchId = '" + branchId + "' and MONTHNAME(sale.date) = '" + month + "'\n"
-                + "                 group by branch.name\n"
-                + "                 order by total desc";
+                + "                 group by sale.id, sale.date, sale.userId \n"
+                + "                 order by sale.date";
 
         if (con != null) {
             try {
@@ -181,9 +183,9 @@ public class ReportService implements IReportService {
                 rs = ps.executeQuery();
 
                 while (rs.next()) {
-                    SaleSummaryDto sale = new SaleSummaryDto();
+                    
 
-                    sale.saleId = rs.getString("id");
+                    sale.saleId = rs.getString("sale.id");
                     sale.date = rs.getTimestamp("date").toString();
                     sale.userId = rs.getString("userId");
                     
@@ -191,7 +193,7 @@ public class ReportService implements IReportService {
                     sale.employee = user.getName();
                     
                     sale.total = rs.getDouble("total");
-
+                    dto.totalSales += sale.total;
                     dto.sales.add(sale);
                 }
 
