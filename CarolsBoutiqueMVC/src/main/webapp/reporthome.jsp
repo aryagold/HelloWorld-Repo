@@ -29,7 +29,6 @@
     </head>
     <body>
         <div>
-
             <div class="row">
                 <div class="col-sm">
                     <ul>
@@ -37,33 +36,20 @@
                         <a href="ReportServlet?submit=customerreports"><li><button>Customer Reports</button></li></a>
                         <a href="ReportServlet?submit=topsellingemployees"><li><button>Top Selling Employees</button></li></a>
                         <a href="ReportServlet?submit=storesattarget"><li><button>Stores at Target</button></li></a>
-
                     </ul>
                 </div>
-
                 <div class="col-sm">
-
-
-
                     <img id="logo" src="Caol_s_Botique-removebg-preview.png" alt="Logo">
-
-
-
                 </div>
                 <div class="col-sm">
                     <ul>
-                        
                         <a href="ReportServlet?submit=leastperformingstores"><li><button>Least Performing Stores</button></li></a>
                         <a href="ReportServlet?submit=salesformonth"><li><button>Month's Sales Report</button></li></a>
                         <a href="ReportServlet?submit=salesfortheday"><li><button>Day's Sales Report</button></li></a>
                         <a href="home.jsp"><li><button>Home</button></li></a>
                     </ul>
-
                 </div>
             </div>
         </div>
-
-
-
     </body>
 </html>

@@ -19,8 +19,11 @@ import javax.ws.rs.core.Response;
 import za.co.vzap.Interface.Service.IPOSService;
 import za.co.vzap.Model.Sale.IBTStatusEnum;
 import za.co.vzap.Model.Sale.IbtDto;
+import za.co.vzap.Model.Sale.Payment;
+import za.co.vzap.Model.Sale.PaymentTypeEnum;
 import za.co.vzap.Model.Sale.RefundDto;
 import za.co.vzap.Model.Sale.SaleDto;
+import za.co.vzap.Model.Sale.SaleStatusEnum;
 
 /**
  *
@@ -45,18 +48,14 @@ public class POSService implements IPOSService {
 
     @Override
     public SaleDto addSale(SaleDto dto) {
-
+        Payment payment = new Payment(PaymentTypeEnum.CARD, "15483785827", true);
+        dto.payment = payment;
+        
         url = "http://localhost:8080/CarolsBoutiqueRest/rest/pos/sale";
         client = ClientBuilder.newClient();
         target = client.target(url);
-        
-        try {
-            
-            response = target.request(MediaType.APPLICATION_JSON).post(Entity.json(stringJson(dto)));
-        
-        } catch (JsonProcessingException ex) {
-            Logger.getLogger(POSService.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       
+        response = target.request(MediaType.APPLICATION_JSON).post(Entity.json(dto));
         
         return response.readEntity(SaleDto.class);
         
@@ -89,14 +88,8 @@ public class POSService implements IPOSService {
         url = "http://localhost:8080/CarolsBoutiqueRest/rest/pos/refund";
         client = ClientBuilder.newClient();
         target = client.target(url);
-        
-        try {
             
-            response = target.request(MediaType.APPLICATION_JSON).post(Entity.json(stringJson(dto)));
-        
-        } catch (JsonProcessingException ex) {
-            Logger.getLogger(POSService.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        response = target.request(MediaType.APPLICATION_JSON).post(Entity.json(dto));
         
         return response.readEntity(RefundDto.class);
         

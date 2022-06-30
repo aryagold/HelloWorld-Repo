@@ -38,9 +38,9 @@
                     SaleSummaryDto item = items.get(i);
 
                     if (i == 0) {%>
-                [' <%=dto.branchName%> ', <%=dto.getTotalSales()%>]
+                [' <%=dto.branchName%> ', <%=dto.totalSales%>]
             <%} else {%>
-                , [' <%=dto.branchName%> ', <%=dto.getTotalSales()%>]
+                , [' <%=dto.branchName%> ', <%=dto.totalSales%>]
             <%}
                 }%>
 

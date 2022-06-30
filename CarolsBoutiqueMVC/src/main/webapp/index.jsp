@@ -46,7 +46,7 @@
                             <div class="d-flex justify-content-center"><button id="submit" name="submit" value="login">Login</button></div>
                         </form>
                         
-                        <a href="home.jsp">Home</a>
+                        
                         
     </body>
 </html>

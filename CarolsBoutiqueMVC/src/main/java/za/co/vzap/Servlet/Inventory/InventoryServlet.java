@@ -24,6 +24,10 @@ import za.co.vzap.Model.Inventory.InventoryControlDto;
 import za.co.vzap.Model.Inventory.InventoryDto;
 import za.co.vzap.Model.Inventory.ProductDto;
 import za.co.vzap.Model.Inventory.Size;
+import za.co.vzap.Model.Sale.RefundDto;
+import za.co.vzap.Model.Sale.RefundItemDto;
+import za.co.vzap.Model.Sale.SaleDto;
+import za.co.vzap.Model.Sale.SaleLineItemDto;
 import za.co.vzap.Model.User.User;
 import za.co.vzap.Model.User.UserDto;
 
@@ -110,13 +114,60 @@ public class InventoryServlet extends HttpServlet {
 
                 break;
                 
-            case "getitem" :
+            case "addItemSale" :
+                SaleDto saleDto = (SaleDto) request.getSession(false).getAttribute("sale");
+                
+                if (saleDto == null) {
+                    saleDto = new SaleDto();
+                    request.getSession().setAttribute("sale", saleDto);
+                }
+                        
                 String barcodeScanned = request.getParameter("barcode");
                 
                 InventoryDto itemFound = inventoryService.getItem(barcodeScanned);
                 
-                request.setAttribute("item", itemFound);
-                request.getRequestDispatcher("pointofsale.jsp").forward(request, response);
+                SaleLineItemDto itemDto = new SaleLineItemDto();
+                itemDto.inventoryId = itemFound.Id;
+                itemDto.productName = itemFound.productName;
+                itemDto.sizeName = itemFound.sizeName;
+                itemDto.price = itemFound.price;
+                
+                saleDto.lineitems.add(itemDto);
+                
+                String redirectURL = "makesale.jsp";
+                 
+                response.sendRedirect(redirectURL);
+                
+//                request.getRequestDispatcher("makesale.jsp").forward(request, response);
+                break;
+                
+            case "addItemRefund":
+                RefundDto refundDto = (RefundDto) request.getSession(false).getAttribute("refund");
+
+                if (refundDto == null) {
+                    refundDto = new RefundDto();
+                    request.getSession().setAttribute("refund", refundDto);
+                }
+
+                barcodeScanned = request.getParameter("barcode");
+
+                itemFound = inventoryService.getItem(barcodeScanned);
+
+                RefundItemDto refundItemDto = new RefundItemDto();
+                
+                refundItemDto.inventoryId = itemFound.Id;
+                refundItemDto.productName = itemFound.productName;
+                refundItemDto.sizeName = itemFound.sizeName;
+                refundItemDto.price = itemFound.price;
+
+                refundDto.refundItems.add(refundItemDto);
+
+                redirectURL = "makerefund.jsp";
+
+                response.sendRedirect(redirectURL);
+
+//                request.getRequestDispatcher("makesale.jsp").forward(request, response);
+                break;    
                 
         }
 
